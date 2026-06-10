@@ -34,6 +34,7 @@ section{display:none}section.active{display:block}
 table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.88rem}
 th,td{border:1px solid var(--border);padding:7px 10px;text-align:left}
 th{background:#0e1626;color:#cbd5e1}
+table.compact th,table.compact td{padding:3px 9px;font-size:.8rem}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:760px){.grid2{grid-template-columns:1fr}}
 .qbox{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;background:#0e1626}
@@ -179,7 +180,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice — <span class="lang-en">classify into the right sector</span><span class="lang-fr">classe dans le bon secteur</span></h2>
 <p><span class="lang-en">From your exercises (Activity 3.17 + company list). Click the right sector:</span><span class="lang-fr">Tiré de tes exercices (Activity 3.17 + liste d'entreprises). Clique sur le bon secteur :</span></p>
 <div id="sectorQuiz"></div>
-<div class="score" id="sectorScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('sectorQuiz','sectorScore',secQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
+<div class="score" id="sectorScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('sectorQuiz','sectorScore',secQ)">&#8635; <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -216,26 +217,26 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice 1 — Juice bar: <span class="lang-en">fixed or variable?</span><span class="lang-fr">fixe ou variable ?</span></h2>
 <p><span class="lang-en">From the Juice bar exercise — classify each cost:</span><span class="lang-fr">Tiré de l'exercice Juice bar — classe chaque coût :</span></p>
 <div id="fvQuiz"></div>
-<div class="score" id="fvScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('fvQuiz','fvScore',fvQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
+<div class="score" id="fvScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('fvQuiz','fvScore',fvQ)">&#8635; <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 
 <div class="card">
 <h2>🎯 Practice 2 — Astrid's café (<span class="lang-en">full calculation</span><span class="lang-fr">calcul complet</span>)</h2>
 <div class="lang-en"><p>December 2025: Astrid sold <b>1 500 coffees</b> at <b>4 &euro;</b> each and <b>800 avocado toasts</b> at <b>14 &euro;</b> each. Her costs for December:</p></div>
 <div class="lang-fr"><p>D&eacute;cembre 2025 : Astrid a vendu <b>1 500 caf&eacute;s</b> &agrave; <b>4 &euro;</b> pi&egrave;ce et <b>800 avocado toasts</b> &agrave; <b>14 &euro;</b> pi&egrave;ce. Ses co&ucirc;ts pour d&eacute;cembre :</p></div>
-<table>
-<tr><th><span class="lang-en">Cost type</span><span class="lang-fr">Type de co&ucirc;t</span></th><th><span class="lang-en">Amount</span><span class="lang-fr">Montant</span></th></tr>
-<tr><td><span class="lang-en">Rent for the caf&eacute;</span><span class="lang-fr">Loyer du caf&eacute;</span></td><td>1 500 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
-<tr><td><span class="lang-en">Barista wage (paid monthly, no matter how much is sold)</span><span class="lang-fr">Salaire du barista (mensuel, peu importe les ventes)</span></td><td>2 500 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
-<tr><td><span class="lang-en">Telephone and internet charges</span><span class="lang-fr">T&eacute;l&eacute;phone et internet</span></td><td>50 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
-<tr><td><span class="lang-en">Insurance</span><span class="lang-fr">Assurance</span></td><td>80 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
-<tr><td><span class="lang-en">Electricity (lights, coffee machine, dishwasher) and heating</span><span class="lang-fr">&Eacute;lectricit&eacute; (lumi&egrave;res, machine &agrave; caf&eacute;, lave-vaisselle) et chauffage</span></td><td>700 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
-<tr><td><span class="lang-en">Paper cups</span><span class="lang-fr">Gobelets en papier</span></td><td>0,10 &euro; <span class="lang-en">per coffee</span><span class="lang-fr">par caf&eacute;</span></td></tr>
-<tr><td><span class="lang-en">Coffee and milk to make one coffee</span><span class="lang-fr">Caf&eacute; et lait pour un caf&eacute;</span></td><td>1 &euro; <span class="lang-en">per coffee</span><span class="lang-fr">par caf&eacute;</span></td></tr>
-<tr><td><span class="lang-en">Avocado and toast for one avocado toast</span><span class="lang-fr">Avocat et toast pour un avocado toast</span></td><td>3 &euro; <span class="lang-en">per toast*</span><span class="lang-fr">par toast*</span></td></tr>
+<table class="compact">
+<tr><th><span class="lang-en">Cost type</span><span class="lang-fr">Type de coût</span></th><th><span class="lang-en">Amount</span><span class="lang-fr">Montant</span></th></tr>
+<tr><td><span class="lang-en">Rent for the café</span><span class="lang-fr">Loyer du café</span></td><td>1 500 € / <span class="lang-en">month</span><span class="lang-fr">mois</span></td></tr>
+<tr><td><span class="lang-en">Barista wage (monthly, no matter how much is sold)</span><span class="lang-fr">Salaire barista (mensuel, peu importe les ventes)</span></td><td>2 500 € / <span class="lang-en">month</span><span class="lang-fr">mois</span></td></tr>
+<tr><td><span class="lang-en">Telephone &amp; internet</span><span class="lang-fr">Téléphone &amp; internet</span></td><td>50 € / <span class="lang-en">month</span><span class="lang-fr">mois</span></td></tr>
+<tr><td><span class="lang-en">Insurance</span><span class="lang-fr">Assurance</span></td><td>80 € / <span class="lang-en">month</span><span class="lang-fr">mois</span></td></tr>
+<tr><td><span class="lang-en">Electricity &amp; heating</span><span class="lang-fr">Électricité &amp; chauffage</span></td><td>700 € / <span class="lang-en">month</span><span class="lang-fr">mois</span></td></tr>
+<tr><td><span class="lang-en">Paper cups</span><span class="lang-fr">Gobelets</span></td><td>0,10 € / <span class="lang-en">coffee</span><span class="lang-fr">café</span></td></tr>
+<tr><td><span class="lang-en">Coffee &amp; milk for one coffee</span><span class="lang-fr">Café &amp; lait pour un café</span></td><td>1 € / <span class="lang-en">coffee</span><span class="lang-fr">café</span></td></tr>
+<tr><td><span class="lang-en">Avocado &amp; toast for one toast</span><span class="lang-fr">Avocat &amp; toast pour un toast</span></td><td>3 € / toast*</td></tr>
 </table>
 <p style="font-size:.8rem;color:var(--muted)">* <span class="lang-en">On your worksheet this amount is blank (to fill in class) &mdash; here we use 3 &euro;.</span><span class="lang-fr">Sur ta feuille ce montant est &agrave; compl&eacute;ter en classe &mdash; ici on utilise 3 &euro;.</span></p>
-<table><tr><th><span class="lang-en">Question</span><span class="lang-fr">Question</span></th><th><span class="lang-en">Your answer</span><span class="lang-fr">Ta réponse</span></th><th></th></tr>
+<table class="compact"><tr><th><span class="lang-en">Question</span><span class="lang-fr">Question</span></th><th><span class="lang-en">Your answer</span><span class="lang-fr">Ta réponse</span></th><th></th></tr>
 <tr><td><span class="lang-en">a) Total revenue (€)</span><span class="lang-fr">a) Revenu total (€)</span></td><td><input type="number" id="astR"></td><td id="astRfb"></td></tr>
 <tr><td><span class="lang-en">b) Total fixed costs (€)</span><span class="lang-fr">b) Coûts fixes totaux (€)</span></td><td><input type="number" id="astF"></td><td id="astFfb"></td></tr>
 <tr><td><span class="lang-en">c) Total variable costs (€)</span><span class="lang-fr">c) Coûts variables totaux (€)</span></td><td><input type="number" id="astV"></td><td id="astVfb"></td></tr>
@@ -394,7 +395,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <div class="card">
 <h2>🎯 Practice 3 — <span class="lang-en">shift or movement? Which direction?</span><span class="lang-fr">déplacement ou mouvement ? Quelle direction ?</span></h2>
 <div id="demShiftQuiz"></div>
-<div class="score" id="demShiftScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('demShiftQuiz','demShiftScore',demQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
+<div class="score" id="demShiftScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('demShiftQuiz','demShiftScore',demQ)">&#8635; <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -446,7 +447,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice — <span class="lang-en">apple orchard: what happens to supply?</span><span class="lang-fr">le verger : que devient l'offre ?</span></h2>
 <p><span class="lang-en">You sell 100 apples/week at 1 €. For each scenario: does your supply increase or decrease?</span><span class="lang-fr">Tu vends 100 pommes/semaine à 1 €. Pour chaque scénario : ton offre augmente ou diminue ?</span></p>
 <div id="supplyQuiz"></div>
-<div class="score" id="supplyScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('supplyQuiz','supplyScore',supQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
+<div class="score" id="supplyScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('supplyQuiz','supplyScore',supQ)">&#8635; <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -501,7 +502,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <div class="card">
 <h2>🎯 Practice — equilibrium</h2>
 <div id="equiQuiz"></div>
-<div class="score" id="equiScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('equiQuiz','equiScore',eqQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
+<div class="score" id="equiScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('equiQuiz','equiScore',eqQ)">&#8635; <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 
 <div class="card">

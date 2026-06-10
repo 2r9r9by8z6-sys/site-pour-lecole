@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4 Economics — B Test Revision</title>
+<style>
+:root{--blue:#60a5fa;--blue-l:#172642;--green:#4ade80;--green-l:#102a1c;--orange:#fb923c;--orange-l:#2d1b0e;--purple:#c084fc;--purple-l:#241634;--red:#f87171;--red-l:#2e1416;--teal:#2dd4bf;--teal-l:#0d2724;--ink:#e2e8f0;--muted:#94a3b8;--bg:#0b1120;--card:#121a2c;--border:#243149}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:radial-gradient(1200px 600px at 80% -10%,#13203b 0%,var(--bg) 55%) fixed,var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#0a0f1d,#13203b);color:#e2e8f0;padding:18px 20px 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 24px rgba(0,0,0,.45);border-bottom:1px solid var(--border)}
+.hrow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;max-width:1100px;margin:0 auto}
+h1{font-size:1.15rem;font-weight:700}
+h1 small{font-weight:400;opacity:.65;font-size:.8rem;display:block}
+#langBtn{background:#1f2b45;color:#dbe6f5;border:1px solid #32415f;border-radius:20px;padding:7px 16px;font-weight:700;cursor:pointer;font-size:.85rem}
+#langBtn:hover{background:#2a3a5c}
+nav{display:flex;gap:4px;overflow-x:auto;max-width:1100px;margin:12px auto 0;padding-bottom:0}
+nav button{background:rgba(255,255,255,.05);color:#aebed6;border:none;padding:9px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:.83rem;white-space:nowrap;font-weight:600}
+nav button:hover{background:rgba(255,255,255,.1);color:#e2e8f0}
+nav button.active{background:var(--bg);color:#93c5fd;box-shadow:inset 0 2px 0 #60a5fa}
+main{max-width:1100px;margin:0 auto;padding:22px 16px 80px}
+section{display:none}section.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:18px;box-shadow:0 2px 14px rgba(0,0,0,.35)}
+.card h2{font-size:1.25rem;margin-bottom:10px;color:#f1f5f9}
+.card h3{font-size:1.02rem;margin:16px 0 6px;color:#cbd5e1}
+.card p{margin:7px 0}
+.card ul,.card ol{margin:7px 0 7px 22px}
+.card li{margin:4px 0}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:8px}
+.def{border-left:4px solid var(--blue);background:var(--blue-l);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.formula{background:#060b16;color:#7dd3fc;font-family:Consolas,monospace;padding:12px 16px;border-radius:8px;margin:10px 0;font-size:.95rem;overflow-x:auto;border:1px solid var(--border)}
+.warn{border-left:4px solid var(--orange);background:var(--orange-l);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.tip{border-left:4px solid var(--green);background:var(--green-l);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.88rem}
+th,td{border:1px solid var(--border);padding:7px 10px;text-align:left}
+th{background:#0e1626;color:#cbd5e1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.qbox{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;background:#0e1626}
+.qbox .q{font-weight:600;margin-bottom:8px;color:#e2e8f0}
+.opt{display:block;width:100%;text-align:left;background:#121a2c;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;margin:5px 0;cursor:pointer;font-size:.9rem;font-family:inherit}
+.opt:hover{border-color:var(--blue);background:#16203a}
+.opt.correct{background:var(--green-l);border-color:var(--green)}
+.opt.wrong{background:var(--red-l);border-color:var(--red)}
+.expl{display:none;margin-top:8px;font-size:.86rem;background:var(--blue-l);padding:8px 12px;border-radius:8px}
+.expl.show{display:block}
+input[type=number],input[type=text]{padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;width:130px;background:#0e1626;color:var(--ink)}
+input:focus{outline:none;border-color:var(--blue)}
+.btn{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:.88rem;margin:4px 4px 4px 0}
+.btn:hover{background:#1d4ed8}
+.btn.green{background:#15803d}
+.fb{font-weight:700;margin-left:8px}
+.fb.ok{color:var(--green)}.fb.no{color:var(--red)}
+svg{max-width:100%;height:auto;display:block;margin:10px auto;background:#0e1626;border-radius:10px;padding:6px;border:1px solid var(--border)}
+svg text:not([fill]){fill:#dbe6f5}
+svg [stroke="#1e293b"]{stroke:#8fa3c0}
+svg [fill="#64748b"]{fill:#9fb2cc}
+svg [fill="#dc2626"]{fill:#f87171} svg [stroke="#dc2626"]{stroke:#f87171}
+svg [fill="#16a34a"]{fill:#4ade80} svg [stroke="#16a34a"]{stroke:#4ade80}
+svg [fill="#2563eb"]{fill:#60a5fa} svg [stroke="#2563eb"]{stroke:#60a5fa}
+svg [fill="#9333ea"]{fill:#c084fc} svg [stroke="#9333ea"]{stroke:#c084fc}
+svg [fill="#ea580c"]{fill:#fb923c} svg [stroke="#ea580c"]{stroke:#fb923c}
+.lang-fr{display:none}
+body.fr .lang-fr{display:block}body.fr .lang-en{display:none}
+span.lang-fr{display:none}body.fr span.lang-fr{display:inline}body.fr span.lang-en{display:none}
+.score{font-size:1rem;font-weight:700;margin-top:10px;color:#93c5fd}
+.chk{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;margin:4px 0;background:#0e1626;border:1px solid var(--border)}
+.chk input{margin-top:4px;width:auto;accent-color:#4ade80}
+.progressbar{height:10px;background:var(--border);border-radius:6px;overflow:hidden;margin:8px 0}
+.progressbar div{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);width:0%;transition:width .3s}
+.pill{display:inline-block;background:var(--blue-l);color:#93c5fd;border-radius:8px;padding:3px 10px;margin:3px;font-size:.85rem;font-weight:600}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+::-webkit-scrollbar{height:8px;width:10px}::-webkit-scrollbar-thumb{background:#2a3a5c;border-radius:5px}::-webkit-scrollbar-track{background:transparent}
+
+html{scroll-behavior:smooth}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+section.active .card{animation:fadeUp .45s ease both}
+section.active .card:nth-child(2){animation-delay:.08s}
+section.active .card:nth-child(3){animation-delay:.16s}
+section.active .card:nth-child(4){animation-delay:.24s}
+section.active .card:nth-child(5){animation-delay:.32s}
+.card{transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.55)}
+nav button{transition:background .18s,color .18s}
+.opt{transition:border-color .15s,background .15s,transform .08s}
+.opt:active{transform:scale(.985)}
+.opt.correct{animation:pop .35s ease}
+.opt.wrong{animation:shake .3s ease}
+.btn{transition:background .15s,transform .1s,box-shadow .2s}
+.btn:hover{box-shadow:0 0 14px rgba(37,99,235,.45)}
+.btn:active{transform:scale(.95)}
+.fb.ok,.fb.no{display:inline-block}
+.fb.ok{animation:pop .35s ease}
+.fb.no{animation:shake .3s ease}
+input{transition:border-color .15s,box-shadow .15s}
+input:focus{box-shadow:0 0 0 3px rgba(96,165,250,.18)}
+input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
+.chk{transition:background .15s,border-color .15s}
+.chk:hover{border-color:#3b82f6}
+.chk:has(input:checked){background:var(--green-l);border-color:#1f5132}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <h1>📊 S4 Economics — B Test <small><span class="lang-en">Thursday 11 June 2026 · bring a calculator + ruler · no red pen!</span><span class="lang-fr">Jeudi 11 juin 2026 · calculatrice + règle · pas de stylo rouge !</span></small></h1>
+    <button id="langBtn" onclick="toggleLang()">🇫🇷 Français</button>
+  </div>
+  <nav id="nav"></nav>
+</header>
+<main>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="active">
+<div class="card">
+<h2><span class="lang-en">What you need to know</span><span class="lang-fr">Ce qu'il faut savoir</span></h2>
+<div class="lang-en"><p>Everything below comes from your Class Notebook (Content Library). The test covers <b>two big chapters</b>:</p></div>
+<div class="lang-fr"><p>Tout ce qui suit vient de ton Class Notebook (Content Library). Le test couvre <b>deux grands chapitres</b> :</p></div>
+<div class="grid2">
+<div class="card" style="border-left:5px solid var(--orange);margin:0">
+<h3>1. PRODUCTION</h3>
+<ul>
+<li><span class="lang-en">Sectors of production (3 sectors + examples)</span><span class="lang-fr">Secteurs de production (3 secteurs + exemples)</span></li>
+<li><span class="lang-en">Revenue, costs, profits — fixed vs variable costs, calculations, cost &amp; revenue curves on a graph</span><span class="lang-fr">Revenu, coûts, profits — coûts fixes vs variables, calculs, courbes de coûts et revenus sur un graphique</span></li>
+<li><span class="lang-en">Break-even point — calculate, explain, identify on graph/table, find the price for a given BE output</span><span class="lang-fr">Seuil de rentabilité — calculer, expliquer, identifier sur graphique/tableau, trouver le prix pour un seuil donné</span></li>
+</ul></div>
+<div class="card" style="border-left:5px solid var(--teal);margin:0">
+<h3>2. DEMAND AND SUPPLY</h3>
+<ul>
+<li><span class="lang-en">Demand: definition, law of demand, curve, shifts (substitutes, complements, inferior/normal goods)</span><span class="lang-fr">Demande : définition, loi de la demande, courbe, déplacements (substituts, compléments, biens inférieurs/normaux)</span></li>
+<li><span class="lang-en">Supply: definition, law of supply, curve, shifts (conditions of supply)</span><span class="lang-fr">Offre : définition, loi de l'offre, courbe, déplacements (conditions de l'offre)</span></li>
+<li><span class="lang-en">Equilibrium: find it with graph &amp; schedule, disequilibrium (shortage vs surplus), how shifts change price &amp; quantity</span><span class="lang-fr">Équilibre : le trouver avec graphique &amp; tableau, déséquilibre (pénurie vs surplus), comment les déplacements changent prix &amp; quantité</span></li>
+</ul></div>
+</div>
+<div class="tip" style="margin-top:14px"><span class="lang-en">💡 Suggested plan: read each chapter page ("Learn"), then do the exercises ("Practice"), then the big Quiz, then tick the Checklist.</span><span class="lang-fr">💡 Plan conseillé : lis chaque page de cours (« Learn »), fais les exercices (« Practice »), puis le grand Quiz, et coche la Checklist.</span></div>
+</div>
+</section>
+
+<!-- ============ SECTORS ============ -->
+<section id="sectors">
+<div class="card"><span class="tag" style="background:var(--orange-l);color:var(--orange)">PRODUCTION · 1</span>
+<h2><span class="lang-en">Sectors of production</span><span class="lang-fr">Les secteurs de production</span></h2>
+<div class="lang-en">
+<p>Sectors of production are a way we <b>classify different industries</b>. Companies that specialise in similar activities are grouped into industries (e.g. the automotive industry, the tourism industry), and industries are grouped — very broadly, by the nature of their activities — into <b>sectors</b>.</p></div>
+<div class="lang-fr"><p>Les secteurs de production servent à <b>classer les différentes industries</b>. Les entreprises qui ont des activités similaires sont regroupées en industries (ex. l'industrie automobile, le tourisme), et les industries sont regroupées — très largement, selon la nature de leurs activités — en <b>secteurs</b>.</p></div>
+<div class="grid2">
+<div class="def" style="border-color:var(--green);background:var(--green-l)"><b>🌾 Primary sector</b><br>
+<span class="lang-en">Farming and resource extraction — taking natural resources from the earth. Examples: farmers, fruit growers, fishing, mining.</span>
+<span class="lang-fr">Agriculture et extraction de ressources — prélever les ressources naturelles. Exemples : agriculteurs, producteurs de fruits, pêche, mines.</span></div>
+<div class="def" style="border-color:var(--orange);background:var(--orange-l)"><b>🏭 Secondary sector</b><br>
+<span class="lang-en">Production, <b>manufacturing</b>, processing materials — making products like shoes, clothes, cars, food processing.</span>
+<span class="lang-fr">Production, <b>manufacture</b> (fabrication), transformation de matériaux — fabriquer des produits : chaussures, vêtements, voitures, transformation alimentaire.</span></div>
+<div class="def" style="border-color:var(--blue);background:var(--blue-l)"><b>🛎️ Tertiary sector</b><br>
+<span class="lang-en">Services to customers — bus companies, post offices, hotels, shops, health services.</span>
+<span class="lang-fr">Services aux clients — compagnies de bus, postes, hôtels, magasins, services de santé.</span></div>
+<div class="def" style="border-color:var(--purple);background:var(--purple-l)"><b>💻 Quaternary sector</b><br>
+<span class="lang-en">Intellectual / knowledge-based services (IT, financial services) — but it is counted as <b>part of the tertiary sector</b>.</span>
+<span class="lang-fr">Services intellectuels / basés sur le savoir (informatique, services financiers) — mais compté <b>comme partie du secteur tertiaire</b>.</span></div>
+</div>
+<h3><span class="lang-en">Sectors and how developed an economy is</span><span class="lang-fr">Secteurs et niveau de développement d'une économie</span></h3>
+<div class="lang-en"><ul>
+<li>Most countries have all the sectors.</li>
+<li>The <b>relative size</b> of each sector (how many people work in it, how much money it makes) tells us <b>how developed an economy is</b>.</li>
+<li>200 years ago: industrialisation — birth of the secondary sector. Later, most developed countries moved away from production towards services.</li>
+<li>Nowadays most developed countries have a <b>large tertiary sector</b>; less developed economies have far more resources in the primary sector.</li>
+</ul></div>
+<div class="lang-fr"><ul>
+<li>La plupart des pays ont tous les secteurs.</li>
+<li>La <b>taille relative</b> de chaque secteur (combien de personnes y travaillent, combien d'argent il génère) indique <b>le niveau de développement d'une économie</b>.</li>
+<li>Il y a 200 ans : industrialisation — naissance du secteur secondaire. Ensuite, la plupart des pays développés sont passés de la production aux services.</li>
+<li>Aujourd'hui, les pays développés ont un <b>grand secteur tertiaire</b> ; les économies moins développées ont beaucoup plus de ressources dans le secteur primaire.</li>
+</ul></div>
+</div>
+<div class="card">
+<h2>🎯 Practice — <span class="lang-en">classify into the right sector</span><span class="lang-fr">classe dans le bon secteur</span></h2>
+<p><span class="lang-en">From your exercises (Activity 3.17 + company list). Click the right sector:</span><span class="lang-fr">Tiré de tes exercices (Activity 3.17 + liste d'entreprises). Clique sur le bon secteur :</span></p>
+<div id="sectorQuiz"></div>
+<div class="score" id="sectorScore"></div>
+</div>
+</section>
+
+<!-- ============ COSTS ============ -->
+<section id="costs">
+<div class="card"><span class="tag" style="background:var(--orange-l);color:var(--orange)">PRODUCTION · 2</span>
+<h2><span class="lang-en">Revenue, costs, profit or loss</span><span class="lang-fr">Revenu, coûts, profit ou perte</span></h2>
+<div class="def"><b>Revenue</b> — <span class="lang-en">the total gross income of a business from selling its goods and services. <b>Revenue = price × quantity sold</b>. (= MONEY IN)</span><span class="lang-fr">le revenu brut total d'une entreprise provenant de la vente de ses biens et services. <b>Revenu = prix × quantité vendue</b>. (= ARGENT QUI ENTRE)</span></div>
+<div class="def"><b>Costs</b> — <span class="lang-en">the expenses incurred when producing goods and services (= MONEY OUT). Examples: wages of workers, electricity, internet, insurance…</span><span class="lang-fr">les dépenses engagées pour produire des biens et services (= ARGENT QUI SORT). Exemples : salaires, électricité, internet, assurance…</span></div>
+<div class="grid2">
+<div class="def" style="border-color:var(--purple);background:var(--purple-l)"><b>Fixed costs</b><br><span class="lang-en">Financial obligations the business has <b>regardless of whether it produces anything or not</b>.<br>Examples: rent, insurance, heating for the offices, labour costs (salaried staff), advertising.</span><span class="lang-fr">Obligations financières que l'entreprise doit payer <b>qu'elle produise ou non</b>.<br>Exemples : loyer, assurance, chauffage des bureaux, salaires fixes, publicité.</span></div>
+<div class="def" style="border-color:var(--teal);background:var(--teal-l)"><b>Variable costs</b><br><span class="lang-en">Financial obligations that <b>vary / depend on production activities</b>.<br>Examples: raw materials, packaging, paper cups, ingredients.</span><span class="lang-fr">Obligations financières qui <b>varient selon l'activité de production</b>.<br>Exemples : matières premières, emballages, gobelets, ingrédients.</span></div>
+</div>
+<div class="formula">TOTAL COSTS = FIXED COSTS + TOTAL VARIABLE COSTS<br>total variable costs = variable cost per unit × quantity produced</div>
+<div class="def" style="border-color:var(--green);background:var(--green-l)"><b>Profit</b> — <span class="lang-en">the positive difference between revenue and costs: <b>Profit = Revenue − Total costs</b>. If the result is negative, it is a <b>loss</b>.</span><span class="lang-fr">la différence positive entre revenu et coûts : <b>Profit = Revenu − Coûts totaux</b>. Si le résultat est négatif, c'est une <b>perte</b>.</span></div>
+<div class="lang-en"><p>Private sector businesses need profits to stay in business in the long run; most aim to maximise profit to pay better dividends to their <b>shareholders</b> (= the owners). Many startups initially operate at a loss while they invest in product development, marketing and machinery. To maximise profits, a company aims to <b>raise revenue and minimise costs</b>.</p></div>
+<div class="lang-fr"><p>Les entreprises privées ont besoin de profits pour survivre à long terme ; la plupart veulent maximiser le profit pour verser de meilleurs dividendes aux <b>actionnaires</b> (= les propriétaires). Beaucoup de startups font d'abord des pertes pendant qu'elles investissent (développement produit, marketing, machines). Pour maximiser le profit : <b>augmenter le revenu et minimiser les coûts</b>.</p></div>
+<h3><span class="lang-en">The graph you must know (costs &amp; revenue curves)</span><span class="lang-fr">Le graphique à connaître (courbes de coûts &amp; revenus)</span></h3>
+<svg viewBox="0 0 560 330" xmlns="http://www.w3.org/2000/svg">
+<line x1="60" y1="280" x2="530" y2="280" stroke="#1e293b" stroke-width="2"/>
+<line x1="60" y1="280" x2="60" y2="20" stroke="#1e293b" stroke-width="2"/>
+<text x="290" y="315" font-size="13" text-anchor="middle">Units produced / sold (quantity)</text>
+<text x="20" y="150" font-size="13" transform="rotate(-90 20 150)" text-anchor="middle">€ costs / revenue</text>
+<line x1="60" y1="200" x2="530" y2="200" stroke="#9333ea" stroke-width="2.5"/>
+<text x="445" y="192" font-size="12" fill="#9333ea" font-weight="bold">Fixed costs (FC)</text>
+<line x1="60" y1="200" x2="530" y2="60" stroke="#ea580c" stroke-width="2.5"/>
+<text x="400" y="68" font-size="12" fill="#ea580c" font-weight="bold">Total costs (TC=FC+VC)</text>
+<line x1="60" y1="280" x2="500" y2="30" stroke="#16a34a" stroke-width="2.5"/>
+<text x="430" y="30" font-size="12" fill="#16a34a" font-weight="bold">Total revenue (TR)</text>
+<circle cx="305" cy="138" r="6" fill="#dc2626"/>
+<text x="305" y="122" font-size="12" fill="#dc2626" font-weight="bold" text-anchor="middle">Break-even point</text>
+<text x="160" y="240" font-size="12" fill="#dc2626">LOSS (TC &gt; TR)</text>
+<text x="400" y="120" font-size="12" fill="#16a34a">PROFIT (TR &gt; TC)</text>
+</svg>
+<div class="tip"><span class="lang-en">📈 Be able to: draw FC (horizontal line), TC (starts at FC, rises with output), TR (starts at 0, rises with price per unit) and indicate the profit on the graph (vertical gap between TR and TC, right of the break-even point).</span><span class="lang-fr">📈 Savoir : dessiner FC (ligne horizontale), TC (part de FC, monte avec la production), TR (part de 0, monte selon le prix unitaire) et indiquer le profit sur le graphique (écart vertical entre TR et TC, à droite du seuil de rentabilité).</span></div>
+</div>
+
+<div class="card">
+<h2>🎯 Practice 1 — Juice bar: <span class="lang-en">fixed or variable?</span><span class="lang-fr">fixe ou variable ?</span></h2>
+<p><span class="lang-en">From the Juice bar exercise — classify each cost:</span><span class="lang-fr">Tiré de l'exercice Juice bar — classe chaque coût :</span></p>
+<div id="fvQuiz"></div>
+<div class="score" id="fvScore"></div>
+</div>
+
+<div class="card">
+<h2>🎯 Practice 2 — Astrid's café (<span class="lang-en">full calculation</span><span class="lang-fr">calcul complet</span>)</h2>
+<div class="lang-en"><p>December 2025: Astrid sold <b>1 500 coffees</b> at <b>4 €</b> and <b>800 avocado toasts</b> at <b>14 €</b>.<br>Costs: rent 1 500 €/month · barista wage 2 500 €/month · phone &amp; internet 50 € · insurance 80 € · electricity &amp; heating 700 € · paper cups 0,10 € per cup (coffees) · coffee &amp; milk 1 € per coffee · avocado &amp; toast per toast = the amount on your worksheet (enter it below).</p></div>
+<div class="lang-fr"><p>Décembre 2025 : Astrid a vendu <b>1 500 cafés</b> à <b>4 €</b> et <b>800 avocado toasts</b> à <b>14 €</b>.<br>Coûts : loyer 1 500 €/mois · salaire barista 2 500 €/mois · téléphone &amp; internet 50 € · assurance 80 € · électricité &amp; chauffage 700 € · gobelets 0,10 € par café · café &amp; lait 1 € par café · avocat &amp; toast par toast = le montant sur ta feuille (entre-le ci-dessous).</p></div>
+<p><b><span class="lang-en">Avocado+toast cost per toast (from your sheet):</span><span class="lang-fr">Coût avocat+toast par toast (de ta feuille) :</span></b> <input type="number" id="avoCost" step="0.1" placeholder="€"> €</p>
+<table><tr><th><span class="lang-en">Question</span><span class="lang-fr">Question</span></th><th><span class="lang-en">Your answer</span><span class="lang-fr">Ta réponse</span></th><th></th></tr>
+<tr><td><span class="lang-en">a) Total revenue (€)</span><span class="lang-fr">a) Revenu total (€)</span></td><td><input type="number" id="astR"></td><td id="astRfb"></td></tr>
+<tr><td><span class="lang-en">b) Total fixed costs (€)</span><span class="lang-fr">b) Coûts fixes totaux (€)</span></td><td><input type="number" id="astF"></td><td id="astFfb"></td></tr>
+<tr><td><span class="lang-en">c) Total variable costs (€)</span><span class="lang-fr">c) Coûts variables totaux (€)</span></td><td><input type="number" id="astV"></td><td id="astVfb"></td></tr>
+<tr><td><span class="lang-en">d) Profit / loss (€)</span><span class="lang-fr">d) Profit / perte (€)</span></td><td><input type="number" id="astP"></td><td id="astPfb"></td></tr>
+<tr><td><span class="lang-en">e) Costs she pays even if the café closes for 1 month (€)</span><span class="lang-fr">e) Coûts à payer même si le café ferme 1 mois (€)</span></td><td><input type="number" id="astC"></td><td id="astCfb"></td></tr></table>
+<button class="btn" onclick="checkAstrid()"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button>
+<div id="astridExpl" class="expl"></div>
+</div>
+</section>
+
+<!-- ============ BREAK-EVEN ============ -->
+<section id="be">
+<div class="card"><span class="tag" style="background:var(--orange-l);color:var(--orange)">PRODUCTION · 3</span>
+<h2><span class="lang-en">The break-even point</span><span class="lang-fr">Le seuil de rentabilité (break-even)</span></h2>
+<div class="def"><span class="lang-en"><b>The break-even level of output</b> is the quantity a company has to produce and sell to <b>cover all its costs</b> — the point where <b>total revenue = total costs</b>. The company makes neither profit nor loss.</span><span class="lang-fr"><b>Le seuil de rentabilité</b> est la quantité qu'une entreprise doit produire et vendre pour <b>couvrir tous ses coûts</b> — le point où <b>revenu total = coûts totaux</b>. L'entreprise ne fait ni profit ni perte.</span></div>
+<div class="formula">Break-even output (units) = FIXED COSTS ÷ (PRICE per unit − VARIABLE COST per unit)</div>
+<div class="lang-en"><ul>
+<li>If the company produces <b>less</b> than the BE output → total costs &gt; revenue → it makes a <b>loss</b>.</li>
+<li>If it produces <b>more</b> than the BE output → revenue &gt; total costs → it makes a <b>profit</b>.</li>
+<li>On a graph, break-even occurs <b>where the TR curve crosses the TC curve</b>. In a table, it is the output where TR = TC.</li>
+<li>Why useful? E.g.: ① to know the <b>minimum they must sell</b> before making profit (target setting, deciding if a business idea is viable); ② to see <b>which price to set</b> or how changes in costs/price affect how much they must sell.</li>
+</ul></div>
+<div class="lang-fr"><ul>
+<li>Si l'entreprise produit <b>moins</b> que le seuil → coûts totaux &gt; revenu → elle fait une <b>perte</b>.</li>
+<li>Si elle produit <b>plus</b> que le seuil → revenu &gt; coûts totaux → elle fait un <b>profit</b>.</li>
+<li>Sur un graphique, le break-even est <b>là où la courbe TR croise la courbe TC</b>. Dans un tableau, c'est la quantité où TR = TC.</li>
+<li>Pourquoi utile ? ① connaître le <b>minimum à vendre</b> avant de faire du profit (objectifs, viabilité d'une idée) ; ② voir <b>quel prix fixer</b> ou l'effet d'un changement de coûts/prix sur la quantité à vendre.</li>
+</ul></div>
+<h3><span class="lang-en">Remodelling the formula: which price to set?</span><span class="lang-fr">Reformuler la formule : quel prix fixer ?</span></h3>
+<div class="lang-en"><p>If you know how many units you expect to sell and want to break even exactly:</p></div>
+<div class="lang-fr"><p>Si tu sais combien d'unités tu vas vendre et que tu veux atteindre exactement le seuil :</p></div>
+<div class="formula">PRICE = (FIXED COSTS ÷ expected output) + VARIABLE COST per unit</div>
+<div class="warn"><span class="lang-en">⚠️ Always be able to <b>explain the meaning of the outcome</b>: e.g. "the company must sell 100 t-shirts to cover all its costs; from the 101st t-shirt on, it makes profit."</span><span class="lang-fr">⚠️ Sache toujours <b>expliquer le résultat</b> : ex. « l'entreprise doit vendre 100 t-shirts pour couvrir tous ses coûts ; à partir du 101ᵉ, elle fait du profit. »</span></div>
+</div>
+
+<div class="card">
+<h2>🧮 <span class="lang-en">Interactive BE calculator — check any exercise</span><span class="lang-fr">Calculateur BE interactif — vérifie n'importe quel exercice</span></h2>
+<p>Fixed costs <input type="number" id="cFC" value="1500 oninput="calcBE()"> € · <span class="lang-en">Price/unit</span><span class="lang-fr">Prix/unité</span> <input type="number" id="cP" value="20 oninput="calcBE()"> € · <span class="lang-en">Variable cost/unit</span><span class="lang-fr">Coût variable/unité</span> <input type="number" id="cVC" value="5 oninput="calcBE()"> €</p>
+<button class="btn" onclick="calcBE()"><span class="lang-en">Calculate</span><span class="lang-fr">Calculer</span></button>
+<div id="beOut" class="tip" style="display:none"></div>
+<svg id="beChart" viewBox="0 0 560 330"></svg>
+</div>
+
+<div class="card">
+<h2>🎯 Practice — <span class="lang-en">the 3 calculations from your booklet</span><span class="lang-fr">les 3 calculs de ton fascicule</span></h2>
+<div class="qbox"><div class="q">Calculation 1 — T-shirts</div>
+<p><span class="lang-en">Equipment (start-up = fixed costs): €1 500. You buy each shirt for €5 and sell it for €20. How many t-shirts to break even?</span><span class="lang-fr">Équipement (départ = coûts fixes) : 1 500 €. Tu achètes chaque t-shirt 5 € et le vends 20 €. Combien de t-shirts pour atteindre le seuil ?</span></p>
+<input type="number" id="be1"> <button class="btn" onclick="chkNum('be1',100,'1500 ÷ (20−5) = 1500 ÷ 15 = 100')">✓</button><span class="fb" id="be1fb"></span><div class="expl" id="be1expl"></div></div>
+<div class="qbox"><div class="q">Calculation 2 — Chris at the flea market (<span class="lang-en">find the price!</span><span class="lang-fr">trouve le prix !</span>)</div>
+<p><span class="lang-en">Booth rent: €120 for the day (fixed). Each picture frame costs €5 to make. He expects to sell 20 frames. What price must he set to break even?</span><span class="lang-fr">Location du stand : 120 € (fixe). Chaque cadre coûte 5 € à fabriquer. Il prévoit de vendre 20 cadres. Quel prix fixer pour atteindre le seuil ?</span></p>
+<input type="number" id="be2"> € <button class="btn" onclick="chkNum('be2',11,'P = (120 ÷ 20) + 5 = 6 + 5 = 11 €')">✓</button><span class="fb" id="be2fb"></span><div class="expl" id="be2expl"></div></div>
+<div class="qbox"><div class="q">Calculation 3 — Colour Co. Ltd</div>
+<p><span class="lang-en">Printer cartridges: fixed costs €50 000/year, variable costs €2,50 per cartridge, price €5.</span><span class="lang-fr">Cartouches : coûts fixes 50 000 €/an, coûts variables 2,50 € par cartouche, prix 5 €.</span></p>
+<p>a) <span class="lang-en">Break-even output?</span><span class="lang-fr">Seuil de rentabilité ?</span> <input type="number" id="be3a"> <button class="btn" onclick="chkNum('be3a',20000,'50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = 20 000')">✓</button><span class="fb" id="be3afb"></span></p><div class="expl" id="be3aexpl"></div>
+<p>b) <span class="lang-en">If variable cost rises to €4:</span><span class="lang-fr">Si le coût variable monte à 4 € :</span> <input type="number" id="be3b"> <button class="btn" onclick="chkNum('be3b',50000,'50 000 ÷ (5 − 4) = 50 000 ÷ 1 = 50 000')">✓</button><span class="fb" id="be3bfb"></span></p><div class="expl" id="be3bexpl"></div>
+<p>c) <span class="lang-en">If price rises to €7,50 (VC back to 2,50):</span><span class="lang-fr">Si le prix monte à 7,50 € (CV à 2,50) :</span> <input type="number" id="be3c"> <button class="btn" onclick="chkNum('be3c',10000,'50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = 10 000')">✓</button><span class="fb" id="be3cfb"></span></p><div class="expl" id="be3cexpl"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>🎯 Practice — <span class="lang-en">identify the break-even in a TABLE (Colour Co.)</span><span class="lang-fr">identifier le break-even dans un TABLEAU (Colour Co.)</span></h2>
+<p><span class="lang-en">Colour Co.: fixed costs 50 000 €, variable cost 2,50 €/cartridge, price 5 €. Complete the two missing cells, then find the BE output in the table:</span><span class="lang-fr">Colour Co. : coûts fixes 50 000 €, coût variable 2,50 €/cartouche, prix 5 €. Complète les deux cellules manquantes, puis trouve le seuil dans le tableau :</span></p>
+<table>
+<tr><th><span class="lang-en">Output (cartridges)</span><span class="lang-fr">Production (cartouches)</span></th><th>0</th><th>5 000</th><th>10 000</th><th>15 000</th><th>20 000</th><th>25 000</th></tr>
+<tr><td>Fixed costs (€)</td><td>50 000</td><td>50 000</td><td>50 000</td><td>50 000</td><td>50 000</td><td>50 000</td></tr>
+<tr><td>Variable costs (€)</td><td>0</td><td>12 500</td><td>25 000</td><td>37 500</td><td>50 000</td><td>62 500</td></tr>
+<tr><td><b>Total costs (€)</b></td><td>50 000</td><td>62 500</td><td>75 000</td><td>87 500</td><td><input type="number" id="bt1" style="width:100px"><span class="fb" id="bt1fb"></span></td><td>112 500</td></tr>
+<tr><td><b>Total revenue (€)</b></td><td>0</td><td>25 000</td><td>50 000</td><td>75 000</td><td><input type="number" id="bt2" style="width:100px"><span class="fb" id="bt2fb"></span></td><td>125 000</td></tr>
+</table>
+<p><span class="lang-en">→ At which output is TR = TC (break-even)?</span><span class="lang-fr">→ À quelle production TR = TC (break-even) ?</span> <input type="number" id="bt3"> <button class="btn" onclick="chkNum('bt1',100000,'');chkNum('bt2',100000,'');chkNum('bt3',20000,'At 20 000 cartridges: TC = 50 000 + 50 000 = 100 000 € = TR (20 000 × 5 €). Before that output TC &gt; TR (loss), after it TR &gt; TC (profit).')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button><span class="fb" id="bt3fb"></span></p>
+<div class="expl" id="bt3expl"></div>
+</div>
+</section>
+
+<!-- ============ DEMAND ============ -->
+<section id="demand">
+<div class="card"><span class="tag" style="background:var(--teal-l);color:var(--teal)">DEMAND &amp; SUPPLY · 1</span>
+<h2><span class="lang-en">Demand</span><span class="lang-fr">La demande</span></h2>
+<div class="def"><b>Demand</b> — <span class="lang-en">the quantity of goods or services that consumers are <b>willing and able</b> to buy at different price points. It arises when a need or desire is combined with <b>purchasing power</b> (enough money to buy), turning it into an effective demand.</span><span class="lang-fr">la quantité de biens ou services que les consommateurs sont <b>désireux et capables</b> d'acheter à différents prix. Elle naît quand un besoin ou désir se combine au <b>pouvoir d'achat</b> (assez d'argent pour acheter) → demande effective.</span></div>
+<div class="def"><b>Quantity demanded</b> — <span class="lang-en">the specific amount consumers are willing and able to buy <b>at a certain price</b> = one point on the demand curve.</span><span class="lang-fr">la quantité précise que les consommateurs veulent et peuvent acheter <b>à un prix donné</b> = un point sur la courbe de demande.</span></div>
+<div class="grid2">
+<div class="def" style="border-color:var(--purple);background:var(--purple-l)"><b>Individual demand</b><br><span class="lang-en">how much of a good a <b>single person</b> wants to buy at different prices.</span><span class="lang-fr">combien <b>une seule personne</b> veut acheter à différents prix.</span></div>
+<div class="def" style="border-color:var(--teal);background:var(--teal-l)"><b>Market demand</b><br><span class="lang-en">the <b>sum of all individual demands</b> of all consumers in a market (add the quantities at each price!).</span><span class="lang-fr">la <b>somme de toutes les demandes individuelles</b> des consommateurs du marché (additionne les quantités à chaque prix !).</span></div>
+</div>
+<h3><span class="lang-en">The law of demand &amp; the demand curve</span><span class="lang-fr">La loi de la demande &amp; la courbe de demande</span></h3>
+<div class="def" style="border-color:var(--red);background:var(--red-l)"><b>Law of demand</b> — <span class="lang-en">when the price rises, the quantity demanded decreases; when the price falls, the quantity demanded increases. Price and quantity demanded move in <b>opposite directions</b> (negative / inverse relationship). That is why the demand curve <b>slopes downward</b>.</span><span class="lang-fr">quand le prix monte, la quantité demandée baisse ; quand le prix baisse, la quantité demandée augmente. Prix et quantité demandée évoluent en <b>sens opposés</b> (relation négative / inverse). C'est pourquoi la courbe de demande <b>descend</b>.</span></div>
+<div class="lang-en"><p>Why? At higher prices consumers cannot afford to buy as much, or they seek out alternatives. Each point on the curve = a combination of price and quantity demanded; the curve shows consumers' willingness to buy at different prices.</p></div>
+<div class="lang-fr"><p>Pourquoi ? À prix élevé, les consommateurs ne peuvent pas acheter autant, ou cherchent des alternatives. Chaque point de la courbe = une combinaison prix/quantité demandée ; la courbe montre la volonté d'achat à différents prix.</p></div>
+<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg">
+<line x1="55" y1="255" x2="450" y2="255" stroke="#1e293b" stroke-width="2"/>
+<line x1="55" y1="255" x2="55" y2="20" stroke="#1e293b" stroke-width="2"/>
+<text x="255" y="288" font-size="13" text-anchor="middle">Quantity demanded</text>
+<text x="20" y="140" font-size="13" transform="rotate(-90 20 140)" text-anchor="middle">Price</text>
+<path d="M 90 40 L 420 230" stroke="#dc2626" stroke-width="3" fill="none"/>
+<text x="430" y="245" font-size="14" fill="#dc2626" font-weight="bold">D</text>
+<text x="150" y="120" font-size="12" fill="#64748b">price ↑ → quantity ↓</text>
+<text x="220" y="210" font-size="12" fill="#64748b">price ↓ → quantity ↑</text>
+</svg>
+<h3><span class="lang-en">Movement ALONG the curve vs SHIFT of the curve — super important!</span><span class="lang-fr">Mouvement SUR la courbe vs DÉPLACEMENT de la courbe — super important !</span></h3>
+<div class="grid2">
+<div class="warn"><b><span class="lang-en">Price changes → movement along the curve</span><span class="lang-fr">Le prix change → mouvement le long de la courbe</span></b><br><span class="lang-en">When <b>only the price</b> of the good changes: <b>extension</b> (price ↓, quantity demanded ↑) or <b>contraction</b> (price ↑, quantity demanded ↓).</span><span class="lang-fr">Quand <b>seul le prix</b> du bien change : <b>extension</b> (prix ↓, quantité ↑) ou <b>contraction</b> (prix ↑, quantité ↓).</span></div>
+<div class="warn"><b><span class="lang-en">Other factor changes → shift of the whole curve</span><span class="lang-fr">Autre facteur change → déplacement de toute la courbe</span></b><br><span class="lang-en">A change in a <b>determinant of demand</b> (not the price!) shifts the curve: <b>right/outwards = increase</b> in demand (more demanded at the same price), <b>left/inwards = decrease</b>.</span><span class="lang-fr">Un changement d'un <b>déterminant de la demande</b> (pas le prix !) déplace la courbe : <b>droite/extérieur = hausse</b> de la demande (plus demandé au même prix), <b>gauche/intérieur = baisse</b>.</span></div>
+</div>
+<svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg">
+<line x1="55" y1="240" x2="450" y2="240" stroke="#1e293b" stroke-width="2"/>
+<line x1="55" y1="240" x2="55" y2="20" stroke="#1e293b" stroke-width="2"/>
+<path d="M 100 40 L 360 220" stroke="#dc2626" stroke-width="2.5" fill="none"/>
+<path d="M 170 40 L 430 220" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="7 4" fill="none"/>
+<path d="M 45 40 L 290 220" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="3 4" fill="none"/>
+<text x="365" y="232" font-size="13" fill="#dc2626" font-weight="bold">D1</text>
+<text x="435" y="232" font-size="13" fill="#16a34a" font-weight="bold">D2 ➜ increase</text>
+<text x="240" y="232" font-size="13" fill="#9333ea" font-weight="bold">D3 ⬅ fall</text>
+<text x="250" y="55" font-size="12" fill="#16a34a">shift outwards →</text>
+<text x="80" y="55" font-size="12" fill="#9333ea">← shift inwards</text>
+</svg>
+<h3><span class="lang-en">Factors that SHIFT the demand curve (determinants, p 52)</span><span class="lang-fr">Facteurs qui DÉPLACENT la courbe de demande (déterminants, p 52)</span></h3>
+<table>
+<tr><th><span class="lang-en">Increase in demand (shift right) caused by…</span><span class="lang-fr">Hausse de la demande (vers la droite) causée par…</span></th><th><span class="lang-en">Fall in demand (shift left) caused by…</span><span class="lang-fr">Baisse de la demande (vers la gauche) causée par…</span></th></tr>
+<tr><td><span class="lang-en"><b>Increase in incomes</b> (e.g. lower income taxes → higher disposable income). ⚠️ For <b>inferior goods</b> demand shifts INWARDS when income rises!</span><span class="lang-fr"><b>Hausse des revenus</b> (ex. baisse des impôts → revenu disponible plus élevé). ⚠️ Pour les <b>biens inférieurs</b>, la demande baisse quand le revenu monte !</span></td><td><span class="lang-en"><b>Decrease in incomes</b> (e.g. unemployment, recession).</span><span class="lang-fr"><b>Baisse des revenus</b> (ex. chômage, récession).</span></td></tr>
+<tr><td><span class="lang-en"><b>Price of a substitute rises</b> (butter ↑ → more demand for margarine).</span><span class="lang-fr"><b>Le prix d'un substitut monte</b> (beurre ↑ → plus de demande de margarine).</span></td><td><span class="lang-en"><b>Price of a substitute falls</b> (Coca-Cola ↓ → demand for Pepsi falls).</span><span class="lang-fr"><b>Le prix d'un substitut baisse</b> (Coca-Cola ↓ → demande de Pepsi baisse).</span></td></tr>
+<tr><td><span class="lang-en"><b>Price of a complement falls</b> (skis ↓ → more demand for ski shoes).</span><span class="lang-fr"><b>Le prix d'un complément baisse</b> (skis ↓ → plus de demande de chaussures de ski).</span></td><td><span class="lang-en"><b>Price of a complement rises</b> (computers ↑ → less demand for keyboards).</span><span class="lang-fr"><b>Le prix d'un complément monte</b> (ordinateurs ↑ → moins de demande de claviers).</span></td></tr>
+<tr><td><span class="lang-en"><b>Taste/fashion in favour</b> (advertising, positive study).</span><span class="lang-fr"><b>Goûts/mode en faveur</b> (publicité, étude positive).</span></td><td><span class="lang-en"><b>Taste/fashion against</b> (product goes out of fashion).</span><span class="lang-fr"><b>Goûts/mode contre</b> (produit démodé).</span></td></tr>
+<tr><td><span class="lang-en"><b>Higher population</b> (migration → housing demand ↑).</span><span class="lang-fr"><b>Population plus grande</b> (migration → demande de logements ↑).</span></td><td><span class="lang-en"><b>Fall in population</b> (lower birth rates, outward migration).</span><span class="lang-fr"><b>Baisse de population</b> (natalité plus basse, émigration).</span></td></tr>
+<tr><td><span class="lang-en"><b>Expected future price rise</b> (new cigarette tax announced → bulk buying now).</span><span class="lang-fr"><b>Hausse de prix attendue</b> (nouvelle taxe annoncée → achats massifs maintenant).</span></td><td><span class="lang-en"><b>Expected future price fall</b> (right before Black Friday).</span><span class="lang-fr"><b>Baisse de prix attendue</b> (juste avant le Black Friday).</span></td></tr>
+<tr><td><span class="lang-en"><b>Other</b>: hot summer → ice cream &amp; summer clothes ↑.</span><span class="lang-fr"><b>Autre</b> : été chaud → glaces &amp; vêtements d'été ↑.</span></td><td><span class="lang-en"><b>Other</b>: smoking banned in public places → cigarettes ↓.</span><span class="lang-fr"><b>Autre</b> : interdiction de fumer → cigarettes ↓.</span></td></tr>
+</table>
+<div class="grid2">
+<div class="def"><b>Substitutes</b> — <span class="lang-en">goods that replace each other (butter/margarine, Coca/Pepsi).</span><span class="lang-fr">biens qui se remplacent (beurre/margarine, Coca/Pepsi).</span></div>
+<div class="def"><b>Complements</b> — <span class="lang-en">goods used together (skis &amp; ski shoes, PCs &amp; keyboards). If goods are unrelated (pencils &amp; toothbrushes), a price change of one has no effect on the other.</span><span class="lang-fr">biens utilisés ensemble (skis &amp; chaussures, PC &amp; claviers). Si les biens sont sans relation (crayons &amp; brosses à dents), aucun effet.</span></div>
+<div class="def"><b>Normal goods</b> — <span class="lang-en">income ↑ → demand ↑ (e.g. premium coffee).</span><span class="lang-fr">revenu ↑ → demande ↑ (ex. café premium).</span></div>
+<div class="def"><b>Inferior goods</b> — <span class="lang-en">income ↑ → demand ↓, because we substitute them with higher-valued alternatives. Examples: cheap wine, own-brand detergent, bus tickets, instant coffee.</span><span class="lang-fr">revenu ↑ → demande ↓, car on les remplace par des alternatives de meilleure qualité. Exemples : vin bon marché, détergent premier prix, tickets de bus, café instantané.</span></div>
+</div>
+</div>
+
+<div class="card">
+<h2>🎯 Practice 1 — <span class="lang-en">mobile data (reading a demand schedule)</span><span class="lang-fr">données mobiles (lire un tableau de demande)</span></h2>
+<table><tr><th>Price per GB (€)</th><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td><td>11</td><td>13</td><td>15</td></tr>
+<tr><th>Quantity (mio GB/month)</th><td>520</td><td>470</td><td>410</td><td>350</td><td>290</td><td>240</td><td>200</td><td>160</td></tr></table>
+<p>a) <span class="lang-en">Demand at €11/GB?</span><span class="lang-fr">Demande à 11 €/GB ?</span> <input type="number" id="md1"> <button class="btn" onclick="chkNum('md1',240,'')">✓</button><span class="fb" id="md1fb"></span></p>
+<p>b) <span class="lang-en">Demand at €3/GB?</span><span class="lang-fr">Demande à 3 €/GB ?</span> <input type="number" id="md2"> <button class="btn" onclick="chkNum('md2',470,'')">✓</button><span class="fb" id="md2fb"></span></p>
+<p>c) <span class="lang-en">Which price gives 350 mio GB?</span><span class="lang-fr">Quel prix donne 350 mio GB ?</span> <input type="number" id="md3"> € <button class="btn" onclick="chkNum('md3',7,'')">✓</button><span class="fb" id="md3fb"></span></p>
+<p>d) <span class="lang-en">Total spending at €5/GB? (price × quantity, in mio €)</span><span class="lang-fr">Dépense totale à 5 €/GB ? (prix × quantité, en mio €)</span> <input type="number" id="md4"> <button class="btn" onclick="chkNum('md4',2050,'410 × 5 = 2 050 mio €')">✓</button><span class="fb" id="md4fb"></span><div class="expl" id="md4expl"></div></p>
+</div>
+
+<div class="card">
+<h2>🎯 Practice 2 — Smartphonia: <span class="lang-en">market demand = sum of individual demands</span><span class="lang-fr">demande de marché = somme des demandes individuelles</span></h2>
+<table><tr><th>€/GB</th><th>David</th><th>Antoine</th><th>Alexia</th><th>TOTAL?</th><th></th></tr>
+<tr><td>1</td><td>20</td><td>15</td><td>25</td><td><input type="number" id="sm1" style="width:80px"></td><td><span class="fb" id="sm1fb"></span></td></tr>
+<tr><td>5</td><td>12</td><td>10</td><td>16</td><td><input type="number" id="sm2" style="width:80px"></td><td><span class="fb" id="sm2fb"></span></td></tr>
+<tr><td>11</td><td>6</td><td>5</td><td>8</td><td><input type="number" id="sm3" style="width:80px"></td><td><span class="fb" id="sm3fb"></span></td></tr></table>
+<button class="btn" onclick="chkNum('sm1',60,'');chkNum('sm2',38,'');chkNum('sm3',19,'')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button>
+</div>
+
+<div class="card">
+<h2>🎯 Practice 3 — <span class="lang-en">shift or movement? Which direction?</span><span class="lang-fr">déplacement ou mouvement ? Quelle direction ?</span></h2>
+<div id="demShiftQuiz"></div>
+<div class="score" id="demShiftScore"></div>
+</div>
+</section>
+
+<!-- ============ SUPPLY ============ -->
+<section id="supply">
+<div class="card"><span class="tag" style="background:var(--teal-l);color:var(--teal)">DEMAND &amp; SUPPLY · 2</span>
+<h2><span class="lang-en">Supply</span><span class="lang-fr">L'offre</span></h2>
+<div class="lang-en"><p>Now <b>change your perspective</b>: we look at the <b>producers / companies</b>. Each provider of goods and services who sells on the market is a supplier. Producers want to make <b>PROFIT = REVENUE (money in) − COSTS (money out)</b>.</p></div>
+<div class="lang-fr"><p>Maintenant <b>change de perspective</b> : on regarde les <b>producteurs / entreprises</b>. Chaque fournisseur qui vend sur le marché est un offreur. Les producteurs veulent du <b>PROFIT = REVENU (entrées) − COÛTS (sorties)</b>.</p></div>
+<div class="def"><b>Supply</b> — <span class="lang-en">the willingness and ability of producers (firms) to make and sell a product at different prices. The <b>supply curve</b> shows how much producers are willing/able to sell at different prices.</span><span class="lang-fr">la volonté et la capacité des producteurs de fabriquer et vendre un produit à différents prix. La <b>courbe d'offre</b> montre combien les producteurs veulent/peuvent vendre à chaque prix.</span></div>
+<div class="def"><b>Quantity supplied</b> — <span class="lang-en">the amount producers are willing and able to sell <b>for a specific price</b> (= one point on the curve).</span><span class="lang-fr">la quantité que les producteurs veulent/peuvent vendre <b>à un prix donné</b> (= un point sur la courbe).</span></div>
+<div class="grid2">
+<div class="def" style="border-color:var(--purple);background:var(--purple-l)"><b>Individual supply</b> — <span class="lang-en">supply of one particular company.</span><span class="lang-fr">offre d'une seule entreprise.</span></div>
+<div class="def" style="border-color:var(--teal);background:var(--teal-l)"><b>Market supply</b> — <span class="lang-en">the sum of all individual supplies of producers competing to supply a product.</span><span class="lang-fr">la somme de toutes les offres individuelles des producteurs en concurrence.</span></div>
+</div>
+<div class="def" style="border-color:var(--red);background:var(--red-l)"><b>Law of supply</b> — <span class="lang-en">at a <b>higher price</b> producers will supply a <b>higher quantity</b> of a good → the supply curve is <b>UPWARD sloping</b>. Why? ① At higher prices producers can make more profit; ② they use more of their resources to produce this product rather than something else; ③ it becomes attractive for more producers to supply the product.</span><span class="lang-fr">à un <b>prix plus élevé</b>, les producteurs offrent une <b>quantité plus grande</b> → la courbe d'offre <b>MONTE</b>. Pourquoi ? ① À prix plus haut, plus de profit ; ② ils consacrent plus de ressources à ce produit ; ③ plus de producteurs sont attirés.</span></div>
+<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg">
+<line x1="55" y1="255" x2="450" y2="255" stroke="#1e293b" stroke-width="2"/>
+<line x1="55" y1="255" x2="55" y2="20" stroke="#1e293b" stroke-width="2"/>
+<text x="255" y="288" font-size="13" text-anchor="middle">Quantity supplied</text>
+<text x="20" y="140" font-size="13" transform="rotate(-90 20 140)" text-anchor="middle">Price</text>
+<path d="M 90 230 L 420 40" stroke="#2563eb" stroke-width="3" fill="none"/>
+<text x="430" y="40" font-size="14" fill="#2563eb" font-weight="bold">S</text>
+<text x="140" y="120" font-size="12" fill="#64748b">price ↑ → quantity supplied ↑ (extension)</text>
+<text x="160" y="220" font-size="12" fill="#64748b">price ↓ → quantity supplied ↓ (contraction)</text>
+</svg>
+<h3><span class="lang-en">Movement along vs shift — same logic as demand!</span><span class="lang-fr">Mouvement vs déplacement — même logique que la demande !</span></h3>
+<div class="grid2">
+<div class="warn"><span class="lang-en"><b>Price of the good changes</b> → movement ALONG the supply curve: price ↑ = <b>extension</b> (quantity supplied ↑); price ↓ = <b>contraction</b>.</span><span class="lang-fr"><b>Le prix du bien change</b> → mouvement SUR la courbe : prix ↑ = <b>extension</b> (quantité offerte ↑) ; prix ↓ = <b>contraction</b>.</span></div>
+<div class="warn"><span class="lang-en"><b>Conditions of supply change</b> → the whole curve SHIFTS: increase in supply = shift outwards/right (more supplied at the same price); decrease = shift inwards/left.</span><span class="lang-fr"><b>Les conditions de l'offre changent</b> → toute la courbe SE DÉPLACE : hausse de l'offre = vers la droite (plus offert au même prix) ; baisse = vers la gauche.</span></div>
+</div>
+<h3><span class="lang-en">Conditions of supply (the apple orchard scenarios)</span><span class="lang-fr">Conditions de l'offre (les scénarios du verger de pommes)</span></h3>
+<div class="lang-en"><p>Anything that changes the producers' <b>costs or profitability</b> at the same price shifts the curve:</p>
+<ul><li><b>Subsidy</b> from the government → costs ↓ → supply increases (shift right)</li>
+<li><b>Bad weather / disaster</b> (snowstorm damages trees) → supply decreases (shift left)</li>
+<li><b>Cheaper / better technology</b> (irrigation system) → costs ↓ → supply increases</li>
+<li><b>Another product becomes more profitable</b> (pears!) → producers switch → supply of apples decreases</li>
+<li><b>Higher taxes on profit</b> → supply decreases</li>
+<li><b>Lower rent / lower input costs</b> → supply increases</li></ul></div>
+<div class="lang-fr"><p>Tout ce qui change les <b>coûts ou la rentabilité</b> au même prix déplace la courbe :</p>
+<ul><li><b>Subvention</b> de l'État → coûts ↓ → offre augmente (vers la droite)</li>
+<li><b>Mauvais temps / catastrophe</b> (tempête de neige) → offre diminue (vers la gauche)</li>
+<li><b>Technologie moins chère / meilleure</b> (irrigation) → coûts ↓ → offre augmente</li>
+<li><b>Un autre produit devient plus rentable</b> (les poires !) → les producteurs changent → l'offre de pommes diminue</li>
+<li><b>Hausse des impôts sur le profit</b> → offre diminue</li>
+<li><b>Loyer plus bas / coûts plus bas</b> → offre augmente</li></ul></div>
+</div>
+<div class="card">
+<h2>🎯 Practice — <span class="lang-en">apple orchard: what happens to supply?</span><span class="lang-fr">le verger : que devient l'offre ?</span></h2>
+<p><span class="lang-en">You sell 100 apples/week at 1 €. For each scenario: does your supply increase or decrease?</span><span class="lang-fr">Tu vends 100 pommes/semaine à 1 €. Pour chaque scénario : ton offre augmente ou diminue ?</span></p>
+<div id="supplyQuiz"></div>
+<div class="score" id="supplyScore"></div>
+</div>
+</section>
+
+<!-- ============ EQUILIBRIUM ============ -->
+<section id="equi">
+<div class="card"><span class="tag" style="background:var(--teal-l);color:var(--teal)">DEMAND &amp; SUPPLY · 3</span>
+<h2><span class="lang-en">Market equilibrium</span><span class="lang-fr">L'équilibre du marché</span></h2>
+<div class="lang-en"><p>The price of something always depends on <b>two sides</b>: BUYERS (how high is demand, how much are people willing to pay?) and SELLERS (how high is supply, at what prices are suppliers willing to produce?). For each good there is a <b>schedule</b> — the table showing the quantity demanded / supplied at each price. When we combine the demand curve and the supply curve, we find the <b>market price = equilibrium price</b>.</p></div>
+<div class="lang-fr"><p>Le prix dépend toujours de <b>deux côtés</b> : ACHETEURS (quelle demande, combien sont-ils prêts à payer ?) et VENDEURS (quelle offre, à quels prix veulent-ils produire ?). Pour chaque bien il existe un <b>tableau (schedule)</b> montrant la quantité demandée / offerte à chaque prix. En combinant courbe de demande et courbe d'offre, on trouve le <b>prix du marché = prix d'équilibre</b>.</p></div>
+<div class="def" style="border-color:var(--green);background:var(--green-l)"><b>Market equilibrium</b> — <span class="lang-en">a market is in equilibrium where <b>market demand = market supply</b>. At the equilibrium price, the quantity consumers wish to buy is exactly equal to the quantity producers wish to sell. <b>There are no pressures to change the price.</b></span><span class="lang-fr">un marché est à l'équilibre quand <b>demande = offre</b>. Au prix d'équilibre, la quantité que les consommateurs veulent acheter est exactement égale à la quantité que les producteurs veulent vendre. <b>Aucune pression pour changer le prix.</b></span></div>
+<svg viewBox="0 0 520 330" xmlns="http://www.w3.org/2000/svg">
+<line x1="60" y1="280" x2="490" y2="280" stroke="#1e293b" stroke-width="2"/>
+<line x1="60" y1="280" x2="60" y2="20" stroke="#1e293b" stroke-width="2"/>
+<text x="275" y="315" font-size="13" text-anchor="middle">Quantity</text>
+<text x="22" y="150" font-size="13" transform="rotate(-90 22 150)" text-anchor="middle">Price</text>
+<path d="M 100 50 L 430 250" stroke="#dc2626" stroke-width="2.5"/>
+<text x="440" y="262" font-size="14" fill="#dc2626" font-weight="bold">D</text>
+<path d="M 100 250 L 430 50" stroke="#2563eb" stroke-width="2.5"/>
+<text x="440" y="50" font-size="14" fill="#2563eb" font-weight="bold">S</text>
+<circle cx="265" cy="150" r="6" fill="#16a34a"/>
+<line x1="60" y1="150" x2="265" y2="150" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5 4"/>
+<line x1="265" y1="150" x2="265" y2="280" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="38" y="155" font-size="13" fill="#16a34a" font-weight="bold">Pe</text>
+<text x="260" y="298" font-size="13" fill="#16a34a" font-weight="bold">Qe</text>
+<text x="300" y="140" font-size="12.5" fill="#16a34a" font-weight="bold">Equilibrium: Qd = Qs</text>
+</svg>
+<h3><span class="lang-en">Disequilibrium: surplus vs shortage</span><span class="lang-fr">Déséquilibre : surplus vs pénurie</span></h3>
+<div class="lang-en"><p>A market is in <b>disequilibrium</b> if the quantity consumers wish to buy does not match the quantity producers wish to sell.</p></div>
+<div class="lang-fr"><p>Un marché est en <b>déséquilibre</b> si la quantité que les consommateurs veulent acheter ne correspond pas à celle que les producteurs veulent vendre.</p></div>
+<div class="grid2">
+<div class="warn"><b><span class="lang-en">Price ABOVE the market price → EXCESS SUPPLY (= surplus)</span><span class="lang-fr">Prix AU-DESSUS du prix du marché → OFFRE EXCESSIVE (= surplus)</span></b><br><span class="lang-en">More supply than demand. The price will need to <b>fall</b> to persuade consumers to buy more and for producers to contract their supply.</span><span class="lang-fr">Plus d'offre que de demande. Le prix devra <b>baisser</b> pour convaincre les consommateurs d'acheter plus et pour que les producteurs réduisent l'offre.</span></div>
+<div class="warn" style="border-color:var(--red);background:var(--red-l)"><b><span class="lang-en">Price BELOW the market price → EXCESS DEMAND (= shortage)</span><span class="lang-fr">Prix EN-DESSOUS du prix du marché → DEMANDE EXCESSIVE (= pénurie)</span></b><br><span class="lang-en">The price is set too low. Producers will <b>raise prices</b>; at higher prices demand is lower and supply is encouraged → back to equilibrium.</span><span class="lang-fr">Le prix est trop bas. Les producteurs vont <b>augmenter les prix</b> ; à prix plus haut la demande baisse et l'offre est encouragée → retour à l'équilibre.</span></div>
+</div>
+<h3><span class="lang-en">What changes the equilibrium price?</span><span class="lang-fr">Qu'est-ce qui change le prix d'équilibre ?</span></h3>
+<div class="warn" style="border-color:var(--purple);background:var(--purple-l)"><span class="lang-en">⚠️ <b>Only changes in the demand or supply conditions</b> (= a SHIFT of one of the curves) will cause the equilibrium price and quantity to change!</span><span class="lang-fr">⚠️ <b>Seuls des changements des conditions de demande ou d'offre</b> (= un DÉPLACEMENT d'une courbe) changent le prix et la quantité d'équilibre !</span></div>
+<table>
+<tr><th><span class="lang-en">Change</span><span class="lang-fr">Changement</span></th><th><span class="lang-en">Effect on price</span><span class="lang-fr">Effet sur le prix</span></th></tr>
+<tr><td><span class="lang-en">Demand rises (shift right)</span><span class="lang-fr">La demande monte (vers la droite)</span></td><td><span class="lang-en">Excess demand at the old price → price <b>rises</b> ↑</span><span class="lang-fr">Demande excessive à l'ancien prix → le prix <b>monte</b> ↑</span></td></tr>
+<tr><td><span class="lang-en">Supply falls (shift left)</span><span class="lang-fr">L'offre baisse (vers la gauche)</span></td><td><span class="lang-en">Excess demand → price <b>rises</b> ↑</span><span class="lang-fr">Demande excessive → le prix <b>monte</b> ↑</span></td></tr>
+<tr><td><span class="lang-en">Demand falls (shift left)</span><span class="lang-fr">La demande baisse (vers la gauche)</span></td><td><span class="lang-en">Excess supply → price <b>falls</b> ↓</span><span class="lang-fr">Offre excessive → le prix <b>baisse</b> ↓</span></td></tr>
+<tr><td><span class="lang-en">Supply rises (shift right)</span><span class="lang-fr">L'offre monte (vers la droite)</span></td><td><span class="lang-en">Excess supply → price <b>falls</b> ↓</span><span class="lang-fr">Offre excessive → le prix <b>baisse</b> ↓</span></td></tr>
+</table>
+<div class="tip"><span class="lang-en">📰 Real example from your course: in Nov 2025, EU raw milk prices fell 2.9% in one month — increased raw milk production (supply ↑), slow demand and big stock inventories put pressure on prices. Supply up + demand slow → price falls!</span><span class="lang-fr">📰 Exemple réel du cours : en nov. 2025, le prix du lait cru dans l'UE a baissé de 2,9 % en un mois — production accrue (offre ↑), demande faible et gros stocks ont fait pression sur les prix. Offre ↑ + demande faible → le prix baisse !</span></div>
+</div>
+<div class="card">
+<h2>🕹️ <span class="lang-en">Play with the price — surplus &amp; shortage live</span><span class="lang-fr">Joue avec le prix — surplus &amp; pénurie en direct</span></h2>
+<p><span class="lang-en">Drag the price. This is the same market as the schedule below (Qd = 80 − 10×P, Qs = 10×P). Watch what happens away from equilibrium:</span><span class="lang-fr">Bouge le prix. C'est le même marché que le tableau plus bas (Qd = 80 − 10×P, Qs = 10×P). Regarde ce qui se passe hors équilibre :</span></p>
+<input type="range" id="pSlider" min="1" max="7" step="0.5" value="5.5" oninput="drawEq()">
+<p id="eqReadout" style="font-weight:700;font-size:1.02rem"></p>
+<svg id="eqChart" viewBox="0 0 520 340"></svg>
+</div>
+<div class="card">
+<h2>🎯 Practice — equilibrium</h2>
+<div id="equiQuiz"></div>
+<div class="score" id="equiScore"></div>
+</div>
+
+<div class="card">
+<h2>🎯 Practice — <span class="lang-en">find the equilibrium in a SCHEDULE (table)</span><span class="lang-fr">trouve l'équilibre dans un TABLEAU (schedule)</span></h2>
+<p><span class="lang-en">Market schedule for a good:</span><span class="lang-fr">Tableau du marché d'un bien :</span></p>
+<table>
+<tr><th><span class="lang-en">Price (€)</span><span class="lang-fr">Prix (€)</span></th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+<tr><th><span class="lang-en">Quantity demanded</span><span class="lang-fr">Quantité demandée</span></th><td>70</td><td>60</td><td>50</td><td>40</td><td>30</td><td>20</td></tr>
+<tr><th><span class="lang-en">Quantity supplied</span><span class="lang-fr">Quantité offerte</span></th><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+</table>
+<p>a) <span class="lang-en">Equilibrium price?</span><span class="lang-fr">Prix d'équilibre ?</span> <input type="number" id="eqs1"> € <button class="btn" onclick="chkNum('eqs1',4,'At 4 €: Qd = Qs = 40 → no pressure to change the price.')">✓</button><span class="fb" id="eqs1fb"></span><div class="expl" id="eqs1expl"></div></p>
+<p>b) <span class="lang-en">Equilibrium quantity?</span><span class="lang-fr">Quantité d'équilibre ?</span> <input type="number" id="eqs2"> <button class="btn" onclick="chkNum('eqs2',40,'')">✓</button><span class="fb" id="eqs2fb"></span></p>
+<div id="schedQuiz"></div>
+<div class="score" id="schedScore"></div>
+</div>
+</section>
+
+<!-- ============ BIG QUIZ ============ -->
+<section id="quiz">
+<div class="card">
+<h2>🏆 <span class="lang-en">Final quiz — everything mixed</span><span class="lang-fr">Quiz final — tout mélangé</span></h2>
+<p><span class="lang-en">20 questions covering the whole test.</span><span class="lang-fr">20 questions couvrant tout le test.</span></p>
+<div id="bigQuiz"></div>
+<div class="score" id="bigScore"></div>
+<button class="btn" onclick="renderBig()"><span class="lang-en">↻ Restart quiz</span><span class="lang-fr">↻ Recommencer</span></button>
+</div>
+</section>
+
+<!-- ============ CHECKLIST ============ -->
+<section id="check">
+<div class="card">
+<h2>✅ <span class="lang-en">Checklist — the official learning objectives from your course</span><span class="lang-fr">Checklist — les objectifs officiels de ton cours</span></h2>
+<div class="progressbar"><div id="pbar"></div></div>
+<p id="ptext" style="font-weight:700"></p>
+<div id="checklist"></div>
+</div>
+</section>
+
+</main>
+<footer><span class="lang-en">S4 Economics — revision site · based on the S4 Class Notebook (Content Library)</span><span class="lang-fr">Éco S4 — site de révision · basé sur le Class Notebook S4 (Content Library)</span></footer>
+
+<script>
+// ===== NAV =====
+const tabs=[["home","🏠 Home","🏠 Accueil"],["sectors","🌾 Sectors","🌾 Secteurs"],["costs","💰 Costs & Profit","💰 Coûts & Profit"],["be","⚖️ Break-even","⚖️ Seuil"],["demand","📉 Demand","📉 Demande"],["supply","📈 Supply","📈 Offre"],["equi","🎯 Equilibrium","🎯 Équilibre"],["quiz","🏆 Quiz","🏆 Quiz"],["check","✅ Checklist","✅ Checklist"]];
+const nav=document.getElementById('nav');
+tabs.forEach(([id,en,fr],i)=>{const b=document.createElement('button');b.innerHTML=`<span class="lang-en">${en}</span><span class="lang-fr">${fr}</span>`;b.onclick=()=>show(id);b.id='tab-'+id;if(i==0)b.classList.add('active');nav.appendChild(b);});
+function show(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');window.scrollTo(0,0);}
+// ===== LANG =====
+function toggleLang(){document.body.classList.toggle('fr');document.getElementById('langBtn').textContent=document.body.classList.contains('fr')?'🇬🇧 English':'🇫🇷 Français';}
+// ===== GENERIC MCQ RENDERER =====
+function renderMCQ(containerId,scoreId,questions,opts){
+ const c=document.getElementById(containerId);c.innerHTML='';let score=0,done=0;
+ questions.forEach((q,qi)=>{
+  const box=document.createElement('div');box.className='qbox';
+  box.innerHTML=`<div class="q">${qi+1}. <span class="lang-en">${q.en}</span><span class="lang-fr">${q.fr}</span></div>`;
+  const options=q.opts||opts;
+  options.forEach((o,oi)=>{
+   const b=document.createElement('button');b.className='opt';
+   b.innerHTML=`<span class="lang-en">${o.en}</span><span class="lang-fr">${o.fr}</span>`;
+   b.onclick=()=>{if(box.dataset.done)return;box.dataset.done=1;done++;
+    if(oi===q.a){b.classList.add('correct');score++;}else{b.classList.add('wrong');box.querySelectorAll('.opt')[q.a].classList.add('correct');}
+    if(q.x){const e=document.createElement('div');e.className='expl show';e.innerHTML=`<span class="lang-en">${q.x}</span><span class="lang-fr">${q.xf||q.x}</span>`;box.appendChild(e);}
+    document.getElementById(scoreId).innerHTML=`Score: ${score}/${done}`+(done===questions.length?` — ''`:'');};
+   box.appendChild(b);});
+  c.appendChild(box);});
+}
+// ===== SECTOR QUIZ =====
+const secOpts=[{en:"🌾 Primary",fr:"🌾 Primaire"},{en:"🏭 Secondary",fr:"🏭 Secondaire"},{en:"🛎️ Tertiary",fr:"🛎️ Tertiaire"}];
+const secQ=[
+ {en:"Farming",fr:"Agriculture",a:0},{en:"Television broadcasting",fr:"Diffusion télévisée",a:2},
+ {en:"Shipbuilding",fr:"Construction navale",a:1},{en:"Health service",fr:"Services de santé",a:2},
+ {en:"Advertising",fr:"Publicité",a:2},{en:"Film-making",fr:"Production de films",a:2},
+ {en:"Ford Motor / Audi (car manufacturing)",fr:"Ford / Audi (fabrication de voitures)",a:1},
+ {en:"Google (online services)",fr:"Google (services en ligne)",a:2},
+ {en:"PepsiCo (drinks & food production)",fr:"PepsiCo (production de boissons & aliments)",a:1},
+ {en:"DHL (delivery service)",fr:"DHL (service de livraison)",a:2},
+ {en:"Pfizer (manufactures medicines)",fr:"Pfizer (fabrique des médicaments)",a:1},
+ {en:"McDonald's (restaurant service)",fr:"McDonald's (service de restauration)",a:2}];
+secQ.forEach(q=>q.opts=secOpts);
+renderMCQ('sectorQuiz','sectorScore',secQ);
+// ===== FIXED/VARIABLE QUIZ =====
+const fvOpts=[{en:"Fixed cost",fr:"Coût fixe"},{en:"Variable cost",fr:"Coût variable"}];
+const fvQ=[
+ {en:"Rent of the shop",fr:"Loyer du magasin",a:0},
+ {en:"Fruit: apples, oranges, bananas, mango…",fr:"Fruits : pommes, oranges, bananes, mangue…",a:1},
+ {en:"Paper cups and lids",fr:"Gobelets en papier et couvercles",a:1},
+ {en:"Workers' wages (paid monthly, no matter how much is sold)",fr:"Salaires des employés (mensuels, peu importe les ventes)",a:0},
+ {en:"Insurance",fr:"Assurance",a:0},
+ {en:"Electricity for lights & heating of the shop",fr:"Électricité (lumières) & chauffage du magasin",a:0},
+ {en:"Coffee and milk for one coffee",fr:"Café et lait pour un café",a:1},
+ {en:"Telephone and internet charges",fr:"Téléphone et internet",a:0},
+ {en:"Advertising",fr:"Publicité",a:0},
+ {en:"Packaging",fr:"Emballages",a:1}];
+fvQ.forEach(q=>q.opts=fvOpts);
+renderMCQ('fvQuiz','fvScore',fvQ);
+// ===== ASTRID =====
+function near(v,t){return Math.abs(v-t)<0.51;}
+function checkAstrid(){
+ const avo=parseFloat(document.getElementById('avoCost').value);
+ const R=15e2*4+800*14; // 17200
+ const F=1500+2500+50+80+700; // 4830
+ const hasAvo=!isNaN(avo);
+ const V=1500*0.1+1500*1+(hasAvo?800*avo:NaN);
+ const mark=(id,target)=>{const v=parseFloat(document.getElementById(id).value);const el=document.getElementById(id+'fb');
+  if(isNaN(target)){el.innerHTML='<span class="fb">⚠️ avocado € ?</span>';return;}
+  el.innerHTML=isNaN(v)?'':near(v,target)?'<span class="fb ok">✔ '+(Math.round(target*100)/100)+'</span>':'<span class="fb no">✘</span>';};
+ mark('astR',R);mark('astF',F);mark('astV',V);mark('astP',R-(F+V));mark('astC',F);
+ const ex=document.getElementById('astridExpl');ex.classList.add('show');
+ ex.innerHTML=`<span class="lang-en"><b>Method:</b> Revenue = 1500×4 + 800×14 = 17 200 €. Fixed = rent+wage+phone+insurance+electricity = 4 830 € (these she pays even if closed!). Variable = cups 1500×0,10 + coffee 1500×1 ${hasAvo?'+ toasts 800×'+avo:'+ toasts 800×(your sheet value)'} . Profit = Revenue − Total costs.</span><span class="lang-fr"><b>Méthode :</b> Revenu = 1500×4 + 800×14 = 17 200 €. Fixes = loyer+salaire+téléphone+assurance+électricité = 4 830 € (à payer même si fermé !). Variables = gobelets 1500×0,10 + café 1500×1 ${hasAvo?'+ toasts 800×'+avo:'+ toasts 800×(valeur de ta feuille)'} . Profit = Revenu − Coûts totaux.</span>`;
+}
+// ===== BE CALC (live chart) =====
+function calcBE(){
+ const FC=parseFloat(document.getElementById('cFC').value),P=parseFloat(document.getElementById('cP').value),VC=parseFloat(document.getElementById('cVC').value);
+ const o=document.getElementById('beOut');o.style.display='block';
+ const svg=document.getElementById('beChart');
+ if(isNaN(FC)||isNaN(P)||isNaN(VC)){o.innerHTML='…';svg.innerHTML='';return;}
+ if(P<=VC){o.innerHTML='⚠️ <span class="lang-en">Price must be higher than the variable cost per unit, otherwise you can never break even!</span><span class="lang-fr">Le prix doit être supérieur au coût variable unitaire, sinon impossible d\'atteindre le seuil !</span>';svg.innerHTML='';return;}
+ const be=FC/(P-VC);
+ o.innerHTML=`<b>BE = ${FC} ÷ (${P} − ${VC}) = ${Math.round(be*100)/100}</b><br><span class="lang-en">→ The company must sell <b>${Math.ceil(be)}</b> units to cover all its costs. Below = loss · above = profit.</span><span class="lang-fr">→ L'entreprise doit vendre <b>${Math.ceil(be)}</b> unités pour couvrir tous ses coûts. En-dessous = perte · au-dessus = profit.</span>`;
+ // chart
+ const maxQ=be*2, maxY=Math.max(P*maxQ, FC+VC*maxQ)*1.08;
+ const X=q=>60+(q/maxQ)*430, Y=v=>280-(v/maxY)*250;
+ const fcY=Y(FC), tc0=Y(FC), tc1=Y(FC+VC*maxQ), tr1=Y(P*maxQ), bex=X(be), bey=Y(P*be);
+ svg.innerHTML=`
+ <polygon points="60,280 60,${tc0} ${bex},${bey} ${bex},280" fill="rgba(248,113,113,.10)"/>
+ <polygon points="${bex},${bey} 490,${tr1} 490,${tc1}" fill="rgba(74,222,128,.12)"/>
+ <line x1="60" y1="280" x2="530" y2="280" stroke="#8fa3c0" stroke-width="2"/>
+ <line x1="60" y1="280" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
+ <line x1="60" y1="${fcY}" x2="490" y2="${fcY}" stroke="#c084fc" stroke-width="2.5"/>
+ <line x1="60" y1="${tc0}" x2="490" y2="${tc1}" stroke="#fb923c" stroke-width="2.5"/>
+ <line x1="60" y1="280" x2="490" y2="${tr1}" stroke="#4ade80" stroke-width="2.5"/>
+ <circle cx="${bex}" cy="${bey}" r="6" fill="#f87171"/>
+ <line x1="${bex}" y1="${bey}" x2="${bex}" y2="280" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5 4"/>
+ <text x="${bex}" y="298" font-size="12" fill="#f87171" text-anchor="middle" font-weight="bold">${Math.ceil(be)}</text>
+ <text x="${bex}" y="${bey-12}" font-size="12" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN</text>
+ <text x="495" y="${fcY+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>
+ <text x="495" y="${tc1+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>
+ <text x="495" y="${tr1+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>
+ <text x="${X(be*0.4)}" y="${Y(FC*0.3)}" font-size="11" fill="#f87171">LOSS</text>
+ <text x="${X(be*1.6)}" y="${Y(P*be*1.25)}" font-size="11" fill="#4ade80">PROFIT</text>
+ <text x="290" y="320" font-size="12" fill="#9fb2cc" text-anchor="middle">units</text>`;
+}
+calcBE();
+// ===== NUMERIC CHECK =====
+function chkNum(id,target,expl){
+ const v=parseFloat(document.getElementById(id).value);const fb=document.getElementById(id+'fb');
+ if(isNaN(v)){fb.textContent='';return;}
+ const ok=near(v,target);fb.innerHTML=ok?'<span class="fb ok">✔ Correct!</span>':'<span class="fb no">✘ '+ (document.body.classList.contains('fr')?'Réessaie':'Try again') +'</span>';
+ const e=document.getElementById(id+'expl');if(e&&expl&&ok){e.classList.add('show');e.textContent=expl;}
+}
+// ===== DEMAND SHIFT QUIZ =====
+const shiftOpts=[{en:"Demand shifts RIGHT (increase)",fr:"La demande va à DROITE (hausse)"},{en:"Demand shifts LEFT (decrease)",fr:"La demande va à GAUCHE (baisse)"},{en:"Movement ALONG the curve (no shift)",fr:"Mouvement SUR la courbe (pas de déplacement)"}];
+const demQ=[
+ {en:"Vienna's population grows by 50 000 (migration). Market: housing.",fr:"La population de Vienne augmente de 50 000 (migration). Marché : logement.",a:0,x:"More people → more demand at every price → shift right.",xf:"Plus de gens → plus de demande à chaque prix → vers la droite."},
+ {en:"2020 lockdowns: fewer people go to the cinema. Market: popcorn.",fr:"Confinements 2020 : moins de gens au cinéma. Marché : pop-corn.",a:1,x:"Popcorn is a COMPLEMENT of cinema tickets → demand falls with it.",xf:"Le pop-corn est un COMPLÉMENT du cinéma → sa demande baisse aussi."},
+ {en:"Incomes rise. Market: premium coffee (normal good).",fr:"Les revenus montent. Marché : café premium (bien normal).",a:0,x:"Normal good + higher income → demand increases.",xf:"Bien normal + revenu plus élevé → la demande augmente."},
+ {en:"Incomes rise. Market: instant coffee (inferior good).",fr:"Les revenus montent. Marché : café instantané (bien inférieur).",a:1,x:"Inferior good: when income rises we substitute it with better alternatives → demand falls.",xf:"Bien inférieur : quand le revenu monte, on le remplace par mieux → demande baisse."},
+ {en:"The price of ice cream falls from 5€ to 3€ per scoop. Market: ice cream.",fr:"Le prix de la glace passe de 5 € à 3 €. Marché : glace.",a:2,x:"Only the good's own price changed → extension along the curve, NOT a shift!",xf:"Seul le prix du bien change → extension sur la courbe, PAS un déplacement !"},
+ {en:"Unusually early cold spell in November. Market: winter clothing.",fr:"Vague de froid très tôt en novembre. Marché : vêtements d'hiver.",a:0,x:"'Other factors' (weather) → demand shifts right.",xf:"« Autres facteurs » (météo) → demande vers la droite."},
+ {en:"Butter prices double. Market: margarine.",fr:"Le prix du beurre double. Marché : margarine.",a:0,x:"Margarine is a SUBSTITUTE of butter; price of substitute rises → demand for margarine rises.",xf:"La margarine est un SUBSTITUT du beurre ; prix du substitut ↑ → demande de margarine ↑."},
+ {en:"New dietary trends: people prefer Greek/full-fat yogurt. Market: low-fat yogurt.",fr:"Nouvelles tendances : les gens préfèrent le yaourt grec/entier. Marché : yaourt allégé.",a:1,x:"Change in tastes against the product → demand falls.",xf:"Changement de goûts contre le produit → demande baisse."},
+ {en:"A new tax on cigarettes is announced for next month. Market: cigarettes TODAY.",fr:"Une nouvelle taxe sur les cigarettes est annoncée pour le mois prochain. Marché : cigarettes AUJOURD'HUI.",a:0,x:"Expectations of future price rises → bulk buying now → shift right.",xf:"Anticipation de hausse de prix → achats massifs maintenant → vers la droite."}];
+demQ.forEach(q=>q.opts=shiftOpts);
+renderMCQ('demShiftQuiz','demShiftScore',demQ);
+// ===== SUPPLY QUIZ =====
+const supOpts=[{en:"Supply INCREASES (shift right)",fr:"L'offre AUGMENTE (vers la droite)"},{en:"Supply DECREASES (shift left)",fr:"L'offre DIMINUE (vers la gauche)"}];
+const supQ=[
+ {en:"The government gives you a subsidy of 300 €/month for your apples.",fr:"L'État te donne une subvention de 300 €/mois pour tes pommes.",a:0,x:"Subsidy lowers your costs → more willing/able to supply.",xf:"La subvention baisse tes coûts → offre plus grande."},
+ {en:"A sudden snowstorm in April seriously damages your apple trees.",fr:"Une tempête de neige en avril endommage gravement tes pommiers.",a:1,x:"Disaster destroys production capacity → supply falls.",xf:"Catastrophe → capacité de production détruite → offre baisse."},
+ {en:"The new irrigation system gets much cheaper, reducing your farming costs.",fr:"Le système d'irrigation devient bien moins cher, réduisant tes coûts.",a:0,x:"Cheaper technology / lower costs → supply increases.",xf:"Technologie moins chère / coûts plus bas → offre augmente."},
+ {en:"Farming pears becomes much more profitable than apples (2 €/pear, same costs).",fr:"Cultiver des poires devient bien plus rentable que les pommes (2 €/poire, mêmes coûts).",a:1,x:"Producers switch resources to the more profitable product → apple supply falls.",xf:"Les producteurs passent au produit plus rentable → l'offre de pommes baisse."},
+ {en:"The government raises the tax rate on profits.",fr:"L'État augmente l'impôt sur les profits.",a:1,x:"Higher taxes → less profitable → supply decreases.",xf:"Plus d'impôts → moins rentable → offre diminue."},
+ {en:"The rent for your field is now lower — you can even rent a second field!",fr:"Le loyer de ton champ baisse — tu peux même louer un deuxième champ !",a:0,x:"Lower costs + more capacity → supply increases.",xf:"Coûts plus bas + plus de capacité → offre augmente."}];
+supQ.forEach(q=>q.opts=supOpts);
+renderMCQ('supplyQuiz','supplyScore',supQ);
+// ===== EQUILIBRIUM QUIZ =====
+const eqQ=[
+ {en:"At the equilibrium price…",fr:"Au prix d'équilibre…",a:1,opts:[{en:"…there is always a small surplus",fr:"…il y a toujours un petit surplus"},{en:"…quantity demanded = quantity supplied",fr:"…quantité demandée = quantité offerte"},{en:"…producers make no profit",fr:"…les producteurs ne font aucun profit"}],x:"And there are no pressures to change the price.",xf:"Et il n'y a aucune pression pour changer le prix."},
+ {en:"The price is set ABOVE the market price. What happens?",fr:"Le prix est fixé AU-DESSUS du prix du marché. Que se passe-t-il ?",a:0,opts:[{en:"Excess supply (surplus) → pressure on the price to fall",fr:"Offre excessive (surplus) → pression à la baisse sur le prix"},{en:"Excess demand (shortage) → pressure on the price to rise",fr:"Demande excessive (pénurie) → pression à la hausse"},{en:"Nothing, the market stays in equilibrium",fr:"Rien, le marché reste à l'équilibre"}]},
+ {en:"The price is set BELOW the market price. What happens?",fr:"Le prix est fixé EN-DESSOUS du prix du marché. Que se passe-t-il ?",a:1,opts:[{en:"Excess supply (surplus) → price falls",fr:"Offre excessive (surplus) → le prix baisse"},{en:"Excess demand (shortage) → price rises",fr:"Demande excessive (pénurie) → le prix monte"},{en:"The demand curve shifts left",fr:"La courbe de demande va à gauche"}]},
+ {en:"Market demand RISES (curve shifts right). Equilibrium price…",fr:"La demande de marché MONTE (courbe vers la droite). Le prix d'équilibre…",a:0,opts:[{en:"rises ↑",fr:"monte ↑"},{en:"falls ↓",fr:"baisse ↓"},{en:"stays the same",fr:"reste pareil"}]},
+ {en:"Market supply RISES (curve shifts right). Equilibrium price…",fr:"L'offre de marché MONTE (courbe vers la droite). Le prix d'équilibre…",a:1,opts:[{en:"rises ↑",fr:"monte ↑"},{en:"falls ↓",fr:"baisse ↓"},{en:"stays the same",fr:"reste pareil"}],x:"Like the EU milk example: more production + slow demand → prices fell.",xf:"Comme l'exemple du lait UE : plus de production + demande faible → les prix ont baissé."},
+ {en:"What causes the equilibrium price and quantity to change?",fr:"Qu'est-ce qui fait changer le prix et la quantité d'équilibre ?",a:2,opts:[{en:"A movement along the demand curve",fr:"Un mouvement sur la courbe de demande"},{en:"Consumers wanting a lower price",fr:"Les consommateurs qui veulent un prix plus bas"},{en:"Only changes in demand or supply conditions (shifts)",fr:"Seulement des changements des conditions de demande ou d'offre (déplacements)"}]}];
+renderMCQ('equiQuiz','equiScore',eqQ);
+// ===== BIG QUIZ =====
+const bigQ=[
+ {en:"Which sector does 'manufacturing' belong to?",fr:"À quel secteur appartient la « manufacture » ?",a:1,opts:[{en:"Primary",fr:"Primaire"},{en:"Secondary",fr:"Secondaire"},{en:"Tertiary",fr:"Tertiaire"}]},
+ {en:"A large tertiary sector usually indicates…",fr:"Un grand secteur tertiaire indique généralement…",a:0,opts:[{en:"a developed economy",fr:"une économie développée"},{en:"a less developed economy",fr:"une économie moins développée"},{en:"nothing about development",fr:"rien sur le développement"}]},
+ {en:"The quaternary sector (IT, knowledge services) is counted as part of…",fr:"Le secteur quaternaire (IT, savoir) est compté dans…",a:2,opts:[{en:"the primary sector",fr:"le secteur primaire"},{en:"the secondary sector",fr:"le secteur secondaire"},{en:"the tertiary sector",fr:"le secteur tertiaire"}]},
+ {en:"Revenue =",fr:"Revenu =",a:1,opts:[{en:"price − costs",fr:"prix − coûts"},{en:"price × quantity sold",fr:"prix × quantité vendue"},{en:"fixed + variable costs",fr:"coûts fixes + variables"}]},
+ {en:"Which is a VARIABLE cost for a bakery?",fr:"Lequel est un coût VARIABLE pour une boulangerie ?",a:2,opts:[{en:"Rent",fr:"Le loyer"},{en:"Insurance",fr:"L'assurance"},{en:"Flour",fr:"La farine"}]},
+ {en:"Total costs =",fr:"Coûts totaux =",a:0,opts:[{en:"fixed costs + (variable cost/unit × quantity)",fr:"coûts fixes + (coût variable/unité × quantité)"},{en:"fixed costs × quantity",fr:"coûts fixes × quantité"},{en:"revenue − profit… always",fr:"revenu − profit… toujours"}]},
+ {en:"Shareholders are…",fr:"Les actionnaires sont…",a:1,opts:[{en:"the workers of a company",fr:"les employés d'une entreprise"},{en:"the owners of a company",fr:"les propriétaires d'une entreprise"},{en:"the customers",fr:"les clients"}]},
+ {en:"Profit =",fr:"Profit =",a:2,opts:[{en:"revenue + costs",fr:"revenu + coûts"},{en:"costs − revenue",fr:"coûts − revenu"},{en:"revenue − total costs",fr:"revenu − coûts totaux"}]},
+ {en:"Break-even output =",fr:"Seuil de rentabilité =",a:0,opts:[{en:"fixed costs ÷ (price − variable cost per unit)",fr:"coûts fixes ÷ (prix − coût variable unitaire)"},{en:"total costs ÷ price",fr:"coûts totaux ÷ prix"},{en:"fixed costs × (price − variable cost)",fr:"coûts fixes × (prix − coût variable)"}]},
+ {en:"FC = 6000 €, price = 8 €, VC = 5 €/unit. Break-even =",fr:"CF = 6000 €, prix = 8 €, CV = 5 €/unité. Seuil =",a:1,opts:[{en:"750 units",fr:"750 unités"},{en:"2000 units",fr:"2000 unités"},{en:"1200 units",fr:"1200 unités"}],x:"6000 ÷ (8−5) = 6000 ÷ 3 = 2000.",xf:"6000 ÷ (8−5) = 6000 ÷ 3 = 2000."},
+ {en:"On a break-even chart, the BE point is where…",fr:"Sur un graphique, le seuil de rentabilité est là où…",a:2,opts:[{en:"fixed costs cross variable costs",fr:"les coûts fixes croisent les coûts variables"},{en:"the demand curve crosses the supply curve",fr:"la demande croise l'offre"},{en:"total revenue crosses total costs",fr:"le revenu total croise les coûts totaux"}]},
+ {en:"Producing LESS than the break-even output means…",fr:"Produire MOINS que le seuil signifie…",a:0,opts:[{en:"a loss",fr:"une perte"},{en:"a profit",fr:"un profit"},{en:"break-even",fr:"l'équilibre"}]},
+ {en:"Demand requires a desire AND…",fr:"La demande exige un désir ET…",a:1,opts:[{en:"a low price",fr:"un prix bas"},{en:"purchasing power (ability to buy)",fr:"le pouvoir d'achat (capacité d'acheter)"},{en:"advertising",fr:"de la publicité"}]},
+ {en:"The law of demand says:",fr:"La loi de la demande dit :",a:2,opts:[{en:"price ↑ → quantity demanded ↑",fr:"prix ↑ → quantité demandée ↑"},{en:"price has no effect on quantity",fr:"le prix n'a pas d'effet sur la quantité"},{en:"price ↑ → quantity demanded ↓ (inverse relationship)",fr:"prix ↑ → quantité demandée ↓ (relation inverse)"}]},
+ {en:"The demand curve slopes… and the supply curve slopes…",fr:"La courbe de demande… et la courbe d'offre…",a:0,opts:[{en:"downward / upward",fr:"descend / monte"},{en:"upward / downward",fr:"monte / descend"},{en:"both upward",fr:"les deux montent"}]},
+ {en:"When ONLY the price of the good changes, we see…",fr:"Quand SEUL le prix du bien change, on voit…",a:1,opts:[{en:"a shift of the curve",fr:"un déplacement de la courbe"},{en:"a movement along the curve (extension/contraction)",fr:"un mouvement sur la courbe (extension/contraction)"},{en:"a new equilibrium without any movement",fr:"un nouvel équilibre sans mouvement"}]},
+ {en:"Butter and margarine are… ; skis and ski shoes are…",fr:"Beurre et margarine sont… ; skis et chaussures de ski sont…",a:2,opts:[{en:"complements / substitutes",fr:"compléments / substituts"},{en:"both substitutes",fr:"tous les deux substituts"},{en:"substitutes / complements",fr:"substituts / compléments"}]},
+ {en:"Bus tickets and cheap wine are examples of…",fr:"Les tickets de bus et le vin bon marché sont des exemples de…",a:0,opts:[{en:"inferior goods (income ↑ → demand ↓)",fr:"biens inférieurs (revenu ↑ → demande ↓)"},{en:"normal goods",fr:"biens normaux"},{en:"complements",fr:"compléments"}]},
+ {en:"Excess demand (shortage) happens when the price is… the market price.",fr:"La demande excessive (pénurie) arrive quand le prix est… au prix du marché.",a:1,opts:[{en:"above",fr:"supérieur"},{en:"below",fr:"inférieur"},{en:"equal to",fr:"égal"}]},
+ {en:"Supply falls (e.g. a snowstorm destroys harvests). The equilibrium price…",fr:"L'offre baisse (ex. une tempête détruit les récoltes). Le prix d'équilibre…",a:0,opts:[{en:"rises ↑",fr:"monte ↑"},{en:"falls ↓",fr:"baisse ↓"},{en:"does not change",fr:"ne change pas"}]}];
+function renderBig(){renderMCQ('bigQuiz','bigScore',bigQ);}
+renderBig();
+
+
+// ===== EQ INTERACTIVE =====
+function drawEq(){
+ const P=parseFloat(document.getElementById('pSlider').value);
+ const Qd=80-10*P, Qs=10*P;
+ const X=q=>60+(q/80)*430, Y=p=>290-(p/8)*260;
+ const py=Y(P);
+ let band='', msg='';
+ const fr=q=>Math.round(q*10)/10;
+ if(Math.abs(Qd-Qs)<0.01){
+  msg=`P = ${P} € → Qd = Qs = ${fr(Qd)} — <span style="color:#4ade80">EQUILIBRIUM — <span class="lang-en">no pressure to change the price</span><span class="lang-fr">aucune pression sur le prix</span></span>`;
+ } else if(Qs>Qd){
+  band=`<line x1="${X(Qd)}" y1="${py}" x2="${X(Qs)}" y2="${py}" stroke="#fb923c" stroke-width="7" opacity=".75"/>`;
+  msg=`P = ${P} € → Qd = ${fr(Qd)}, Qs = ${fr(Qs)} → <span style="color:#fb923c">EXCESS SUPPLY (surplus) = ${fr(Qs-Qd)}</span> → <span class="lang-en">pressure on the price to FALL ↓</span><span class="lang-fr">pression à la BAISSE du prix ↓</span>`;
+ } else {
+  band=`<line x1="${X(Qs)}" y1="${py}" x2="${X(Qd)}" y2="${py}" stroke="#f87171" stroke-width="7" opacity=".75"/>`;
+  msg=`P = ${P} € → Qd = ${fr(Qd)}, Qs = ${fr(Qs)} → <span style="color:#f87171">EXCESS DEMAND (shortage) = ${fr(Qd-Qs)}</span> → <span class="lang-en">pressure on the price to RISE ↑</span><span class="lang-fr">pression à la HAUSSE du prix ↑</span>`;
+ }
+ document.getElementById('eqReadout').innerHTML=msg;
+ document.getElementById('eqChart').innerHTML=`
+ <line x1="60" y1="290" x2="500" y2="290" stroke="#8fa3c0" stroke-width="2"/>
+ <line x1="60" y1="290" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
+ <text x="280" y="325" font-size="12" fill="#9fb2cc" text-anchor="middle">Quantity</text>
+ <text x="30" y="30" font-size="12" fill="#9fb2cc">Price</text>
+ <line x1="${X(0)}" y1="${Y(8)}" x2="${X(80)}" y2="${Y(0)}" stroke="#f87171" stroke-width="2.5"/>
+ <text x="${X(78)}" y="${Y(0)-8}" font-size="13" fill="#f87171" font-weight="bold">D</text>
+ <line x1="${X(0)}" y1="${Y(0)}" x2="${X(80)}" y2="${Y(8)}" stroke="#60a5fa" stroke-width="2.5"/>
+ <text x="${X(78)}" y="${Y(8)+16}" font-size="13" fill="#60a5fa" font-weight="bold">S</text>
+ <circle cx="${X(40)}" cy="${Y(4)}" r="5" fill="#4ade80"/>
+ ${band}
+ <line x1="60" y1="${py}" x2="500" y2="${py}" stroke="#dbe6f5" stroke-width="1.5" stroke-dasharray="6 4"/>
+ <text x="505" y="${py+4}" font-size="12" fill="#dbe6f5" font-weight="bold">${P} €</text>
+ <circle cx="${X(Math.min(Qd,80))}" cy="${py}" r="5" fill="#f87171"/>
+ <circle cx="${X(Math.min(Qs,80))}" cy="${py}" r="5" fill="#60a5fa"/>`;
+}
+drawEq();
+// ===== SCHEDULE QUIZ =====
+const schedQ=[
+ {en:"In the table above, the price is set at 6 €. What is the situation?",fr:"Dans le tableau ci-dessus, le prix est fixé à 6 €. Quelle est la situation ?",a:0,opts:[{en:"Excess supply (surplus) of 40 units → price will fall",fr:"Offre excessive (surplus) de 40 unités → le prix va baisser"},{en:"Excess demand (shortage) of 40 units → price will rise",fr:"Demande excessive (pénurie) de 40 unités → le prix va monter"},{en:"Equilibrium",fr:"Équilibre"}],x:"At 6 €: Qs 60 − Qd 20 = surplus of 40. Price above market price → it must fall.",xf:"À 6 € : Qs 60 − Qd 20 = surplus de 40. Prix au-dessus du prix du marché → il doit baisser."},
+ {en:"Now the price is set at 2 €. What is the situation?",fr:"Maintenant le prix est fixé à 2 €. Quelle est la situation ?",a:1,opts:[{en:"Excess supply (surplus) → price will fall",fr:"Offre excessive (surplus) → le prix va baisser"},{en:"Excess demand (shortage) of 40 units → price will rise",fr:"Demande excessive (pénurie) de 40 unités → le prix va monter"},{en:"Equilibrium",fr:"Équilibre"}],x:"At 2 €: Qd 60 − Qs 20 = shortage of 40. Price below market price → producers raise prices.",xf:"À 2 € : Qd 60 − Qs 20 = pénurie de 40. Prix trop bas → les producteurs augmentent les prix."}];
+renderMCQ('schedQuiz','schedScore',schedQ);
+// ===== CHECKLIST =====
+const checks=[
+ ["PRODUCTION — Sectors","… explain the difference between the three sectors of production, with examples","… expliquer la différence entre les trois secteurs de production, avec exemples"],
+ ["PRODUCTION — Sectors","… explain what an industry is and give examples of industries for each sector","… expliquer ce qu'est une industrie et donner des exemples par secteur"],
+ ["PRODUCTION — Costs","… explain the difference between fixed and variable costs, with examples","… expliquer la différence entre coûts fixes et variables, avec exemples"],
+ ["PRODUCTION — Costs","… calculate fixed, variable and total costs","… calculer les coûts fixes, variables et totaux"],
+ ["PRODUCTION — Costs","… define and calculate revenue","… définir et calculer le revenu"],
+ ["PRODUCTION — Costs","… define and calculate profit / loss","… définir et calculer le profit / la perte"],
+ ["PRODUCTION — Costs","… identify fixed and variable costs, total revenue and profit on a graph (costs/revenue on y-axis, units on x-axis)","… identifier coûts fixes/variables, revenu total et profit sur un graphique (coûts/revenus en y, unités en x)"],
+ ["PRODUCTION — Break-even","… explain what the break-even point is (break-even level of output)","… expliquer ce qu'est le seuil de rentabilité"],
+ ["PRODUCTION — Break-even","… calculate the break-even point using the formula and explain the result","… calculer le seuil avec la formule et expliquer le résultat"],
+ ["PRODUCTION — Break-even","… calculate which price to set for a given break-even output","… calculer quel prix fixer pour un seuil donné"],
+ ["PRODUCTION — Break-even","… identify the break-even point on a chart showing revenues and costs, and in a table","… identifier le seuil sur un graphique revenus/coûts, et dans un tableau"],
+ ["DEMAND","… define demand, the quantity demanded, individual and market demand","… définir la demande, la quantité demandée, demande individuelle et de marché"],
+ ["DEMAND","… draw the demand curve and explain the law of demand with the curve","… dessiner la courbe de demande et expliquer la loi de la demande"],
+ ["DEMAND","… explain the difference between a movement along the curve and a shift of the curve (extension vs contraction)","… expliquer la différence entre mouvement sur la courbe et déplacement (extension vs contraction)"],
+ ["DEMAND","… show an increase and a decrease in demand graphically","… montrer graphiquement une hausse et une baisse de la demande"],
+ ["DEMAND","… explain the different factors shifting a demand curve (incl. substitutes, complements, inferior & normal goods)","… expliquer les facteurs qui déplacent la courbe (substituts, compléments, biens inférieurs & normaux)"],
+ ["SUPPLY","… define supply, quantity supplied, individual and market supply","… définir l'offre, la quantité offerte, offre individuelle et de marché"],
+ ["SUPPLY","… draw the supply curve and explain the law of supply","… dessiner la courbe d'offre et expliquer la loi de l'offre"],
+ ["SUPPLY","… explain the conditions of supply (factors shifting the supply curve) and show them graphically","… expliquer les conditions de l'offre (facteurs de déplacement) et les montrer graphiquement"],
+ ["EQUILIBRIUM","… determine equilibrium with a demand & supply graph and a schedule (table)","… déterminer l'équilibre avec un graphique offre/demande et un tableau"],
+ ["EQUILIBRIUM","… graph and label demand and supply curves to show equilibrium (and disequilibrium)","… tracer et légender les courbes pour montrer l'équilibre (et le déséquilibre)"],
+ ["EQUILIBRIUM","… explain why there are no pressures to change the price in equilibrium","… expliquer pourquoi aucune pression ne change le prix à l'équilibre"],
+ ["EQUILIBRIUM","… explain shortage vs surplus (indicate and explain)","… expliquer pénurie vs surplus (indiquer et expliquer)"],
+ ["EQUILIBRIUM","… show and explain how shifts in demand and supply change equilibrium price and quantity","… montrer et expliquer comment les déplacements changent prix et quantité d'équilibre"]];
+const cl=document.getElementById('checklist');let lastCat='';
+checks.forEach((c,i)=>{
+ if(c[0]!==lastCat){lastCat=c[0];const h=document.createElement('h3');h.textContent=c[0];cl.appendChild(h);}
+ const d=document.createElement('label');d.className='chk';
+ d.innerHTML=`<input type="checkbox" data-i="${i}" onchange="saveChk()"> <span><span class="lang-en">I can ${c[1]}</span><span class="lang-fr">Je sais ${c[2]}</span></span>`;
+ cl.appendChild(d);});
+function saveChk(){const boxes=[...document.querySelectorAll('.chk input')];const n=boxes.filter(b=>b.checked).length;
+ document.getElementById('pbar').style.width=(n/boxes.length*100)+'%';
+ document.getElementById('ptext').innerHTML=`${n} / ${boxes.length} ${document.body.classList.contains('fr')?'objectifs maîtrisés':'objectives mastered'} `;}
+saveChk();
+</script>
+</body>
+</html>

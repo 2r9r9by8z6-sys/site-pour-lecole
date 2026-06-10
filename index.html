@@ -198,12 +198,13 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h3><span class="lang-en">The graph you must know (costs &amp; revenue curves)</span><span class="lang-fr">Le graphique à connaître (courbes de coûts &amp; revenus)</span></h3>
 <div class="qbox">
 <div class="grid2">
-<p><span class="lang-en">Fixed costs</span><span class="lang-fr">Coûts fixes</span>: <span class="pill" id="gFCv"></span><br><input type="range" id="gFC" min="500" max="8000" step="100" value="2000" oninput="drawCost()"></p>
-<p><span class="lang-en">Price per unit</span><span class="lang-fr">Prix par unité</span>: <span class="pill" id="gPv"></span><br><input type="range" id="gP" min="2" max="30" step="0.5" value="10" oninput="drawCost()"></p>
-<p><span class="lang-en">Variable cost per unit</span><span class="lang-fr">Coût variable par unité</span>: <span class="pill" id="gVCv"></span><br><input type="range" id="gVC" min="0" max="25" step="0.5" value="5" oninput="drawCost()"></p>
+<p><span class="lang-en">Fixed costs</span><span class="lang-fr">Coûts fixes</span>: <span class="pill" id="gFCv"></span><br><input type="range" id="gFC" min="500" max="8000" step="100" value="2000" oninput="drawCost()" onchange="commitCost()"></p>
+<p><span class="lang-en">Price per unit</span><span class="lang-fr">Prix par unité</span>: <span class="pill" id="gPv"></span><br><input type="range" id="gP" min="2" max="20" step="0.5" value="10" oninput="drawCost()" onchange="commitCost()"></p>
+<p><span class="lang-en">Variable cost per unit</span><span class="lang-fr">Coût variable par unité</span>: <span class="pill" id="gVCv"></span><br><input type="range" id="gVC" min="0" max="15" step="0.5" value="5" oninput="drawCost()" onchange="commitCost()"></p>
 <p><span class="lang-en">Quantity produced &amp; sold</span><span class="lang-fr">Quantité produite &amp; vendue</span>: <span class="pill" id="gQv"></span><br><input type="range" id="gQ" min="0" max="1000" step="10" value="300" oninput="drawCost()"></p>
 </div>
 <p id="gOut" style="font-weight:700"></p>
+<p style="font-size:.82rem;color:var(--muted)"><span class="lang-en">The axes are FIXED, so you really see the lines move. While you drag a slider, the previous position is shown as grey dashed lines ("before"). The thick vertical bar at Q = your profit (green) or loss (red).</span><span class="lang-fr">Les axes sont FIXES, donc tu vois vraiment les lignes bouger. Pendant que tu bouges un curseur, l'ancienne position reste en pointillés gris (« avant »). La barre verticale épaisse à Q = ton profit (vert) ou ta perte (rouge).</span></p>
 <svg id="costChart" viewBox="0 0 560 340"></svg>
 </div>
 <div class="tip"><span class="lang-en">📈 Play with the sliders! For the test, be able to: draw FC (horizontal line), TC (starts at FC, rises with output), TR (starts at 0, rises with price per unit) and indicate the profit — the vertical gap between TR and TC at a given quantity (green = profit, red = loss). The red dot where TR crosses TC is the break-even point.</span><span class="lang-fr">📈 Joue avec les curseurs ! Pour le test, savoir : dessiner FC (ligne horizontale), TC (part de FC, monte avec la production), TR (part de 0, monte selon le prix unitaire) et indiquer le profit — l&#39;écart vertical entre TR et TC à une quantité donnée (vert = profit, rouge = perte). Le point rouge où TR croise TC est le seuil de rentabilité.</span></div>
@@ -632,14 +633,26 @@ function calcBE(){
  <text x="290" y="320" font-size="12" fill="#9fb2cc" text-anchor="middle">units</text>`;
 }
 calcBE();
-// ===== INTERACTIVE COST GRAPH =====
+// ===== INTERACTIVE COST GRAPH (fixed axes + before/after) =====
+const QMAX=1000, YMAX=20000;
+const cX=q=>60+(q/QMAX)*440, cY=v=>290-(Math.min(v,YMAX)/YMAX)*260;
+function clipQ(v0,v1){ if(v1<=YMAX) return QMAX; return QMAX*(YMAX-v0)/(v1-v0); }
+let baseCost=null;
+function lineSet(FC,P,VC,opts){
+ // returns svg string for FC, TC, TR lines with given style opts {dash,opacity,cls}
+ const d=opts.dash?` stroke-dasharray="${opts.dash}"`:'', op=opts.opacity, w=opts.w;
+ const tcEndQ=clipQ(FC,FC+VC*QMAX), trEndQ=clipQ(0,P*QMAX);
+ let s=`<line x1="60" y1="${cY(FC)}" x2="500" y2="${cY(FC)}" stroke="${opts.ghost?'#64748b':'#c084fc'}" stroke-width="${w}" opacity="${op}"${d}/>`;
+ s+=`<line x1="60" y1="${cY(FC)}" x2="${cX(tcEndQ)}" y2="${cY(FC+VC*tcEndQ)}" stroke="${opts.ghost?'#64748b':'#fb923c'}" stroke-width="${w}" opacity="${op}"${d}/>`;
+ s+=`<line x1="60" y1="290" x2="${cX(trEndQ)}" y2="${cY(P*trEndQ)}" stroke="${opts.ghost?'#64748b':'#4ade80'}" stroke-width="${w}" opacity="${op}"${d}/>`;
+ return s;
+}
 function drawCost(){
  const FC=+document.getElementById('gFC').value, P=+document.getElementById('gP').value, VC=+document.getElementById('gVC').value, Q=+document.getElementById('gQ').value;
  document.getElementById('gFCv').textContent=FC.toLocaleString('fr-BE')+' €';
  document.getElementById('gPv').textContent=P+' €';
  document.getElementById('gVCv').textContent=VC+' €';
  document.getElementById('gQv').textContent=Q;
- const out=document.getElementById('gOut');
  const TR=P*Q, TC=FC+VC*Q, prof=TR-TC;
  const beOk=P>VC, be=beOk?FC/(P-VC):null;
  let msg=`TR = ${TR.toLocaleString('fr-BE')} € · TC = ${TC.toLocaleString('fr-BE')} € → `;
@@ -647,39 +660,62 @@ function drawCost(){
  else if(prof>0) msg+=`<span style="color:#4ade80">PROFIT = ${prof.toLocaleString('fr-BE')} €</span>`;
  else msg+=`<span style="color:#f87171">LOSS = ${Math.abs(prof).toLocaleString('fr-BE')} €</span>`;
  msg+=beOk?` · <span class="lang-en">Break-even at</span><span class="lang-fr">Seuil à</span> <b>${Math.ceil(be).toLocaleString('fr-BE')}</b> <span class="lang-en">units</span><span class="lang-fr">unités</span>`:` · ⚠️ <span class="lang-en">price ≤ variable cost: break-even impossible!</span><span class="lang-fr">prix ≤ coût variable : seuil impossible !</span>`;
- out.innerHTML=msg;
- const maxQ=Math.max(beOk?be*2:0, Q*1.25, 100);
- const maxY=Math.max(P*maxQ, FC+VC*maxQ)*1.08;
- const X=q=>60+(q/maxQ)*440, Y=v=>290-(v/maxY)*260;
+ document.getElementById('gOut').innerHTML=msg;
  let s='';
- if(beOk){
-  const bex=X(be), bey=Y(P*be);
-  s+=`<polygon points="60,290 60,${Y(FC)} ${bex},${bey} ${bex},290" fill="rgba(248,113,113,.10)"/>
-  <polygon points="${bex},${bey} 500,${Y(P*maxQ)} 500,${Y(FC+VC*maxQ)}" fill="rgba(74,222,128,.12)"/>`;
+ // grid
+ for(const v of [5000,10000,15000,20000]){
+  s+=`<line x1="60" y1="${cY(v)}" x2="500" y2="${cY(v)}" stroke="#243149" stroke-width="1"/>
+  <text x="54" y="${cY(v)+4}" font-size="9.5" fill="#7d92b3" text-anchor="end">${(v/1000)}k€</text>`;
  }
+ for(const q of [250,500,750,1000]){
+  s+=`<line x1="${cX(q)}" y1="290" x2="${cX(q)}" y2="30" stroke="#1b2740" stroke-width="1"/>
+  <text x="${cX(q)}" y="302" font-size="9.5" fill="#7d92b3" text-anchor="middle">${q}</text>`;
+ }
+ // ghost (before) while dragging
+ const changed=baseCost&&(baseCost.FC!==FC||baseCost.P!==P||baseCost.VC!==VC);
+ if(changed){
+  s+=lineSet(baseCost.FC,baseCost.P,baseCost.VC,{ghost:true,dash:'6 5',opacity:.55,w:2});
+  s+=`<text x="70" y="42" font-size="11" fill="#94a3b8">- - <tspan class="lang-en">before</tspan><tspan class="lang-fr">avant</tspan></text>`;
+ }
+ // axes
  s+=`<line x1="60" y1="290" x2="535" y2="290" stroke="#8fa3c0" stroke-width="2"/>
  <line x1="60" y1="290" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
- <text x="290" y="325" font-size="12" fill="#9fb2cc" text-anchor="middle">Units (quantity)</text>
- <line x1="60" y1="${Y(FC)}" x2="500" y2="${Y(FC)}" stroke="#c084fc" stroke-width="2.5"/>
- <text x="503" y="${Y(FC)+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>
- <line x1="60" y1="${Y(FC)}" x2="500" y2="${Y(FC+VC*maxQ)}" stroke="#fb923c" stroke-width="2.5"/>
- <text x="503" y="${Y(FC+VC*maxQ)+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>
- <line x1="60" y1="290" x2="500" y2="${Y(P*maxQ)}" stroke="#4ade80" stroke-width="2.5"/>
- <text x="503" y="${Y(P*maxQ)+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
- const qx=X(Q), yTR=Y(TR), yTC=Y(TC);
+ <text x="290" y="325" font-size="12" fill="#9fb2cc" text-anchor="middle">Units (quantity)</text>`;
+ // current lines
+ s+=lineSet(FC,P,VC,{opacity:1,w:2.5});
+ // line labels at right edge
+ const tcEndQ=clipQ(FC,FC+VC*QMAX), trEndQ=clipQ(0,P*QMAX);
+ s+=`<text x="503" y="${cY(FC)+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>`;
+ if(tcEndQ>=QMAX) s+=`<text x="503" y="${cY(FC+VC*QMAX)+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>`;
+ else s+=`<text x="${cX(tcEndQ)}" y="24" font-size="11" fill="#fb923c" font-weight="bold">TC</text>`;
+ if(trEndQ>=QMAX) s+=`<text x="503" y="${cY(P*QMAX)+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
+ else s+=`<text x="${cX(trEndQ)+18}" y="24" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
+ // marker at Q: profit/loss bar with value
+ const qx=cX(Q), yTR=cY(TR), yTC=cY(TC);
  s+=`<line x1="${qx}" y1="290" x2="${qx}" y2="${Math.min(yTR,yTC)}" stroke="#dbe6f5" stroke-width="1.2" stroke-dasharray="4 4"/>
- <line x1="${qx}" y1="${yTR}" x2="${qx}" y2="${yTC}" stroke="${prof>=0?'#4ade80':'#f87171'}" stroke-width="6" opacity=".85"/>
+ <line x1="${qx}" y1="${yTR}" x2="${qx}" y2="${yTC}" stroke="${prof>=0?'#4ade80':'#f87171'}" stroke-width="6" opacity=".9"/>
  <circle cx="${qx}" cy="${yTR}" r="4.5" fill="#4ade80"/><circle cx="${qx}" cy="${yTC}" r="4.5" fill="#fb923c"/>
- <text x="${qx}" y="306" font-size="11.5" fill="#dbe6f5" text-anchor="middle" font-weight="bold">Q=${Q}</text>`;
+ <text x="${qx+9}" y="${(yTR+yTC)/2+4}" font-size="11.5" font-weight="bold" fill="${prof>=0?'#4ade80':'#f87171'}">${prof>=0?'+':'−'}${Math.abs(prof).toLocaleString('fr-BE')} €</text>
+ <text x="${qx}" y="316" font-size="11" fill="#dbe6f5" text-anchor="middle" font-weight="bold">Q=${Q}</text>`;
+ // BE point
  if(beOk){
-  const bex=X(be), bey=Y(P*be);
-  s+=`<circle cx="${bex}" cy="${bey}" r="6" fill="#f87171" stroke="#0e1626" stroke-width="2"/>
-  <line x1="${bex}" y1="${bey}" x2="${bex}" y2="290" stroke="#f87171" stroke-width="1.3" stroke-dasharray="5 4"/>
-  <text x="${bex}" y="${bey-12}" font-size="11.5" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN (${Math.ceil(be).toLocaleString('fr-BE')})</text>`;
+  if(be<=QMAX&&P*be<=YMAX){
+   const bex=cX(be), bey=cY(P*be);
+   const lblx=Math.min(Math.max(bex,140),420);
+   s+=`<circle cx="${bex}" cy="${bey}" r="6" fill="#f87171" stroke="#0e1626" stroke-width="2"/>
+   <line x1="${bex}" y1="${bey}" x2="${bex}" y2="290" stroke="#f87171" stroke-width="1.3" stroke-dasharray="5 4"/>
+   <text x="${lblx}" y="${Math.max(bey-14,16)}" font-size="11.5" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN (${Math.ceil(be).toLocaleString('fr-BE')})</text>`;
+  } else {
+   s+=`<text x="495" y="44" font-size="11.5" fill="#f87171" text-anchor="end" font-weight="bold">BREAK-EVEN = ${Math.ceil(be).toLocaleString('fr-BE')} → <tspan class="lang-en">off chart</tspan><tspan class="lang-fr">hors graphique</tspan></text>`;
+  }
  }
  document.getElementById('costChart').innerHTML=s;
 }
-drawCost();
+function commitCost(){
+ baseCost={FC:+document.getElementById('gFC').value,P:+document.getElementById('gP').value,VC:+document.getElementById('gVC').value};
+ drawCost();
+}
+commitCost();
 // ===== NUMERIC CHECK =====
 function chkNum(id,target,expl){
  const v=parseFloat(document.getElementById(id).value);const fb=document.getElementById(id+'fb');

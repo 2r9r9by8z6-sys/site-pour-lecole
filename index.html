@@ -196,23 +196,17 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <div class="lang-en"><p>Private sector businesses need profits to stay in business in the long run; most aim to maximise profit to pay better dividends to their <b>shareholders</b> (= the owners). Many startups initially operate at a loss while they invest in product development, marketing and machinery. To maximise profits, a company aims to <b>raise revenue and minimise costs</b>.</p></div>
 <div class="lang-fr"><p>Les entreprises privées ont besoin de profits pour survivre à long terme ; la plupart veulent maximiser le profit pour verser de meilleurs dividendes aux <b>actionnaires</b> (= les propriétaires). Beaucoup de startups font d'abord des pertes pendant qu'elles investissent (développement produit, marketing, machines). Pour maximiser le profit : <b>augmenter le revenu et minimiser les coûts</b>.</p></div>
 <h3><span class="lang-en">The graph you must know (costs &amp; revenue curves)</span><span class="lang-fr">Le graphique à connaître (courbes de coûts &amp; revenus)</span></h3>
-<svg viewBox="0 0 560 330" xmlns="http://www.w3.org/2000/svg">
-<line x1="60" y1="280" x2="530" y2="280" stroke="#1e293b" stroke-width="2"/>
-<line x1="60" y1="280" x2="60" y2="20" stroke="#1e293b" stroke-width="2"/>
-<text x="290" y="315" font-size="13" text-anchor="middle">Units produced / sold (quantity)</text>
-<text x="20" y="150" font-size="13" transform="rotate(-90 20 150)" text-anchor="middle">€ costs / revenue</text>
-<line x1="60" y1="200" x2="530" y2="200" stroke="#9333ea" stroke-width="2.5"/>
-<text x="445" y="192" font-size="12" fill="#9333ea" font-weight="bold">Fixed costs (FC)</text>
-<line x1="60" y1="200" x2="530" y2="60" stroke="#ea580c" stroke-width="2.5"/>
-<text x="400" y="68" font-size="12" fill="#ea580c" font-weight="bold">Total costs (TC=FC+VC)</text>
-<line x1="60" y1="280" x2="500" y2="30" stroke="#16a34a" stroke-width="2.5"/>
-<text x="430" y="30" font-size="12" fill="#16a34a" font-weight="bold">Total revenue (TR)</text>
-<circle cx="305" cy="138" r="6" fill="#dc2626"/>
-<text x="305" y="122" font-size="12" fill="#dc2626" font-weight="bold" text-anchor="middle">Break-even point</text>
-<text x="160" y="240" font-size="12" fill="#dc2626">LOSS (TC &gt; TR)</text>
-<text x="400" y="120" font-size="12" fill="#16a34a">PROFIT (TR &gt; TC)</text>
-</svg>
-<div class="tip"><span class="lang-en">📈 Be able to: draw FC (horizontal line), TC (starts at FC, rises with output), TR (starts at 0, rises with price per unit) and indicate the profit on the graph (vertical gap between TR and TC, right of the break-even point).</span><span class="lang-fr">📈 Savoir : dessiner FC (ligne horizontale), TC (part de FC, monte avec la production), TR (part de 0, monte selon le prix unitaire) et indiquer le profit sur le graphique (écart vertical entre TR et TC, à droite du seuil de rentabilité).</span></div>
+<div class="qbox">
+<div class="grid2">
+<p><span class="lang-en">Fixed costs</span><span class="lang-fr">Coûts fixes</span>: <span class="pill" id="gFCv"></span><br><input type="range" id="gFC" min="500" max="8000" step="100" value="2000" oninput="drawCost()"></p>
+<p><span class="lang-en">Price per unit</span><span class="lang-fr">Prix par unité</span>: <span class="pill" id="gPv"></span><br><input type="range" id="gP" min="2" max="30" step="0.5" value="10" oninput="drawCost()"></p>
+<p><span class="lang-en">Variable cost per unit</span><span class="lang-fr">Coût variable par unité</span>: <span class="pill" id="gVCv"></span><br><input type="range" id="gVC" min="0" max="25" step="0.5" value="5" oninput="drawCost()"></p>
+<p><span class="lang-en">Quantity produced &amp; sold</span><span class="lang-fr">Quantité produite &amp; vendue</span>: <span class="pill" id="gQv"></span><br><input type="range" id="gQ" min="0" max="1000" step="10" value="300" oninput="drawCost()"></p>
+</div>
+<p id="gOut" style="font-weight:700"></p>
+<svg id="costChart" viewBox="0 0 560 340"></svg>
+</div>
+<div class="tip"><span class="lang-en">📈 Play with the sliders! For the test, be able to: draw FC (horizontal line), TC (starts at FC, rises with output), TR (starts at 0, rises with price per unit) and indicate the profit — the vertical gap between TR and TC at a given quantity (green = profit, red = loss). The red dot where TR crosses TC is the break-even point.</span><span class="lang-fr">📈 Joue avec les curseurs ! Pour le test, savoir : dessiner FC (ligne horizontale), TC (part de FC, monte avec la production), TR (part de 0, monte selon le prix unitaire) et indiquer le profit — l&#39;écart vertical entre TR et TC à une quantité donnée (vert = profit, rouge = perte). Le point rouge où TR croise TC est le seuil de rentabilité.</span></div>
 </div>
 
 <div class="card">
@@ -226,7 +220,8 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice 2 — Astrid's café (<span class="lang-en">full calculation</span><span class="lang-fr">calcul complet</span>)</h2>
 <div class="lang-en"><p>December 2025: Astrid sold <b>1 500 coffees</b> at <b>4 €</b> and <b>800 avocado toasts</b> at <b>14 €</b>.<br>Costs: rent 1 500 €/month · barista wage 2 500 €/month · phone &amp; internet 50 € · insurance 80 € · electricity &amp; heating 700 € · paper cups 0,10 € per cup (coffees) · coffee &amp; milk 1 € per coffee · avocado &amp; toast per toast = the amount on your worksheet (enter it below).</p></div>
 <div class="lang-fr"><p>Décembre 2025 : Astrid a vendu <b>1 500 cafés</b> à <b>4 €</b> et <b>800 avocado toasts</b> à <b>14 €</b>.<br>Coûts : loyer 1 500 €/mois · salaire barista 2 500 €/mois · téléphone &amp; internet 50 € · assurance 80 € · électricité &amp; chauffage 700 € · gobelets 0,10 € par café · café &amp; lait 1 € par café · avocat &amp; toast par toast = le montant sur ta feuille (entre-le ci-dessous).</p></div>
-<p><b><span class="lang-en">Avocado+toast cost per toast (from your sheet):</span><span class="lang-fr">Coût avocat+toast par toast (de ta feuille) :</span></b> <input type="number" id="avoCost" step="0.1" placeholder="€"> €</p>
+<p><b><span class="lang-en">Cost of ONE avocado toast (ingredients, € per toast — from your worksheet):</span><span class="lang-fr">Coût d'UN avocado toast (ingrédients, € par toast — de ta feuille) :</span></b> <input type="number" id="avoCost" step="0.1" min="0.1" max="13.9" placeholder="e.g. 3"> €</p>
+<div class="warn" id="avoWarn" style="display:none"><span class="lang-en">⚠️ That's the cost of ONE toast — it must be between 0 and 14 € (ingredients can't cost more than the 14 € selling price!). Check your worksheet.</span><span class="lang-fr">⚠️ C'est le coût d'UN SEUL toast — il doit être entre 0 et 14 € (les ingrédients ne peuvent pas coûter plus que le prix de vente de 14 € !). Vérifie ta feuille.</span></div>
 <table><tr><th><span class="lang-en">Question</span><span class="lang-fr">Question</span></th><th><span class="lang-en">Your answer</span><span class="lang-fr">Ta réponse</span></th><th></th></tr>
 <tr><td><span class="lang-en">a) Total revenue (€)</span><span class="lang-fr">a) Revenu total (€)</span></td><td><input type="number" id="astR"></td><td id="astRfb"></td></tr>
 <tr><td><span class="lang-en">b) Total fixed costs (€)</span><span class="lang-fr">b) Coûts fixes totaux (€)</span></td><td><input type="number" id="astF"></td><td id="astFfb"></td></tr>
@@ -591,16 +586,18 @@ renderMCQ('fvQuiz','fvScore',fvQ);
 function near(v,t){return Math.abs(v-t)<0.51;}
 function checkAstrid(){
  const avo=parseFloat(document.getElementById('avoCost').value);
- const R=15e2*4+800*14; // 17200
- const F=1500+2500+50+80+700; // 4830
- const hasAvo=!isNaN(avo);
- const V=1500*0.1+1500*1+(hasAvo?800*avo:NaN);
+ const warn=document.getElementById('avoWarn');
+ const validAvo=!isNaN(avo)&&avo>0&&avo<14;
+ warn.style.display=(!isNaN(avo)&&!validAvo)?'block':'none';
+ const R=1500*4+800*14; // 17 200
+ const F=1500+2500+50+80+700; // 4 830
+ const V=validAvo?(1500*0.1+1500*1+800*avo):NaN;
  const mark=(id,target)=>{const v=parseFloat(document.getElementById(id).value);const el=document.getElementById(id+'fb');
-  if(isNaN(target)){el.innerHTML='<span class="fb">⚠️ avocado € ?</span>';return;}
-  el.innerHTML=isNaN(v)?'':near(v,target)?'<span class="fb ok">✔ '+(Math.round(target*100)/100)+'</span>':'<span class="fb no">✘</span>';};
- mark('astR',R);mark('astF',F);mark('astV',V);mark('astP',R-(F+V));mark('astC',F);
+  if(isNaN(target)){el.innerHTML='<span class="fb no">⚠️ <span class="lang-en">enter a valid cost per toast first</span><span class="lang-fr">entre d&#39;abord un coût valide par toast</span></span>';return;}
+  el.innerHTML=isNaN(v)?'':(Math.abs(v-target)<0.51?'<span class="fb ok">✔ '+(Math.round(target*100)/100).toLocaleString('fr-BE')+'</span>':'<span class="fb no">✘</span>');};
+ mark('astR',R);mark('astF',F);mark('astV',V);mark('astP',isNaN(V)?NaN:R-(F+V));mark('astC',F);
  const ex=document.getElementById('astridExpl');ex.classList.add('show');
- ex.innerHTML=`<span class="lang-en"><b>Method:</b> Revenue = 1500×4 + 800×14 = 17 200 €. Fixed = rent+wage+phone+insurance+electricity = 4 830 € (these she pays even if closed!). Variable = cups 1500×0,10 + coffee 1500×1 ${hasAvo?'+ toasts 800×'+avo:'+ toasts 800×(your sheet value)'} . Profit = Revenue − Total costs.</span><span class="lang-fr"><b>Méthode :</b> Revenu = 1500×4 + 800×14 = 17 200 €. Fixes = loyer+salaire+téléphone+assurance+électricité = 4 830 € (à payer même si fermé !). Variables = gobelets 1500×0,10 + café 1500×1 ${hasAvo?'+ toasts 800×'+avo:'+ toasts 800×(valeur de ta feuille)'} . Profit = Revenu − Coûts totaux.</span>`;
+ ex.innerHTML=`<span class="lang-en"><b>Method:</b> Revenue = 1 500×4 + 800×14 = 17 200 €. Fixed = rent 1 500 + wage 2 500 + phone 50 + insurance 80 + electricity 700 = 4 830 € (these she pays even if the café is closed!). Variable = cups 1 500×0,10 (150 €) + coffee&amp;milk 1 500×1 (1 500 €) + toasts 800 × cost per toast. Profit = Revenue − (Fixed + Variable).</span><span class="lang-fr"><b>Méthode :</b> Revenu = 1 500×4 + 800×14 = 17 200 €. Fixes = loyer 1 500 + salaire 2 500 + téléphone 50 + assurance 80 + électricité 700 = 4 830 € (à payer même si le café est fermé !). Variables = gobelets 1 500×0,10 (150 €) + café&amp;lait 1 500×1 (1 500 €) + toasts 800 × coût par toast. Profit = Revenu − (Fixes + Variables).</span>`;
 }
 // ===== BE CALC (live chart) =====
 function calcBE(){
@@ -635,6 +632,54 @@ function calcBE(){
  <text x="290" y="320" font-size="12" fill="#9fb2cc" text-anchor="middle">units</text>`;
 }
 calcBE();
+// ===== INTERACTIVE COST GRAPH =====
+function drawCost(){
+ const FC=+document.getElementById('gFC').value, P=+document.getElementById('gP').value, VC=+document.getElementById('gVC').value, Q=+document.getElementById('gQ').value;
+ document.getElementById('gFCv').textContent=FC.toLocaleString('fr-BE')+' €';
+ document.getElementById('gPv').textContent=P+' €';
+ document.getElementById('gVCv').textContent=VC+' €';
+ document.getElementById('gQv').textContent=Q;
+ const out=document.getElementById('gOut');
+ const TR=P*Q, TC=FC+VC*Q, prof=TR-TC;
+ const beOk=P>VC, be=beOk?FC/(P-VC):null;
+ let msg=`TR = ${TR.toLocaleString('fr-BE')} € · TC = ${TC.toLocaleString('fr-BE')} € → `;
+ if(Math.abs(prof)<1e-9) msg+=`<span style="color:#93c5fd">BREAK-EVEN (TR = TC)</span>`;
+ else if(prof>0) msg+=`<span style="color:#4ade80">PROFIT = ${prof.toLocaleString('fr-BE')} €</span>`;
+ else msg+=`<span style="color:#f87171">LOSS = ${Math.abs(prof).toLocaleString('fr-BE')} €</span>`;
+ msg+=beOk?` · <span class="lang-en">Break-even at</span><span class="lang-fr">Seuil à</span> <b>${Math.ceil(be).toLocaleString('fr-BE')}</b> <span class="lang-en">units</span><span class="lang-fr">unités</span>`:` · ⚠️ <span class="lang-en">price ≤ variable cost: break-even impossible!</span><span class="lang-fr">prix ≤ coût variable : seuil impossible !</span>`;
+ out.innerHTML=msg;
+ const maxQ=Math.max(beOk?be*2:0, Q*1.25, 100);
+ const maxY=Math.max(P*maxQ, FC+VC*maxQ)*1.08;
+ const X=q=>60+(q/maxQ)*440, Y=v=>290-(v/maxY)*260;
+ let s='';
+ if(beOk){
+  const bex=X(be), bey=Y(P*be);
+  s+=`<polygon points="60,290 60,${Y(FC)} ${bex},${bey} ${bex},290" fill="rgba(248,113,113,.10)"/>
+  <polygon points="${bex},${bey} 500,${Y(P*maxQ)} 500,${Y(FC+VC*maxQ)}" fill="rgba(74,222,128,.12)"/>`;
+ }
+ s+=`<line x1="60" y1="290" x2="535" y2="290" stroke="#8fa3c0" stroke-width="2"/>
+ <line x1="60" y1="290" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
+ <text x="290" y="325" font-size="12" fill="#9fb2cc" text-anchor="middle">Units (quantity)</text>
+ <line x1="60" y1="${Y(FC)}" x2="500" y2="${Y(FC)}" stroke="#c084fc" stroke-width="2.5"/>
+ <text x="503" y="${Y(FC)+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>
+ <line x1="60" y1="${Y(FC)}" x2="500" y2="${Y(FC+VC*maxQ)}" stroke="#fb923c" stroke-width="2.5"/>
+ <text x="503" y="${Y(FC+VC*maxQ)+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>
+ <line x1="60" y1="290" x2="500" y2="${Y(P*maxQ)}" stroke="#4ade80" stroke-width="2.5"/>
+ <text x="503" y="${Y(P*maxQ)+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
+ const qx=X(Q), yTR=Y(TR), yTC=Y(TC);
+ s+=`<line x1="${qx}" y1="290" x2="${qx}" y2="${Math.min(yTR,yTC)}" stroke="#dbe6f5" stroke-width="1.2" stroke-dasharray="4 4"/>
+ <line x1="${qx}" y1="${yTR}" x2="${qx}" y2="${yTC}" stroke="${prof>=0?'#4ade80':'#f87171'}" stroke-width="6" opacity=".85"/>
+ <circle cx="${qx}" cy="${yTR}" r="4.5" fill="#4ade80"/><circle cx="${qx}" cy="${yTC}" r="4.5" fill="#fb923c"/>
+ <text x="${qx}" y="306" font-size="11.5" fill="#dbe6f5" text-anchor="middle" font-weight="bold">Q=${Q}</text>`;
+ if(beOk){
+  const bex=X(be), bey=Y(P*be);
+  s+=`<circle cx="${bex}" cy="${bey}" r="6" fill="#f87171" stroke="#0e1626" stroke-width="2"/>
+  <line x1="${bex}" y1="${bey}" x2="${bex}" y2="290" stroke="#f87171" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="${bex}" y="${bey-12}" font-size="11.5" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN (${Math.ceil(be).toLocaleString('fr-BE')})</text>`;
+ }
+ document.getElementById('costChart').innerHTML=s;
+}
+drawCost();
 // ===== NUMERIC CHECK =====
 function chkNum(id,target,expl){
  const v=parseFloat(document.getElementById(id).value);const fb=document.getElementById(id+'fb');

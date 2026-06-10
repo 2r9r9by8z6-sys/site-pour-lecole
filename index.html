@@ -179,7 +179,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice — <span class="lang-en">classify into the right sector</span><span class="lang-fr">classe dans le bon secteur</span></h2>
 <p><span class="lang-en">From your exercises (Activity 3.17 + company list). Click the right sector:</span><span class="lang-fr">Tiré de tes exercices (Activity 3.17 + liste d'entreprises). Clique sur le bon secteur :</span></p>
 <div id="sectorQuiz"></div>
-<div class="score" id="sectorScore"></div>
+<div class="score" id="sectorScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('sectorQuiz','sectorScore',secQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -216,22 +216,32 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice 1 — Juice bar: <span class="lang-en">fixed or variable?</span><span class="lang-fr">fixe ou variable ?</span></h2>
 <p><span class="lang-en">From the Juice bar exercise — classify each cost:</span><span class="lang-fr">Tiré de l'exercice Juice bar — classe chaque coût :</span></p>
 <div id="fvQuiz"></div>
-<div class="score" id="fvScore"></div>
+<div class="score" id="fvScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('fvQuiz','fvScore',fvQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 
 <div class="card">
 <h2>🎯 Practice 2 — Astrid's café (<span class="lang-en">full calculation</span><span class="lang-fr">calcul complet</span>)</h2>
-<div class="lang-en"><p>December 2025: Astrid sold <b>1 500 coffees</b> at <b>4 €</b> and <b>800 avocado toasts</b> at <b>14 €</b>.<br>Costs: rent 1 500 €/month · barista wage 2 500 €/month · phone &amp; internet 50 € · insurance 80 € · electricity &amp; heating 700 € · paper cups 0,10 € per cup (coffees) · coffee &amp; milk 1 € per coffee · avocado &amp; toast per toast = the amount on your worksheet (enter it below).</p></div>
-<div class="lang-fr"><p>Décembre 2025 : Astrid a vendu <b>1 500 cafés</b> à <b>4 €</b> et <b>800 avocado toasts</b> à <b>14 €</b>.<br>Coûts : loyer 1 500 €/mois · salaire barista 2 500 €/mois · téléphone &amp; internet 50 € · assurance 80 € · électricité &amp; chauffage 700 € · gobelets 0,10 € par café · café &amp; lait 1 € par café · avocat &amp; toast par toast = le montant sur ta feuille (entre-le ci-dessous).</p></div>
-<p><b><span class="lang-en">Cost of ONE avocado toast (ingredients, € per toast — from your worksheet):</span><span class="lang-fr">Coût d'UN avocado toast (ingrédients, € par toast — de ta feuille) :</span></b> <input type="number" id="avoCost" step="0.1" min="0.1" max="13.9" placeholder="e.g. 3"> €</p>
-<div class="warn" id="avoWarn" style="display:none"><span class="lang-en">⚠️ That's the cost of ONE toast — it must be between 0 and 14 € (ingredients can't cost more than the 14 € selling price!). Check your worksheet.</span><span class="lang-fr">⚠️ C'est le coût d'UN SEUL toast — il doit être entre 0 et 14 € (les ingrédients ne peuvent pas coûter plus que le prix de vente de 14 € !). Vérifie ta feuille.</span></div>
+<div class="lang-en"><p>December 2025: Astrid sold <b>1 500 coffees</b> at <b>4 &euro;</b> each and <b>800 avocado toasts</b> at <b>14 &euro;</b> each. Her costs for December:</p></div>
+<div class="lang-fr"><p>D&eacute;cembre 2025 : Astrid a vendu <b>1 500 caf&eacute;s</b> &agrave; <b>4 &euro;</b> pi&egrave;ce et <b>800 avocado toasts</b> &agrave; <b>14 &euro;</b> pi&egrave;ce. Ses co&ucirc;ts pour d&eacute;cembre :</p></div>
+<table>
+<tr><th><span class="lang-en">Cost type</span><span class="lang-fr">Type de co&ucirc;t</span></th><th><span class="lang-en">Amount</span><span class="lang-fr">Montant</span></th></tr>
+<tr><td><span class="lang-en">Rent for the caf&eacute;</span><span class="lang-fr">Loyer du caf&eacute;</span></td><td>1 500 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
+<tr><td><span class="lang-en">Barista wage (paid monthly, no matter how much is sold)</span><span class="lang-fr">Salaire du barista (mensuel, peu importe les ventes)</span></td><td>2 500 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
+<tr><td><span class="lang-en">Telephone and internet charges</span><span class="lang-fr">T&eacute;l&eacute;phone et internet</span></td><td>50 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
+<tr><td><span class="lang-en">Insurance</span><span class="lang-fr">Assurance</span></td><td>80 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
+<tr><td><span class="lang-en">Electricity (lights, coffee machine, dishwasher) and heating</span><span class="lang-fr">&Eacute;lectricit&eacute; (lumi&egrave;res, machine &agrave; caf&eacute;, lave-vaisselle) et chauffage</span></td><td>700 &euro; <span class="lang-en">per month</span><span class="lang-fr">par mois</span></td></tr>
+<tr><td><span class="lang-en">Paper cups</span><span class="lang-fr">Gobelets en papier</span></td><td>0,10 &euro; <span class="lang-en">per coffee</span><span class="lang-fr">par caf&eacute;</span></td></tr>
+<tr><td><span class="lang-en">Coffee and milk to make one coffee</span><span class="lang-fr">Caf&eacute; et lait pour un caf&eacute;</span></td><td>1 &euro; <span class="lang-en">per coffee</span><span class="lang-fr">par caf&eacute;</span></td></tr>
+<tr><td><span class="lang-en">Avocado and toast for one avocado toast</span><span class="lang-fr">Avocat et toast pour un avocado toast</span></td><td>3 &euro; <span class="lang-en">per toast*</span><span class="lang-fr">par toast*</span></td></tr>
+</table>
+<p style="font-size:.8rem;color:var(--muted)">* <span class="lang-en">On your worksheet this amount is blank (to fill in class) &mdash; here we use 3 &euro;.</span><span class="lang-fr">Sur ta feuille ce montant est &agrave; compl&eacute;ter en classe &mdash; ici on utilise 3 &euro;.</span></p>
 <table><tr><th><span class="lang-en">Question</span><span class="lang-fr">Question</span></th><th><span class="lang-en">Your answer</span><span class="lang-fr">Ta réponse</span></th><th></th></tr>
 <tr><td><span class="lang-en">a) Total revenue (€)</span><span class="lang-fr">a) Revenu total (€)</span></td><td><input type="number" id="astR"></td><td id="astRfb"></td></tr>
 <tr><td><span class="lang-en">b) Total fixed costs (€)</span><span class="lang-fr">b) Coûts fixes totaux (€)</span></td><td><input type="number" id="astF"></td><td id="astFfb"></td></tr>
 <tr><td><span class="lang-en">c) Total variable costs (€)</span><span class="lang-fr">c) Coûts variables totaux (€)</span></td><td><input type="number" id="astV"></td><td id="astVfb"></td></tr>
 <tr><td><span class="lang-en">d) Profit / loss (€)</span><span class="lang-fr">d) Profit / perte (€)</span></td><td><input type="number" id="astP"></td><td id="astPfb"></td></tr>
 <tr><td><span class="lang-en">e) Costs she pays even if the café closes for 1 month (€)</span><span class="lang-fr">e) Coûts à payer même si le café ferme 1 mois (€)</span></td><td><input type="number" id="astC"></td><td id="astCfb"></td></tr></table>
-<button class="btn" onclick="checkAstrid()"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('astrid')">💡 <span class="lang-en">Full solution</span><span class="lang-fr">Solution complète</span></button>
+<button class="btn" onclick="checkAstrid()"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('astrid')">💡 <span class="lang-en">Full solution</span><span class="lang-fr">Solution complète</span></button> <button class="btn" style="background:#334155" onclick="resetAstrid()">↻ <span class="lang-en">Reset</span><span class="lang-fr">Recommencer</span></button>
 <div id="astridExpl" class="expl"></div>
 </div>
 </section>
@@ -282,6 +292,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <p>a) <span class="lang-en">Break-even output?</span><span class="lang-fr">Seuil de rentabilité ?</span> <input type="number" id="be3a"> <button class="btn" onclick="chkNum('be3a',20000,'50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = 20 000')">✓</button><button class="btn sol" onclick="showSol('be3a')">💡</button><span class="fb" id="be3afb"></span></p><div class="expl" id="be3aexpl"></div>
 <p>b) <span class="lang-en">If variable cost rises to €4:</span><span class="lang-fr">Si le coût variable monte à 4 € :</span> <input type="number" id="be3b"> <button class="btn" onclick="chkNum('be3b',50000,'50 000 ÷ (5 − 4) = 50 000 ÷ 1 = 50 000')">✓</button><button class="btn sol" onclick="showSol('be3b')">💡</button><span class="fb" id="be3bfb"></span></p><div class="expl" id="be3bexpl"></div>
 <p>c) <span class="lang-en">If price rises to €7,50 (VC back to 2,50):</span><span class="lang-fr">Si le prix monte à 7,50 € (CV à 2,50) :</span> <input type="number" id="be3c"> <button class="btn" onclick="chkNum('be3c',10000,'50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = 10 000')">✓</button><button class="btn sol" onclick="showSol('be3c')">💡</button><span class="fb" id="be3cfb"></span></p><div class="expl" id="be3cexpl"></div>
+<button class="btn" style="background:#334155" onclick="resetEx(['be1','be2','be3a','be3b','be3c'])">↻ <span class="lang-en">Reset all 3</span><span class="lang-fr">Tout recommencer</span></button>
 </div>
 </div>
 
@@ -295,7 +306,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><td><b>Total costs (€)</b></td><td>50 000</td><td>62 500</td><td>75 000</td><td>87 500</td><td><input type="number" id="bt1" style="width:100px"><span class="fb" id="bt1fb"></span></td><td>112 500</td></tr>
 <tr><td><b>Total revenue (€)</b></td><td>0</td><td>25 000</td><td>50 000</td><td>75 000</td><td><input type="number" id="bt2" style="width:100px"><span class="fb" id="bt2fb"></span></td><td>125 000</td></tr>
 </table>
-<p><span class="lang-en">→ At which output is TR = TC (break-even)?</span><span class="lang-fr">→ À quelle production TR = TC (break-even) ?</span> <input type="number" id="bt3"> <button class="btn" onclick="chkNum('bt1',100000,'');chkNum('bt2',100000,'');chkNum('bt3',20000,'At 20 000 cartridges: TC = 50 000 + 50 000 = 100 000 € = TR (20 000 × 5 €). Before that output TC &gt; TR (loss), after it TR &gt; TC (profit).')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('bt3')">💡 Solution</button><span class="fb" id="bt3fb"></span></p>
+<p><span class="lang-en">→ At which output is TR = TC (break-even)?</span><span class="lang-fr">→ À quelle production TR = TC (break-even) ?</span> <input type="number" id="bt3"> <button class="btn" onclick="chkNum('bt1',100000,'');chkNum('bt2',100000,'');chkNum('bt3',20000,'At 20 000 cartridges: TC = 50 000 + 50 000 = 100 000 € = TR (20 000 × 5 €). Before that output TC &gt; TR (loss), after it TR &gt; TC (profit).')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('bt3')">💡 Solution</button> <button class="btn" style="background:#334155" onclick="resetEx(['bt1','bt2','bt3'])">↻</button><span class="fb" id="bt3fb"></span></p>
 <div class="expl" id="bt3expl"></div>
 </div>
 </section>
@@ -368,6 +379,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <p>b) <span class="lang-en">Demand at €3/GB?</span><span class="lang-fr">Demande à 3 €/GB ?</span> <input type="number" id="md2"> <button class="btn" onclick="chkNum('md2',470,'')">✓</button><button class="btn sol" onclick="showSol('md2')">💡</button><span class="fb" id="md2fb"></span></p>
 <p>c) <span class="lang-en">Which price gives 350 mio GB?</span><span class="lang-fr">Quel prix donne 350 mio GB ?</span> <input type="number" id="md3"> € <button class="btn" onclick="chkNum('md3',7,'')">✓</button><button class="btn sol" onclick="showSol('md3')">💡</button><span class="fb" id="md3fb"></span></p>
 <p>d) <span class="lang-en">Total spending at €5/GB? (price × quantity, in mio €)</span><span class="lang-fr">Dépense totale à 5 €/GB ? (prix × quantité, en mio €)</span> <input type="number" id="md4"> <button class="btn" onclick="chkNum('md4',2050,'410 × 5 = 2 050 mio €')">✓</button><button class="btn sol" onclick="showSol('md4')">💡</button><span class="fb" id="md4fb"></span><div class="expl" id="md4expl"></div></p>
+<button class="btn" style="background:#334155" onclick="resetEx(['md1','md2','md3','md4'])">↻ <span class="lang-en">Reset</span><span class="lang-fr">Recommencer</span></button>
 </div>
 
 <div class="card">
@@ -376,13 +388,13 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><td>1</td><td>20</td><td>15</td><td>25</td><td><input type="number" id="sm1" style="width:80px"></td><td><span class="fb" id="sm1fb"></span></td></tr>
 <tr><td>5</td><td>12</td><td>10</td><td>16</td><td><input type="number" id="sm2" style="width:80px"></td><td><span class="fb" id="sm2fb"></span></td></tr>
 <tr><td>11</td><td>6</td><td>5</td><td>8</td><td><input type="number" id="sm3" style="width:80px"></td><td><span class="fb" id="sm3fb"></span></td></tr></table>
-<button class="btn" onclick="chkNum('sm1',60,'');chkNum('sm2',38,'');chkNum('sm3',19,'')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('smTot')">💡 Solution</button><div class="expl" id="smTotexpl"></div>
+<button class="btn" onclick="chkNum('sm1',60,'');chkNum('sm2',38,'');chkNum('sm3',19,'')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('smTot')">💡 Solution</button> <button class="btn" style="background:#334155" onclick="resetEx(['sm1','sm2','sm3','smTot'])">↻</button><div class="expl" id="smTotexpl"></div>
 </div>
 
 <div class="card">
 <h2>🎯 Practice 3 — <span class="lang-en">shift or movement? Which direction?</span><span class="lang-fr">déplacement ou mouvement ? Quelle direction ?</span></h2>
 <div id="demShiftQuiz"></div>
-<div class="score" id="demShiftScore"></div>
+<div class="score" id="demShiftScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('demShiftQuiz','demShiftScore',demQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -434,7 +446,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice — <span class="lang-en">apple orchard: what happens to supply?</span><span class="lang-fr">le verger : que devient l'offre ?</span></h2>
 <p><span class="lang-en">You sell 100 apples/week at 1 €. For each scenario: does your supply increase or decrease?</span><span class="lang-fr">Tu vends 100 pommes/semaine à 1 €. Pour chaque scénario : ton offre augmente ou diminue ?</span></p>
 <div id="supplyQuiz"></div>
-<div class="score" id="supplyScore"></div>
+<div class="score" id="supplyScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('supplyQuiz','supplyScore',supQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 </section>
 
@@ -489,7 +501,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <div class="card">
 <h2>🎯 Practice — equilibrium</h2>
 <div id="equiQuiz"></div>
-<div class="score" id="equiScore"></div>
+<div class="score" id="equiScore"></div>\n<button class="btn" style="background:#334155" onclick="restartQuiz('equiQuiz','equiScore',eqQ)">\u21bb <span class="lang-en">Restart</span><span class="lang-fr">Recommencer</span></button>
 </div>
 
 <div class="card">
@@ -502,6 +514,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 </table>
 <p>a) <span class="lang-en">Equilibrium price?</span><span class="lang-fr">Prix d'équilibre ?</span> <input type="number" id="eqs1"> € <button class="btn" onclick="chkNum('eqs1',4,'At 4 €: Qd = Qs = 40 → no pressure to change the price.')">✓</button><button class="btn sol" onclick="showSol('eqs1')">💡</button><span class="fb" id="eqs1fb"></span><div class="expl" id="eqs1expl"></div></p>
 <p>b) <span class="lang-en">Equilibrium quantity?</span><span class="lang-fr">Quantité d'équilibre ?</span> <input type="number" id="eqs2"> <button class="btn" onclick="chkNum('eqs2',40,'')">✓</button><button class="btn sol" onclick="showSol('eqs2')">💡</button><span class="fb" id="eqs2fb"></span></p>
+<button class="btn" style="background:#334155" onclick="resetEx(['eqs1','eqs2']);restartQuiz('schedQuiz','schedScore',schedQ)">↻ <span class="lang-en">Reset</span><span class="lang-fr">Recommencer</span></button>
 <div id="schedQuiz"></div>
 <div class="score" id="schedScore"></div>
 </div>
@@ -514,7 +527,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <p><span class="lang-en">20 questions covering the whole test.</span><span class="lang-fr">20 questions couvrant tout le test.</span></p>
 <div id="bigQuiz"></div>
 <div class="score" id="bigScore"></div>
-<button class="btn" onclick="renderBig()"><span class="lang-en">↻ Restart quiz</span><span class="lang-fr">↻ Recommencer</span></button>
+<button class="btn" style="background:#334155" onclick="restartQuiz('bigQuiz','bigScore',bigQ)"><span class="lang-en">↻ Restart quiz</span><span class="lang-fr">↻ Recommencer</span></button>
 </div>
 </section>
 
@@ -588,53 +601,10 @@ renderMCQ('fvQuiz','fvScore',fvQ);
 // ===== ASTRID =====
 function near(v,t){return Math.abs(v-t)<0.51;}
 function checkAstrid(){
- const avo=parseFloat(document.getElementById('avoCost').value);
- const warn=document.getElementById('avoWarn');
- const validAvo=!isNaN(avo)&&avo>0&&avo<14;
- warn.style.display=(!isNaN(avo)&&!validAvo)?'block':'none';
- const R=1500*4+800*14; // 17 200
- const F=1500+2500+50+80+700; // 4 830
- const V=validAvo?(1500*0.1+1500*1+800*avo):NaN;
- const mark=(id,target)=>{const v=parseFloat(document.getElementById(id).value);const el=document.getElementById(id+'fb');
-  if(isNaN(target)){el.innerHTML='<span class="fb no">⚠️ <span class="lang-en">enter a valid cost per toast first</span><span class="lang-fr">entre d&#39;abord un coût valide par toast</span></span>';return;}
-  el.innerHTML=isNaN(v)?'':(Math.abs(v-target)<0.51?'<span class="fb ok">✔ '+(Math.round(target*100)/100).toLocaleString('fr-BE')+'</span>':'<span class="fb no">✘</span>');};
- mark('astR',R);mark('astF',F);mark('astV',V);mark('astP',isNaN(V)?NaN:R-(F+V));mark('astC',F);
- const ex=document.getElementById('astridExpl');ex.classList.add('show');
- ex.innerHTML=`<span class="lang-en"><b>Method:</b> Revenue = 1 500×4 + 800×14 = 17 200 €. Fixed = rent 1 500 + wage 2 500 + phone 50 + insurance 80 + electricity 700 = 4 830 € (these she pays even if the café is closed!). Variable = cups 1 500×0,10 (150 €) + coffee&amp;milk 1 500×1 (1 500 €) + toasts 800 × cost per toast. Profit = Revenue − (Fixed + Variable).</span><span class="lang-fr"><b>Méthode :</b> Revenu = 1 500×4 + 800×14 = 17 200 €. Fixes = loyer 1 500 + salaire 2 500 + téléphone 50 + assurance 80 + électricité 700 = 4 830 € (à payer même si le café est fermé !). Variables = gobelets 1 500×0,10 (150 €) + café&amp;lait 1 500×1 (1 500 €) + toasts 800 × coût par toast. Profit = Revenu − (Fixes + Variables).</span>`;
+ const T={astR:17200,astF:4830,astV:4050,astP:8320,astC:4830};
+ for(const id in T){const v=parseFloat(document.getElementById(id).value);const el=document.getElementById(id+'fb');
+  el.innerHTML=isNaN(v)?'':(Math.abs(v-T[id])<0.51?'<span class="fb ok">\u2714</span>':'<span class="fb no">\u2718</span>');}
 }
-// ===== BE CALC (live chart) =====
-function calcBE(){
- const FC=parseFloat(document.getElementById('cFC').value),P=parseFloat(document.getElementById('cP').value),VC=parseFloat(document.getElementById('cVC').value);
- const o=document.getElementById('beOut');o.style.display='block';
- const svg=document.getElementById('beChart');
- if(isNaN(FC)||isNaN(P)||isNaN(VC)){o.innerHTML='…';svg.innerHTML='';return;}
- if(P<=VC){o.innerHTML='⚠️ <span class="lang-en">Price must be higher than the variable cost per unit, otherwise you can never break even!</span><span class="lang-fr">Le prix doit être supérieur au coût variable unitaire, sinon impossible d\'atteindre le seuil !</span>';svg.innerHTML='';return;}
- const be=FC/(P-VC);
- o.innerHTML=`<b>BE = ${FC} ÷ (${P} − ${VC}) = ${Math.round(be*100)/100}</b><br><span class="lang-en">→ The company must sell <b>${Math.ceil(be)}</b> units to cover all its costs. Below = loss · above = profit.</span><span class="lang-fr">→ L'entreprise doit vendre <b>${Math.ceil(be)}</b> unités pour couvrir tous ses coûts. En-dessous = perte · au-dessus = profit.</span>`;
- // chart
- const maxQ=be*2, maxY=Math.max(P*maxQ, FC+VC*maxQ)*1.08;
- const X=q=>60+(q/maxQ)*430, Y=v=>280-(v/maxY)*250;
- const fcY=Y(FC), tc0=Y(FC), tc1=Y(FC+VC*maxQ), tr1=Y(P*maxQ), bex=X(be), bey=Y(P*be);
- svg.innerHTML=`
- <polygon points="60,280 60,${tc0} ${bex},${bey} ${bex},280" fill="rgba(248,113,113,.10)"/>
- <polygon points="${bex},${bey} 490,${tr1} 490,${tc1}" fill="rgba(74,222,128,.12)"/>
- <line x1="60" y1="280" x2="530" y2="280" stroke="#8fa3c0" stroke-width="2"/>
- <line x1="60" y1="280" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
- <line x1="60" y1="${fcY}" x2="490" y2="${fcY}" stroke="#c084fc" stroke-width="2.5"/>
- <line x1="60" y1="${tc0}" x2="490" y2="${tc1}" stroke="#fb923c" stroke-width="2.5"/>
- <line x1="60" y1="280" x2="490" y2="${tr1}" stroke="#4ade80" stroke-width="2.5"/>
- <circle cx="${bex}" cy="${bey}" r="6" fill="#f87171"/>
- <line x1="${bex}" y1="${bey}" x2="${bex}" y2="280" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5 4"/>
- <text x="${bex}" y="298" font-size="12" fill="#f87171" text-anchor="middle" font-weight="bold">${Math.ceil(be)}</text>
- <text x="${bex}" y="${bey-12}" font-size="12" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN</text>
- <text x="495" y="${fcY+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>
- <text x="495" y="${tc1+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>
- <text x="495" y="${tr1+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>
- <text x="${X(be*0.4)}" y="${Y(FC*0.3)}" font-size="11" fill="#f87171">LOSS</text>
- <text x="${X(be*1.6)}" y="${Y(P*be*1.25)}" font-size="11" fill="#4ade80">PROFIT</text>
- <text x="290" y="320" font-size="12" fill="#9fb2cc" text-anchor="middle">units</text>`;
-}
-calcBE();
 // ===== INTERACTIVE COST GRAPH (fixed axes, course vocabulary) =====
 const QMAX=1000, YMAX=20000;
 const cX=q=>60+(q/QMAX)*440, cY=v=>340-(Math.min(v,YMAX)/YMAX)*310;
@@ -837,27 +807,36 @@ const schedQ=[
  {en:"Now the price is set at 2 €. What is the situation?",fr:"Maintenant le prix est fixé à 2 €. Quelle est la situation ?",a:1,opts:[{en:"Excess supply (surplus) → price will fall",fr:"Offre excessive (surplus) → le prix va baisser"},{en:"Excess demand (shortage) of 40 units → price will rise",fr:"Demande excessive (pénurie) de 40 unités → le prix va monter"},{en:"Equilibrium",fr:"Équilibre"}],x:"At 2 €: Qd 60 − Qs 20 = shortage of 40. Price below market price → producers raise prices.",xf:"À 2 € : Qd 60 − Qs 20 = pénurie de 40. Prix trop bas → les producteurs augmentent les prix."}];
 renderMCQ('schedQuiz','schedScore',schedQ);
 
-// ===== SOLUTIONS (corrections) =====
+// ===== SOLUTIONS (fill answers) + RESET =====
 const SOLTARGET={astrid:'astridExpl'};
+const ANS={be1:100,be2:11,be3a:20000,be3b:50000,be3c:10000,bt1:100000,bt2:100000,bt3:20000,md1:240,md2:470,md3:7,md4:2050,sm1:60,sm2:38,sm3:19,eqs1:4,eqs2:40,astR:17200,astF:4830,astV:4050,astP:8320,astC:4830};
+const GROUPFILL={bt3:['bt1','bt2','bt3'],smTot:['sm1','sm2','sm3'],astrid:['astR','astF','astV','astP','astC']};
 const SOL={
- be1:{en:"Break-even level of output = fixed costs ÷ (price − variable cost per unit) = 1 500 ÷ (20 − 5) = 1 500 ÷ 15 = <b>100 t-shirts</b>. You must sell 100 t-shirts to cover all your costs; from the 101st, you make profit.",fr:"Break-even level of output = coûts fixes ÷ (prix − coût variable unitaire) = 1 500 ÷ (20 − 5) = 1 500 ÷ 15 = <b>100 t-shirts</b>. Tu dois vendre 100 t-shirts pour couvrir tous tes coûts ; à partir du 101ᵉ, tu fais du profit."},
- be2:{en:"Remodel the formula: price = (fixed costs ÷ expected output) + variable cost per unit = (120 ÷ 20) + 5 = 6 + 5 = <b>11 €</b> per picture frame.",fr:"Reformule la formule : prix = (coûts fixes ÷ production prévue) + coût variable unitaire = (120 ÷ 20) + 5 = 6 + 5 = <b>11 €</b> par cadre."},
- be3a:{en:"50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = <b>20 000 cartridges</b>.",fr:"50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = <b>20 000 cartouches</b>."},
- be3b:{en:"50 000 ÷ (5 − 4) = 50 000 ÷ 1 = <b>50 000 cartridges</b>. Higher variable cost → you must sell much more to break even.",fr:"50 000 ÷ (5 − 4) = 50 000 ÷ 1 = <b>50 000 cartouches</b>. Coût variable plus haut → il faut vendre beaucoup plus pour atteindre le seuil."},
- be3c:{en:"50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = <b>10 000 cartridges</b>. Higher price → you break even sooner.",fr:"50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = <b>10 000 cartouches</b>. Prix plus haut → seuil atteint plus tôt."},
- bt3:{en:"TC at 20 000 = 50 000 + 50 000 = <b>100 000 €</b> and TR = 20 000 × 5 = <b>100 000 €</b>. TR = TC → the break-even level of output is <b>20 000 cartridges</b>. Below it TC &gt; TR (loss), above it TR &gt; TC (profit).",fr:"TC à 20 000 = 50 000 + 50 000 = <b>100 000 €</b> et TR = 20 000 × 5 = <b>100 000 €</b>. TR = TC → le break-even level of output est <b>20 000 cartouches</b>. En-dessous TC &gt; TR (perte), au-dessus TR &gt; TC (profit)."},
- md1:{en:"Read the schedule at 11 €: quantity demanded = <b>240 mio GB</b> per month.",fr:"Lis le tableau à 11 € : quantité demandée = <b>240 mio GB</b> par mois."},
- md2:{en:"Read the schedule at 3 €: quantity demanded = <b>470 mio GB</b>.",fr:"Lis le tableau à 3 € : quantité demandée = <b>470 mio GB</b>."},
- md3:{en:"Find 350 in the quantity row → price = <b>7 €</b> per GB.",fr:"Trouve 350 dans la ligne des quantités → prix = <b>7 €</b> par GB."},
- md4:{en:"Total spending = price × quantity demanded = 5 € × 410 mio GB = <b>2 050 mio €</b>.",fr:"Dépense totale = prix × quantité demandée = 5 € × 410 mio GB = <b>2 050 mio €</b>."},
- smTot:{en:"Market demand = the sum of all individual demands at each price: at 1 € → 20+15+25 = <b>60</b> ; at 5 € → 12+10+16 = <b>38</b> ; at 11 € → 6+5+8 = <b>19</b>.",fr:"Demande de marché = somme de toutes les demandes individuelles à chaque prix : à 1 € → 20+15+25 = <b>60</b> ; à 5 € → 12+10+16 = <b>38</b> ; à 11 € → 6+5+8 = <b>19</b>."},
- eqs1:{en:"The market is in equilibrium where quantity demanded = quantity supplied. In the schedule: at <b>4 €</b>, Qd = Qs = 40 → no pressure to change the price.",fr:"Le marché est à l&#39;équilibre où quantité demandée = quantité offerte. Dans le tableau : à <b>4 €</b>, Qd = Qs = 40 → aucune pression sur le prix."},
- eqs2:{en:"At the equilibrium price of 4 €, the equilibrium quantity is <b>40 units</b>.",fr:"Au prix d&#39;équilibre de 4 €, la quantité d&#39;équilibre est <b>40 unités</b>."},
- astrid:{en:"<b>Full solution:</b> a) Revenue = 1 500×4 + 800×14 = 6 000 + 11 200 = <b>17 200 €</b>. b) Fixed costs = 1 500 + 2 500 + 50 + 80 + 700 = <b>4 830 €</b>. c) Variable costs = cups 1 500×0,10 (150 €) + coffee&amp;milk 1 500×1 (1 500 €) + toasts 800 × (cost per toast on your worksheet). d) Profit = 17 200 − (4 830 + variable costs). e) If the café closes she still pays all the FIXED costs = <b>4 830 €</b> (rent, wage, phone, insurance, electricity).",fr:"<b>Solution complète :</b> a) Revenu = 1 500×4 + 800×14 = 6 000 + 11 200 = <b>17 200 €</b>. b) Coûts fixes = 1 500 + 2 500 + 50 + 80 + 700 = <b>4 830 €</b>. c) Coûts variables = gobelets 1 500×0,10 (150 €) + café&amp;lait 1 500×1 (1 500 €) + toasts 800 × (coût par toast de ta feuille). d) Profit = 17 200 − (4 830 + coûts variables). e) Si le café ferme, elle paie quand même tous les coûts FIXES = <b>4 830 €</b> (loyer, salaire, téléphone, assurance, électricité)."}
+ be1:{en:"1 500 \u00f7 (20 \u2212 5) = <b>100 t-shirts</b>: you must sell 100 to cover all the costs; from the 101st you make profit.",fr:"1 500 \u00f7 (20 \u2212 5) = <b>100 t-shirts</b> : il faut en vendre 100 pour couvrir tous les co\u00fbts ; \u00e0 partir du 101\u1d49 tu fais du profit."},
+ be2:{en:"Price = (120 \u00f7 20) + 5 = <b>11 \u20ac</b> per frame.",fr:"Prix = (120 \u00f7 20) + 5 = <b>11 \u20ac</b> par cadre."},
+ be3a:{en:"50 000 \u00f7 (5 \u2212 2,50) = <b>20 000 cartridges</b>.",fr:"50 000 \u00f7 (5 \u2212 2,50) = <b>20 000 cartouches</b>."},
+ be3b:{en:"50 000 \u00f7 (5 \u2212 4) = <b>50 000</b> \u2014 higher variable cost \u2192 you must sell much more.",fr:"50 000 \u00f7 (5 \u2212 4) = <b>50 000</b> \u2014 co\u00fbt variable plus haut \u2192 il faut vendre beaucoup plus."},
+ be3c:{en:"50 000 \u00f7 (7,50 \u2212 2,50) = <b>10 000</b> \u2014 higher price \u2192 you break even sooner.",fr:"50 000 \u00f7 (7,50 \u2212 2,50) = <b>10 000</b> \u2014 prix plus haut \u2192 seuil atteint plus t\u00f4t."},
+ bt3:{en:"TC = 50 000 + 50 000 = <b>100 000 \u20ac</b> = TR (20 000 \u00d7 5) \u2192 break-even at <b>20 000 cartridges</b>.",fr:"TC = 50 000 + 50 000 = <b>100 000 \u20ac</b> = TR (20 000 \u00d7 5) \u2192 break-even \u00e0 <b>20 000 cartouches</b>."},
+ md1:{en:"Schedule at 11 \u20ac \u2192 <b>240 mio GB</b>.",fr:"Tableau \u00e0 11 \u20ac \u2192 <b>240 mio GB</b>."},
+ md2:{en:"Schedule at 3 \u20ac \u2192 <b>470 mio GB</b>.",fr:"Tableau \u00e0 3 \u20ac \u2192 <b>470 mio GB</b>."},
+ md3:{en:"350 in the quantity row \u2192 <b>7 \u20ac</b>.",fr:"350 dans la ligne des quantit\u00e9s \u2192 <b>7 \u20ac</b>."},
+ md4:{en:"5 \u00d7 410 = <b>2 050 mio \u20ac</b>.",fr:"5 \u00d7 410 = <b>2 050 mio \u20ac</b>."},
+ smTot:{en:"Add the individual demands: 1 \u20ac \u2192 20+15+25 = <b>60</b> ; 5 \u20ac \u2192 12+10+16 = <b>38</b> ; 11 \u20ac \u2192 6+5+8 = <b>19</b>.",fr:"Additionne les demandes individuelles : 1 \u20ac \u2192 20+15+25 = <b>60</b> ; 5 \u20ac \u2192 12+10+16 = <b>38</b> ; 11 \u20ac \u2192 6+5+8 = <b>19</b>."},
+ eqs1:{en:"Equilibrium where Qd = Qs \u2192 at <b>4 \u20ac</b> (40 = 40).",fr:"\u00c9quilibre o\u00f9 Qd = Qs \u2192 \u00e0 <b>4 \u20ac</b> (40 = 40)."},
+ eqs2:{en:"Equilibrium quantity = <b>40 units</b>.",fr:"Quantit\u00e9 d\u2019\u00e9quilibre = <b>40 unit\u00e9s</b>."},
+ astrid:{en:"a) Revenue = 1 500\u00d74 + 800\u00d714 = <b>17 200 \u20ac</b> \u00b7 b) Fixed = 1 500+2 500+50+80+700 = <b>4 830 \u20ac</b> \u00b7 c) Variable = 150 + 1 500 + 2 400 = <b>4 050 \u20ac</b> \u00b7 d) Profit = 17 200 \u2212 8 880 = <b>8 320 \u20ac</b> \u00b7 e) caf\u00e9 closed \u2192 she still pays the FIXED costs = <b>4 830 \u20ac</b>.",fr:"a) Revenu = 1 500\u00d74 + 800\u00d714 = <b>17 200 \u20ac</b> \u00b7 b) Fixes = 1 500+2 500+50+80+700 = <b>4 830 \u20ac</b> \u00b7 c) Variables = 150 + 1 500 + 2 400 = <b>4 050 \u20ac</b> \u00b7 d) Profit = 17 200 \u2212 8 880 = <b>8 320 \u20ac</b> \u00b7 e) caf\u00e9 ferm\u00e9 \u2192 elle paie quand m\u00eame les co\u00fbts FIXES = <b>4 830 \u20ac</b>."}
 };
-function showSol(id){const sol=SOL[id];if(!sol)return;const tid=SOLTARGET[id]||id+'expl';let e=document.getElementById(tid);
+function showSol(id){const sol=SOL[id];if(!sol)return;
+ const fill=GROUPFILL[id]||(ANS[id]!=null?[id]:[]);
+ fill.forEach(i=>{const inp=document.getElementById(i);if(inp){inp.value=ANS[i];const fb=document.getElementById(i+'fb');if(fb)fb.innerHTML='<span class="fb ok">\u2714</span>';}});
+ if(id==='astrid')checkAstrid();
+ const tid=SOLTARGET[id]||id+'expl';let e=document.getElementById(tid);
  if(!e){const inp=document.getElementById(id);const host=inp?inp.closest('p'):null;if(!host)return;e=document.createElement('div');e.className='expl';e.id=tid;host.after(e);}
- e.classList.add('show');e.innerHTML='💡 <span class="lang-en">'+sol.en+'</span><span class="lang-fr">'+sol.fr+'</span>';}
+ e.classList.add('show');e.innerHTML='\ud83d\udca1 <span class="lang-en">'+sol.en+'</span><span class="lang-fr">'+sol.fr+'</span>';}
+function resetEx(ids){ids.forEach(i=>{const el=document.getElementById(i);if(el&&el.tagName==='INPUT')el.value='';const fb=document.getElementById(i+'fb');if(fb)fb.innerHTML='';const e=document.getElementById(i+'expl');if(e)e.classList.remove('show');});}
+function resetAstrid(){resetEx(['astR','astF','astV','astP','astC']);const e=document.getElementById('astridExpl');if(e)e.classList.remove('show');}
+function restartQuiz(c,s,q){document.getElementById(s).innerHTML='';renderMCQ(c,s,q);}
 // ===== CHECKLIST =====
 const checks=[
  ["PRODUCTION — Sectors","… explain the difference between the three sectors of production, with examples","… expliquer la différence entre les trois secteurs de production, avec exemples"],

@@ -49,6 +49,8 @@ input:focus{outline:none;border-color:var(--blue)}
 .btn{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:.88rem;margin:4px 4px 4px 0}
 .btn:hover{background:#1d4ed8}
 .btn.green{background:#15803d}
+.btn.sol{background:#3b2f63}
+.btn.sol:hover{background:#4c3d80;box-shadow:0 0 14px rgba(192,132,252,.35)}
 .fb{font-weight:700;margin-left:8px}
 .fb.ok{color:var(--green)}.fb.no{color:var(--red)}
 svg{max-width:100%;height:auto;display:block;margin:10px auto;background:#0e1626;border-radius:10px;padding:6px;border:1px solid var(--border)}
@@ -203,9 +205,9 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <p><span class="lang-en">Variable cost per unit</span><span class="lang-fr">Coût variable par unité</span>: <span class="pill" id="gVCv"></span><br><input type="range" id="gVC" min="0" max="15" step="0.5" value="5" oninput="drawCost()" onchange="commitCost()"></p>
 <p><span class="lang-en">Quantity produced &amp; sold</span><span class="lang-fr">Quantité produite &amp; vendue</span>: <span class="pill" id="gQv"></span><br><input type="range" id="gQ" min="0" max="1000" step="10" value="300" oninput="drawCost()"></p>
 </div>
-<p id="gOut" style="font-weight:700"></p>
+<div id="gOut" style="font-weight:600;line-height:1.7"></div>
 <p style="font-size:.82rem;color:var(--muted)"><span class="lang-en">The axes are FIXED, so you really see the lines move. While you drag a slider, the previous position is shown as grey dashed lines ("before"). The thick vertical bar at Q = your profit (green) or loss (red).</span><span class="lang-fr">Les axes sont FIXES, donc tu vois vraiment les lignes bouger. Pendant que tu bouges un curseur, l'ancienne position reste en pointillés gris (« avant »). La barre verticale épaisse à Q = ton profit (vert) ou ta perte (rouge).</span></p>
-<svg id="costChart" viewBox="0 0 560 340"></svg>
+<svg id="costChart" viewBox="0 0 560 400"></svg>
 </div>
 <div class="tip"><span class="lang-en">📈 Play with the sliders! For the test, be able to: draw FC (horizontal line), TC (starts at FC, rises with output), TR (starts at 0, rises with price per unit) and indicate the profit — the vertical gap between TR and TC at a given quantity (green = profit, red = loss). The red dot where TR crosses TC is the break-even point.</span><span class="lang-fr">📈 Joue avec les curseurs ! Pour le test, savoir : dessiner FC (ligne horizontale), TC (part de FC, monte avec la production), TR (part de 0, monte selon le prix unitaire) et indiquer le profit — l&#39;écart vertical entre TR et TC à une quantité donnée (vert = profit, rouge = perte). Le point rouge où TR croise TC est le seuil de rentabilité.</span></div>
 </div>
@@ -229,7 +231,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><td><span class="lang-en">c) Total variable costs (€)</span><span class="lang-fr">c) Coûts variables totaux (€)</span></td><td><input type="number" id="astV"></td><td id="astVfb"></td></tr>
 <tr><td><span class="lang-en">d) Profit / loss (€)</span><span class="lang-fr">d) Profit / perte (€)</span></td><td><input type="number" id="astP"></td><td id="astPfb"></td></tr>
 <tr><td><span class="lang-en">e) Costs she pays even if the café closes for 1 month (€)</span><span class="lang-fr">e) Coûts à payer même si le café ferme 1 mois (€)</span></td><td><input type="number" id="astC"></td><td id="astCfb"></td></tr></table>
-<button class="btn" onclick="checkAstrid()"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button>
+<button class="btn" onclick="checkAstrid()"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('astrid')">💡 <span class="lang-en">Full solution</span><span class="lang-fr">Solution complète</span></button>
 <div id="astridExpl" class="expl"></div>
 </div>
 </section>
@@ -271,15 +273,15 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice — <span class="lang-en">the 3 calculations from your booklet</span><span class="lang-fr">les 3 calculs de ton fascicule</span></h2>
 <div class="qbox"><div class="q">Calculation 1 — T-shirts</div>
 <p><span class="lang-en">Equipment (start-up = fixed costs): €1 500. You buy each shirt for €5 and sell it for €20. How many t-shirts to break even?</span><span class="lang-fr">Équipement (départ = coûts fixes) : 1 500 €. Tu achètes chaque t-shirt 5 € et le vends 20 €. Combien de t-shirts pour atteindre le seuil ?</span></p>
-<input type="number" id="be1"> <button class="btn" onclick="chkNum('be1',100,'1500 ÷ (20−5) = 1500 ÷ 15 = 100')">✓</button><span class="fb" id="be1fb"></span><div class="expl" id="be1expl"></div></div>
+<input type="number" id="be1"> <button class="btn" onclick="chkNum('be1',100,'1500 ÷ (20−5) = 1500 ÷ 15 = 100')">✓</button><button class="btn sol" onclick="showSol('be1')">💡</button><span class="fb" id="be1fb"></span><div class="expl" id="be1expl"></div></div>
 <div class="qbox"><div class="q">Calculation 2 — Chris at the flea market (<span class="lang-en">find the price!</span><span class="lang-fr">trouve le prix !</span>)</div>
 <p><span class="lang-en">Booth rent: €120 for the day (fixed). Each picture frame costs €5 to make. He expects to sell 20 frames. What price must he set to break even?</span><span class="lang-fr">Location du stand : 120 € (fixe). Chaque cadre coûte 5 € à fabriquer. Il prévoit de vendre 20 cadres. Quel prix fixer pour atteindre le seuil ?</span></p>
-<input type="number" id="be2"> € <button class="btn" onclick="chkNum('be2',11,'P = (120 ÷ 20) + 5 = 6 + 5 = 11 €')">✓</button><span class="fb" id="be2fb"></span><div class="expl" id="be2expl"></div></div>
+<input type="number" id="be2"> € <button class="btn" onclick="chkNum('be2',11,'P = (120 ÷ 20) + 5 = 6 + 5 = 11 €')">✓</button><button class="btn sol" onclick="showSol('be2')">💡</button><span class="fb" id="be2fb"></span><div class="expl" id="be2expl"></div></div>
 <div class="qbox"><div class="q">Calculation 3 — Colour Co. Ltd</div>
 <p><span class="lang-en">Printer cartridges: fixed costs €50 000/year, variable costs €2,50 per cartridge, price €5.</span><span class="lang-fr">Cartouches : coûts fixes 50 000 €/an, coûts variables 2,50 € par cartouche, prix 5 €.</span></p>
-<p>a) <span class="lang-en">Break-even output?</span><span class="lang-fr">Seuil de rentabilité ?</span> <input type="number" id="be3a"> <button class="btn" onclick="chkNum('be3a',20000,'50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = 20 000')">✓</button><span class="fb" id="be3afb"></span></p><div class="expl" id="be3aexpl"></div>
-<p>b) <span class="lang-en">If variable cost rises to €4:</span><span class="lang-fr">Si le coût variable monte à 4 € :</span> <input type="number" id="be3b"> <button class="btn" onclick="chkNum('be3b',50000,'50 000 ÷ (5 − 4) = 50 000 ÷ 1 = 50 000')">✓</button><span class="fb" id="be3bfb"></span></p><div class="expl" id="be3bexpl"></div>
-<p>c) <span class="lang-en">If price rises to €7,50 (VC back to 2,50):</span><span class="lang-fr">Si le prix monte à 7,50 € (CV à 2,50) :</span> <input type="number" id="be3c"> <button class="btn" onclick="chkNum('be3c',10000,'50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = 10 000')">✓</button><span class="fb" id="be3cfb"></span></p><div class="expl" id="be3cexpl"></div>
+<p>a) <span class="lang-en">Break-even output?</span><span class="lang-fr">Seuil de rentabilité ?</span> <input type="number" id="be3a"> <button class="btn" onclick="chkNum('be3a',20000,'50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = 20 000')">✓</button><button class="btn sol" onclick="showSol('be3a')">💡</button><span class="fb" id="be3afb"></span></p><div class="expl" id="be3aexpl"></div>
+<p>b) <span class="lang-en">If variable cost rises to €4:</span><span class="lang-fr">Si le coût variable monte à 4 € :</span> <input type="number" id="be3b"> <button class="btn" onclick="chkNum('be3b',50000,'50 000 ÷ (5 − 4) = 50 000 ÷ 1 = 50 000')">✓</button><button class="btn sol" onclick="showSol('be3b')">💡</button><span class="fb" id="be3bfb"></span></p><div class="expl" id="be3bexpl"></div>
+<p>c) <span class="lang-en">If price rises to €7,50 (VC back to 2,50):</span><span class="lang-fr">Si le prix monte à 7,50 € (CV à 2,50) :</span> <input type="number" id="be3c"> <button class="btn" onclick="chkNum('be3c',10000,'50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = 10 000')">✓</button><button class="btn sol" onclick="showSol('be3c')">💡</button><span class="fb" id="be3cfb"></span></p><div class="expl" id="be3cexpl"></div>
 </div>
 </div>
 
@@ -293,7 +295,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><td><b>Total costs (€)</b></td><td>50 000</td><td>62 500</td><td>75 000</td><td>87 500</td><td><input type="number" id="bt1" style="width:100px"><span class="fb" id="bt1fb"></span></td><td>112 500</td></tr>
 <tr><td><b>Total revenue (€)</b></td><td>0</td><td>25 000</td><td>50 000</td><td>75 000</td><td><input type="number" id="bt2" style="width:100px"><span class="fb" id="bt2fb"></span></td><td>125 000</td></tr>
 </table>
-<p><span class="lang-en">→ At which output is TR = TC (break-even)?</span><span class="lang-fr">→ À quelle production TR = TC (break-even) ?</span> <input type="number" id="bt3"> <button class="btn" onclick="chkNum('bt1',100000,'');chkNum('bt2',100000,'');chkNum('bt3',20000,'At 20 000 cartridges: TC = 50 000 + 50 000 = 100 000 € = TR (20 000 × 5 €). Before that output TC &gt; TR (loss), after it TR &gt; TC (profit).')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button><span class="fb" id="bt3fb"></span></p>
+<p><span class="lang-en">→ At which output is TR = TC (break-even)?</span><span class="lang-fr">→ À quelle production TR = TC (break-even) ?</span> <input type="number" id="bt3"> <button class="btn" onclick="chkNum('bt1',100000,'');chkNum('bt2',100000,'');chkNum('bt3',20000,'At 20 000 cartridges: TC = 50 000 + 50 000 = 100 000 € = TR (20 000 × 5 €). Before that output TC &gt; TR (loss), after it TR &gt; TC (profit).')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('bt3')">💡 Solution</button><span class="fb" id="bt3fb"></span></p>
 <div class="expl" id="bt3expl"></div>
 </div>
 </section>
@@ -362,10 +364,10 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <h2>🎯 Practice 1 — <span class="lang-en">mobile data (reading a demand schedule)</span><span class="lang-fr">données mobiles (lire un tableau de demande)</span></h2>
 <table><tr><th>Price per GB (€)</th><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td><td>11</td><td>13</td><td>15</td></tr>
 <tr><th>Quantity (mio GB/month)</th><td>520</td><td>470</td><td>410</td><td>350</td><td>290</td><td>240</td><td>200</td><td>160</td></tr></table>
-<p>a) <span class="lang-en">Demand at €11/GB?</span><span class="lang-fr">Demande à 11 €/GB ?</span> <input type="number" id="md1"> <button class="btn" onclick="chkNum('md1',240,'')">✓</button><span class="fb" id="md1fb"></span></p>
-<p>b) <span class="lang-en">Demand at €3/GB?</span><span class="lang-fr">Demande à 3 €/GB ?</span> <input type="number" id="md2"> <button class="btn" onclick="chkNum('md2',470,'')">✓</button><span class="fb" id="md2fb"></span></p>
-<p>c) <span class="lang-en">Which price gives 350 mio GB?</span><span class="lang-fr">Quel prix donne 350 mio GB ?</span> <input type="number" id="md3"> € <button class="btn" onclick="chkNum('md3',7,'')">✓</button><span class="fb" id="md3fb"></span></p>
-<p>d) <span class="lang-en">Total spending at €5/GB? (price × quantity, in mio €)</span><span class="lang-fr">Dépense totale à 5 €/GB ? (prix × quantité, en mio €)</span> <input type="number" id="md4"> <button class="btn" onclick="chkNum('md4',2050,'410 × 5 = 2 050 mio €')">✓</button><span class="fb" id="md4fb"></span><div class="expl" id="md4expl"></div></p>
+<p>a) <span class="lang-en">Demand at €11/GB?</span><span class="lang-fr">Demande à 11 €/GB ?</span> <input type="number" id="md1"> <button class="btn" onclick="chkNum('md1',240,'')">✓</button><button class="btn sol" onclick="showSol('md1')">💡</button><span class="fb" id="md1fb"></span></p>
+<p>b) <span class="lang-en">Demand at €3/GB?</span><span class="lang-fr">Demande à 3 €/GB ?</span> <input type="number" id="md2"> <button class="btn" onclick="chkNum('md2',470,'')">✓</button><button class="btn sol" onclick="showSol('md2')">💡</button><span class="fb" id="md2fb"></span></p>
+<p>c) <span class="lang-en">Which price gives 350 mio GB?</span><span class="lang-fr">Quel prix donne 350 mio GB ?</span> <input type="number" id="md3"> € <button class="btn" onclick="chkNum('md3',7,'')">✓</button><button class="btn sol" onclick="showSol('md3')">💡</button><span class="fb" id="md3fb"></span></p>
+<p>d) <span class="lang-en">Total spending at €5/GB? (price × quantity, in mio €)</span><span class="lang-fr">Dépense totale à 5 €/GB ? (prix × quantité, en mio €)</span> <input type="number" id="md4"> <button class="btn" onclick="chkNum('md4',2050,'410 × 5 = 2 050 mio €')">✓</button><button class="btn sol" onclick="showSol('md4')">💡</button><span class="fb" id="md4fb"></span><div class="expl" id="md4expl"></div></p>
 </div>
 
 <div class="card">
@@ -374,7 +376,7 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><td>1</td><td>20</td><td>15</td><td>25</td><td><input type="number" id="sm1" style="width:80px"></td><td><span class="fb" id="sm1fb"></span></td></tr>
 <tr><td>5</td><td>12</td><td>10</td><td>16</td><td><input type="number" id="sm2" style="width:80px"></td><td><span class="fb" id="sm2fb"></span></td></tr>
 <tr><td>11</td><td>6</td><td>5</td><td>8</td><td><input type="number" id="sm3" style="width:80px"></td><td><span class="fb" id="sm3fb"></span></td></tr></table>
-<button class="btn" onclick="chkNum('sm1',60,'');chkNum('sm2',38,'');chkNum('sm3',19,'')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button>
+<button class="btn" onclick="chkNum('sm1',60,'');chkNum('sm2',38,'');chkNum('sm3',19,'')"><span class="lang-en">Check</span><span class="lang-fr">Vérifier</span></button> <button class="btn sol" onclick="showSol('smTot')">💡 Solution</button><div class="expl" id="smTotexpl"></div>
 </div>
 
 <div class="card">
@@ -498,8 +500,8 @@ input[type=range]{width:100%;accent-color:#60a5fa;cursor:pointer;height:26px}
 <tr><th><span class="lang-en">Quantity demanded</span><span class="lang-fr">Quantité demandée</span></th><td>70</td><td>60</td><td>50</td><td>40</td><td>30</td><td>20</td></tr>
 <tr><th><span class="lang-en">Quantity supplied</span><span class="lang-fr">Quantité offerte</span></th><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
 </table>
-<p>a) <span class="lang-en">Equilibrium price?</span><span class="lang-fr">Prix d'équilibre ?</span> <input type="number" id="eqs1"> € <button class="btn" onclick="chkNum('eqs1',4,'At 4 €: Qd = Qs = 40 → no pressure to change the price.')">✓</button><span class="fb" id="eqs1fb"></span><div class="expl" id="eqs1expl"></div></p>
-<p>b) <span class="lang-en">Equilibrium quantity?</span><span class="lang-fr">Quantité d'équilibre ?</span> <input type="number" id="eqs2"> <button class="btn" onclick="chkNum('eqs2',40,'')">✓</button><span class="fb" id="eqs2fb"></span></p>
+<p>a) <span class="lang-en">Equilibrium price?</span><span class="lang-fr">Prix d'équilibre ?</span> <input type="number" id="eqs1"> € <button class="btn" onclick="chkNum('eqs1',4,'At 4 €: Qd = Qs = 40 → no pressure to change the price.')">✓</button><button class="btn sol" onclick="showSol('eqs1')">💡</button><span class="fb" id="eqs1fb"></span><div class="expl" id="eqs1expl"></div></p>
+<p>b) <span class="lang-en">Equilibrium quantity?</span><span class="lang-fr">Quantité d'équilibre ?</span> <input type="number" id="eqs2"> <button class="btn" onclick="chkNum('eqs2',40,'')">✓</button><button class="btn sol" onclick="showSol('eqs2')">💡</button><span class="fb" id="eqs2fb"></span></p>
 <div id="schedQuiz"></div>
 <div class="score" id="schedScore"></div>
 </div>
@@ -633,18 +635,17 @@ function calcBE(){
  <text x="290" y="320" font-size="12" fill="#9fb2cc" text-anchor="middle">units</text>`;
 }
 calcBE();
-// ===== INTERACTIVE COST GRAPH (fixed axes + before/after) =====
+// ===== INTERACTIVE COST GRAPH (fixed axes, course vocabulary) =====
 const QMAX=1000, YMAX=20000;
-const cX=q=>60+(q/QMAX)*440, cY=v=>290-(Math.min(v,YMAX)/YMAX)*260;
+const cX=q=>60+(q/QMAX)*440, cY=v=>340-(Math.min(v,YMAX)/YMAX)*310;
 function clipQ(v0,v1){ if(v1<=YMAX) return QMAX; return QMAX*(YMAX-v0)/(v1-v0); }
 let baseCost=null;
 function lineSet(FC,P,VC,opts){
- // returns svg string for FC, TC, TR lines with given style opts {dash,opacity,cls}
  const d=opts.dash?` stroke-dasharray="${opts.dash}"`:'', op=opts.opacity, w=opts.w;
  const tcEndQ=clipQ(FC,FC+VC*QMAX), trEndQ=clipQ(0,P*QMAX);
  let s=`<line x1="60" y1="${cY(FC)}" x2="500" y2="${cY(FC)}" stroke="${opts.ghost?'#64748b':'#c084fc'}" stroke-width="${w}" opacity="${op}"${d}/>`;
  s+=`<line x1="60" y1="${cY(FC)}" x2="${cX(tcEndQ)}" y2="${cY(FC+VC*tcEndQ)}" stroke="${opts.ghost?'#64748b':'#fb923c'}" stroke-width="${w}" opacity="${op}"${d}/>`;
- s+=`<line x1="60" y1="290" x2="${cX(trEndQ)}" y2="${cY(P*trEndQ)}" stroke="${opts.ghost?'#64748b':'#4ade80'}" stroke-width="${w}" opacity="${op}"${d}/>`;
+ s+=`<line x1="60" y1="340" x2="${cX(trEndQ)}" y2="${cY(P*trEndQ)}" stroke="${opts.ghost?'#64748b':'#4ade80'}" stroke-width="${w}" opacity="${op}"${d}/>`;
  return s;
 }
 function drawCost(){
@@ -655,58 +656,70 @@ function drawCost(){
  document.getElementById('gQv').textContent=Q;
  const TR=P*Q, TC=FC+VC*Q, prof=TR-TC;
  const beOk=P>VC, be=beOk?FC/(P-VC):null;
- let msg=`TR = ${TR.toLocaleString('fr-BE')} € · TC = ${TC.toLocaleString('fr-BE')} € → `;
- if(Math.abs(prof)<1e-9) msg+=`<span style="color:#93c5fd">BREAK-EVEN (TR = TC)</span>`;
- else if(prof>0) msg+=`<span style="color:#4ade80">PROFIT = ${prof.toLocaleString('fr-BE')} €</span>`;
- else msg+=`<span style="color:#f87171">LOSS = ${Math.abs(prof).toLocaleString('fr-BE')} €</span>`;
- msg+=beOk?` · <span class="lang-en">Break-even at</span><span class="lang-fr">Seuil à</span> <b>${Math.ceil(be).toLocaleString('fr-BE')}</b> <span class="lang-en">units</span><span class="lang-fr">unités</span>`:` · ⚠️ <span class="lang-en">price ≤ variable cost: break-even impossible!</span><span class="lang-fr">prix ≤ coût variable : seuil impossible !</span>`;
- document.getElementById('gOut').innerHTML=msg;
+ const fmt=x=>x.toLocaleString('fr-BE');
+ let m1;
+ if(beOk) m1=`<span class="lang-en"><b>Break-even level of output</b> = fixed costs ÷ (price − variable cost) = ${fmt(FC)} ÷ (${P} − ${VC}) = <b style="color:#f87171">${fmt(Math.ceil(be))} units</b></span><span class="lang-fr"><b>Break-even level of output</b> = coûts fixes ÷ (prix − coût variable) = ${fmt(FC)} ÷ (${P} − ${VC}) = <b style="color:#f87171">${fmt(Math.ceil(be))} unités</b></span>`;
+ else m1=`⚠️ <span class="lang-en">The price (${P} €) is not higher than the variable cost per unit (${VC} €) → every unit sold loses money → break-even is impossible.</span><span class="lang-fr">Le prix (${P} €) n&#39;est pas supérieur au coût variable unitaire (${VC} €) → chaque unité vendue perd de l&#39;argent → le break-even est impossible.</span>`;
+ let m2='';
+ const changed=baseCost&&(baseCost.FC!==FC||baseCost.P!==P||baseCost.VC!==VC);
+ if(changed){
+  const baseBeOk=baseCost.P>baseCost.VC, baseBe=baseBeOk?baseCost.FC/(baseCost.P-baseCost.VC):null;
+  const parts=[];
+  if(FC!==baseCost.FC)parts.push(FC>baseCost.FC?['fixed costs ↑','coûts fixes ↑']:['fixed costs ↓','coûts fixes ↓']);
+  if(P!==baseCost.P)parts.push(P>baseCost.P?['price ↑','prix ↑']:['price ↓','prix ↓']);
+  if(VC!==baseCost.VC)parts.push(VC>baseCost.VC?['variable cost ↑','coût variable ↑']:['variable cost ↓','coût variable ↓']);
+  const pe=parts.map(p=>p[0]).join(' + '), pf=parts.map(p=>p[1]).join(' + ');
+  if(beOk&&baseBeOk){
+   const up=be>baseBe+0.001, same=Math.abs(be-baseBe)<=0.001;
+   m2=`<span class="lang-en">🔁 ${pe} → the break-even point moves from <b>${fmt(Math.ceil(baseBe))}</b> to <b>${fmt(Math.ceil(be))}</b> units ${same?'(no change)':up?'→ you must sell <b>MORE</b> units to cover all the costs':'→ you must sell <b>FEWER</b> units to cover all the costs'}</span><span class="lang-fr">🔁 ${pf} → le break-even point passe de <b>${fmt(Math.ceil(baseBe))}</b> à <b>${fmt(Math.ceil(be))}</b> unités ${same?'(pas de changement)':up?'→ tu dois vendre <b>PLUS</b> d&#39;unités pour couvrir tous les coûts':'→ tu dois vendre <b>MOINS</b> d&#39;unités pour couvrir tous les coûts'}</span>`;
+  }
+ }
+ let m3='';
+ if(beOk){
+  const below=Q<Math.floor(be), above=Q>Math.ceil(be);
+  if(below) m3=`<span class="lang-en">At Q = ${Q}: total revenue (TR) = ${fmt(TR)} € , total costs (TC) = ${fmt(TC)} € . Q is <b>below</b> the break-even level of output → <b style="color:#f87171">LOSS of ${fmt(Math.abs(prof))} €</b> (TC &gt; TR)</span><span class="lang-fr">À Q = ${Q} : revenu total (TR) = ${fmt(TR)} € , coûts totaux (TC) = ${fmt(TC)} € . Q est <b>en-dessous</b> du break-even level of output → <b style="color:#f87171">PERTE de ${fmt(Math.abs(prof))} €</b> (TC &gt; TR)</span>`;
+  else if(above) m3=`<span class="lang-en">At Q = ${Q}: total revenue (TR) = ${fmt(TR)} € , total costs (TC) = ${fmt(TC)} € . Q is <b>above</b> the break-even level of output → <b style="color:#4ade80">PROFIT of ${fmt(prof)} €</b> (TR &gt; TC)</span><span class="lang-fr">À Q = ${Q} : revenu total (TR) = ${fmt(TR)} € , coûts totaux (TC) = ${fmt(TC)} € . Q est <b>au-dessus</b> du break-even level of output → <b style="color:#4ade80">PROFIT de ${fmt(prof)} €</b> (TR &gt; TC)</span>`;
+  else m3=`<span class="lang-en">At Q = ${Q}: TR ≈ TC → you are <b style="color:#93c5fd">at the break-even point</b> (neither profit nor loss)</span><span class="lang-fr">À Q = ${Q} : TR ≈ TC → tu es <b style="color:#93c5fd">au break-even point</b> (ni profit ni perte)</span>`;
+ }
+ document.getElementById('gOut').innerHTML=[m1,m2,m3].filter(Boolean).map(x=>`<div>${x}</div>`).join('');
  let s='';
- // grid
  for(const v of [5000,10000,15000,20000]){
   s+=`<line x1="60" y1="${cY(v)}" x2="500" y2="${cY(v)}" stroke="#243149" stroke-width="1"/>
   <text x="54" y="${cY(v)+4}" font-size="9.5" fill="#7d92b3" text-anchor="end">${(v/1000)}k€</text>`;
  }
  for(const q of [250,500,750,1000]){
-  s+=`<line x1="${cX(q)}" y1="290" x2="${cX(q)}" y2="30" stroke="#1b2740" stroke-width="1"/>
-  <text x="${cX(q)}" y="302" font-size="9.5" fill="#7d92b3" text-anchor="middle">${q}</text>`;
+  s+=`<line x1="${cX(q)}" y1="340" x2="${cX(q)}" y2="30" stroke="#1b2740" stroke-width="1"/>
+  <text x="${cX(q)}" y="352" font-size="9.5" fill="#7d92b3" text-anchor="middle">${q}</text>`;
  }
- // ghost (before) while dragging
- const changed=baseCost&&(baseCost.FC!==FC||baseCost.P!==P||baseCost.VC!==VC);
  if(changed){
   s+=lineSet(baseCost.FC,baseCost.P,baseCost.VC,{ghost:true,dash:'6 5',opacity:.55,w:2});
   s+=`<text x="70" y="42" font-size="11" fill="#94a3b8">- - <tspan class="lang-en">before</tspan><tspan class="lang-fr">avant</tspan></text>`;
  }
- // axes
- s+=`<line x1="60" y1="290" x2="535" y2="290" stroke="#8fa3c0" stroke-width="2"/>
- <line x1="60" y1="290" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
- <text x="290" y="325" font-size="12" fill="#9fb2cc" text-anchor="middle">Units (quantity)</text>`;
- // current lines
+ s+=`<line x1="60" y1="340" x2="535" y2="340" stroke="#8fa3c0" stroke-width="2"/>
+ <line x1="60" y1="340" x2="60" y2="20" stroke="#8fa3c0" stroke-width="2"/>
+ <text x="290" y="378" font-size="12" fill="#9fb2cc" text-anchor="middle"><tspan class="lang-en">Units produced / sold (quantity)</tspan><tspan class="lang-fr">Unités produites / vendues (quantité)</tspan></text>`;
  s+=lineSet(FC,P,VC,{opacity:1,w:2.5});
- // line labels at right edge
  const tcEndQ=clipQ(FC,FC+VC*QMAX), trEndQ=clipQ(0,P*QMAX);
  s+=`<text x="503" y="${cY(FC)+4}" font-size="11" fill="#c084fc" font-weight="bold">FC</text>`;
  if(tcEndQ>=QMAX) s+=`<text x="503" y="${cY(FC+VC*QMAX)+4}" font-size="11" fill="#fb923c" font-weight="bold">TC</text>`;
  else s+=`<text x="${cX(tcEndQ)}" y="24" font-size="11" fill="#fb923c" font-weight="bold">TC</text>`;
  if(trEndQ>=QMAX) s+=`<text x="503" y="${cY(P*QMAX)+4}" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
  else s+=`<text x="${cX(trEndQ)+18}" y="24" font-size="11" fill="#4ade80" font-weight="bold">TR</text>`;
- // marker at Q: profit/loss bar with value
  const qx=cX(Q), yTR=cY(TR), yTC=cY(TC);
- s+=`<line x1="${qx}" y1="290" x2="${qx}" y2="${Math.min(yTR,yTC)}" stroke="#dbe6f5" stroke-width="1.2" stroke-dasharray="4 4"/>
+ s+=`<line x1="${qx}" y1="340" x2="${qx}" y2="${Math.min(yTR,yTC)}" stroke="#dbe6f5" stroke-width="1.2" stroke-dasharray="4 4"/>
  <line x1="${qx}" y1="${yTR}" x2="${qx}" y2="${yTC}" stroke="${prof>=0?'#4ade80':'#f87171'}" stroke-width="6" opacity=".9"/>
  <circle cx="${qx}" cy="${yTR}" r="4.5" fill="#4ade80"/><circle cx="${qx}" cy="${yTC}" r="4.5" fill="#fb923c"/>
- <text x="${qx+9}" y="${(yTR+yTC)/2+4}" font-size="11.5" font-weight="bold" fill="${prof>=0?'#4ade80':'#f87171'}">${prof>=0?'+':'−'}${Math.abs(prof).toLocaleString('fr-BE')} €</text>
- <text x="${qx}" y="316" font-size="11" fill="#dbe6f5" text-anchor="middle" font-weight="bold">Q=${Q}</text>`;
- // BE point
+ <text x="${qx+9}" y="${(yTR+yTC)/2+4}" font-size="11.5" font-weight="bold" fill="${prof>=0?'#4ade80':'#f87171'}">${prof>=0?'PROFIT +':'LOSS −'}${fmt(Math.abs(prof))} €</text>
+ <text x="${qx}" y="366" font-size="11" fill="#dbe6f5" text-anchor="middle" font-weight="bold">Q=${Q}</text>`;
  if(beOk){
   if(be<=QMAX&&P*be<=YMAX){
    const bex=cX(be), bey=cY(P*be);
-   const lblx=Math.min(Math.max(bex,140),420);
+   const lblx=Math.min(Math.max(bex,150),410);
    s+=`<circle cx="${bex}" cy="${bey}" r="6" fill="#f87171" stroke="#0e1626" stroke-width="2"/>
-   <line x1="${bex}" y1="${bey}" x2="${bex}" y2="290" stroke="#f87171" stroke-width="1.3" stroke-dasharray="5 4"/>
-   <text x="${lblx}" y="${Math.max(bey-14,16)}" font-size="11.5" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN (${Math.ceil(be).toLocaleString('fr-BE')})</text>`;
+   <line x1="${bex}" y1="${bey}" x2="${bex}" y2="340" stroke="#f87171" stroke-width="1.3" stroke-dasharray="5 4"/>
+   <text x="${lblx}" y="${Math.max(bey-14,16)}" font-size="11.5" fill="#f87171" text-anchor="middle" font-weight="bold">BREAK-EVEN POINT (${fmt(Math.ceil(be))})</text>`;
   } else {
-   s+=`<text x="495" y="44" font-size="11.5" fill="#f87171" text-anchor="end" font-weight="bold">BREAK-EVEN = ${Math.ceil(be).toLocaleString('fr-BE')} → <tspan class="lang-en">off chart</tspan><tspan class="lang-fr">hors graphique</tspan></text>`;
+   s+=`<text x="495" y="44" font-size="11.5" fill="#f87171" text-anchor="end" font-weight="bold">BREAK-EVEN = ${fmt(Math.ceil(be))} → <tspan class="lang-en">off chart</tspan><tspan class="lang-fr">hors graphique</tspan></text>`;
   }
  }
  document.getElementById('costChart').innerHTML=s;
@@ -823,6 +836,28 @@ const schedQ=[
  {en:"In the table above, the price is set at 6 €. What is the situation?",fr:"Dans le tableau ci-dessus, le prix est fixé à 6 €. Quelle est la situation ?",a:0,opts:[{en:"Excess supply (surplus) of 40 units → price will fall",fr:"Offre excessive (surplus) de 40 unités → le prix va baisser"},{en:"Excess demand (shortage) of 40 units → price will rise",fr:"Demande excessive (pénurie) de 40 unités → le prix va monter"},{en:"Equilibrium",fr:"Équilibre"}],x:"At 6 €: Qs 60 − Qd 20 = surplus of 40. Price above market price → it must fall.",xf:"À 6 € : Qs 60 − Qd 20 = surplus de 40. Prix au-dessus du prix du marché → il doit baisser."},
  {en:"Now the price is set at 2 €. What is the situation?",fr:"Maintenant le prix est fixé à 2 €. Quelle est la situation ?",a:1,opts:[{en:"Excess supply (surplus) → price will fall",fr:"Offre excessive (surplus) → le prix va baisser"},{en:"Excess demand (shortage) of 40 units → price will rise",fr:"Demande excessive (pénurie) de 40 unités → le prix va monter"},{en:"Equilibrium",fr:"Équilibre"}],x:"At 2 €: Qd 60 − Qs 20 = shortage of 40. Price below market price → producers raise prices.",xf:"À 2 € : Qd 60 − Qs 20 = pénurie de 40. Prix trop bas → les producteurs augmentent les prix."}];
 renderMCQ('schedQuiz','schedScore',schedQ);
+
+// ===== SOLUTIONS (corrections) =====
+const SOLTARGET={astrid:'astridExpl'};
+const SOL={
+ be1:{en:"Break-even level of output = fixed costs ÷ (price − variable cost per unit) = 1 500 ÷ (20 − 5) = 1 500 ÷ 15 = <b>100 t-shirts</b>. You must sell 100 t-shirts to cover all your costs; from the 101st, you make profit.",fr:"Break-even level of output = coûts fixes ÷ (prix − coût variable unitaire) = 1 500 ÷ (20 − 5) = 1 500 ÷ 15 = <b>100 t-shirts</b>. Tu dois vendre 100 t-shirts pour couvrir tous tes coûts ; à partir du 101ᵉ, tu fais du profit."},
+ be2:{en:"Remodel the formula: price = (fixed costs ÷ expected output) + variable cost per unit = (120 ÷ 20) + 5 = 6 + 5 = <b>11 €</b> per picture frame.",fr:"Reformule la formule : prix = (coûts fixes ÷ production prévue) + coût variable unitaire = (120 ÷ 20) + 5 = 6 + 5 = <b>11 €</b> par cadre."},
+ be3a:{en:"50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = <b>20 000 cartridges</b>.",fr:"50 000 ÷ (5 − 2,50) = 50 000 ÷ 2,50 = <b>20 000 cartouches</b>."},
+ be3b:{en:"50 000 ÷ (5 − 4) = 50 000 ÷ 1 = <b>50 000 cartridges</b>. Higher variable cost → you must sell much more to break even.",fr:"50 000 ÷ (5 − 4) = 50 000 ÷ 1 = <b>50 000 cartouches</b>. Coût variable plus haut → il faut vendre beaucoup plus pour atteindre le seuil."},
+ be3c:{en:"50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = <b>10 000 cartridges</b>. Higher price → you break even sooner.",fr:"50 000 ÷ (7,50 − 2,50) = 50 000 ÷ 5 = <b>10 000 cartouches</b>. Prix plus haut → seuil atteint plus tôt."},
+ bt3:{en:"TC at 20 000 = 50 000 + 50 000 = <b>100 000 €</b> and TR = 20 000 × 5 = <b>100 000 €</b>. TR = TC → the break-even level of output is <b>20 000 cartridges</b>. Below it TC &gt; TR (loss), above it TR &gt; TC (profit).",fr:"TC à 20 000 = 50 000 + 50 000 = <b>100 000 €</b> et TR = 20 000 × 5 = <b>100 000 €</b>. TR = TC → le break-even level of output est <b>20 000 cartouches</b>. En-dessous TC &gt; TR (perte), au-dessus TR &gt; TC (profit)."},
+ md1:{en:"Read the schedule at 11 €: quantity demanded = <b>240 mio GB</b> per month.",fr:"Lis le tableau à 11 € : quantité demandée = <b>240 mio GB</b> par mois."},
+ md2:{en:"Read the schedule at 3 €: quantity demanded = <b>470 mio GB</b>.",fr:"Lis le tableau à 3 € : quantité demandée = <b>470 mio GB</b>."},
+ md3:{en:"Find 350 in the quantity row → price = <b>7 €</b> per GB.",fr:"Trouve 350 dans la ligne des quantités → prix = <b>7 €</b> par GB."},
+ md4:{en:"Total spending = price × quantity demanded = 5 € × 410 mio GB = <b>2 050 mio €</b>.",fr:"Dépense totale = prix × quantité demandée = 5 € × 410 mio GB = <b>2 050 mio €</b>."},
+ smTot:{en:"Market demand = the sum of all individual demands at each price: at 1 € → 20+15+25 = <b>60</b> ; at 5 € → 12+10+16 = <b>38</b> ; at 11 € → 6+5+8 = <b>19</b>.",fr:"Demande de marché = somme de toutes les demandes individuelles à chaque prix : à 1 € → 20+15+25 = <b>60</b> ; à 5 € → 12+10+16 = <b>38</b> ; à 11 € → 6+5+8 = <b>19</b>."},
+ eqs1:{en:"The market is in equilibrium where quantity demanded = quantity supplied. In the schedule: at <b>4 €</b>, Qd = Qs = 40 → no pressure to change the price.",fr:"Le marché est à l&#39;équilibre où quantité demandée = quantité offerte. Dans le tableau : à <b>4 €</b>, Qd = Qs = 40 → aucune pression sur le prix."},
+ eqs2:{en:"At the equilibrium price of 4 €, the equilibrium quantity is <b>40 units</b>.",fr:"Au prix d&#39;équilibre de 4 €, la quantité d&#39;équilibre est <b>40 unités</b>."},
+ astrid:{en:"<b>Full solution:</b> a) Revenue = 1 500×4 + 800×14 = 6 000 + 11 200 = <b>17 200 €</b>. b) Fixed costs = 1 500 + 2 500 + 50 + 80 + 700 = <b>4 830 €</b>. c) Variable costs = cups 1 500×0,10 (150 €) + coffee&amp;milk 1 500×1 (1 500 €) + toasts 800 × (cost per toast on your worksheet). d) Profit = 17 200 − (4 830 + variable costs). e) If the café closes she still pays all the FIXED costs = <b>4 830 €</b> (rent, wage, phone, insurance, electricity).",fr:"<b>Solution complète :</b> a) Revenu = 1 500×4 + 800×14 = 6 000 + 11 200 = <b>17 200 €</b>. b) Coûts fixes = 1 500 + 2 500 + 50 + 80 + 700 = <b>4 830 €</b>. c) Coûts variables = gobelets 1 500×0,10 (150 €) + café&amp;lait 1 500×1 (1 500 €) + toasts 800 × (coût par toast de ta feuille). d) Profit = 17 200 − (4 830 + coûts variables). e) Si le café ferme, elle paie quand même tous les coûts FIXES = <b>4 830 €</b> (loyer, salaire, téléphone, assurance, électricité)."}
+};
+function showSol(id){const sol=SOL[id];if(!sol)return;const tid=SOLTARGET[id]||id+'expl';let e=document.getElementById(tid);
+ if(!e){const inp=document.getElementById(id);const host=inp?inp.closest('p'):null;if(!host)return;e=document.createElement('div');e.className='expl';e.id=tid;host.after(e);}
+ e.classList.add('show');e.innerHTML='💡 <span class="lang-en">'+sol.en+'</span><span class="lang-fr">'+sol.fr+'</span>';}
 // ===== CHECKLIST =====
 const checks=[
  ["PRODUCTION — Sectors","… explain the difference between the three sectors of production, with examples","… expliquer la différence entre les trois secteurs de production, avec exemples"],
